@@ -4,7 +4,7 @@ Se realizará una pagina web para un gimnasio en la que se pueda personalizar un
 
 
 
-git clone https://https://github.com/viorelrosu/filscenter
+git clone https://github.com/viorelrosu/filscenter.git
 
 git add .
 
