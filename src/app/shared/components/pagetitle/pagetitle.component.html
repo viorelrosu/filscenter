@@ -1,9 +1,10 @@
 <!-- Page title -->
-<section id="page-title" [attr.data-bg-parallax]="pageImgUrl">
+<section id="page-title" [attr.data-bg-parallax]="pageImgUrl" data-height-xs="360">
+    <div class="bg-overlay"></div>
     <div class="container">
-        <div class="page-title">
-            <h1>{{ pageTitle }}</h1>
-            <span>{{ pageDesc }}</span>
+        <div class="page-title text-center text-light">
+            <h1 class="fadeInUp">{{ pageTitle }}</h1>
+            <span class="strong">{{ pageDesc }}</span>
         </div>
     </div>
 </section>

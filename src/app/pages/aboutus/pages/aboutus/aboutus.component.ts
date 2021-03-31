@@ -14,7 +14,7 @@ export class PageAboutusComponent implements OnInit {
   constructor() {
     this.pageTitle = 'Quiénes somos';
     this.pageDesc = 'Estamos aqui para ayudarte';
-    this.pageImg = 'contacto.jpg';
+    this.pageImg = 'aboutus.jpg';
   }
 
   ngOnInit(): void {

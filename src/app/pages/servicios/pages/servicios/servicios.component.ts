@@ -14,7 +14,7 @@ export class PageServiciosComponent implements OnInit {
   constructor() {
     this.pageTitle = 'Nuestros Servicios';
     this.pageDesc = 'Estamos aqui para ayudarte';
-    this.pageImg = 'contacto.jpg';
+    this.pageImg = 'servicios.jpg';
   }
 
   ngOnInit(): void {

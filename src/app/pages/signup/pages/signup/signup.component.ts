@@ -14,7 +14,7 @@ export class PageSignupComponent implements OnInit {
   constructor() {
     this.pageTitle = 'Nueva Suscripción';
     this.pageDesc = 'Introduce tus datos';
-    this.pageImg = 'login.jpg';
+    this.pageImg = 'registro.jpg';
   }
 
   ngOnInit(): void {

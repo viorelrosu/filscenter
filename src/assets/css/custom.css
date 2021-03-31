@@ -36,6 +36,41 @@
     padding: 220px 0 160px;
 }
 
+#page-title .container {
+    padding-bottom: 100px;
+    align-self: center !important;
+}
+
+#page-title[data-bg-parallax] .page-title > h1 {
+    font-size: 60px;
+    font-weight: 700;
+    line-height: 60px;
+    margin-bottom: 10px;
+}
+
+#page-title[data-bg-parallax] .page-title > span.strong {
+    color: #ffffff;
+    display: block;
+    font-size: 12px !important;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 18px;
+    margin-bottom: 20px;
+    position: relative;
+    text-transform: uppercase;
+}
+
+#page-title[data-bg-parallax] .page-title > span.strong::after {
+    border-top: 3px solid #fff;
+    content: "";
+    display: block;
+    margin-bottom: 0;
+    margin-top: 8px;
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #mainMenu nav ul li a.current {
     color: blue;
 }
