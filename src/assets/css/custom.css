@@ -1,0 +1,41 @@
+/* 
+
+1. Add your custom Css styles below
+2. Place the this code in your template: 
+
+ <link href="css/custom.css" rel="stylesheet">
+
+*/
+
+.line {
+    border-color: #111;
+}
+
+#slider {
+    top: -130px;
+    margin-bottom: -130px;
+}
+/*
+.inspiro-slider .slide-captions * {
+    opacity: 1;
+    animation-duration: 600ms;
+} */
+
+#topbar .social-icons {
+    float:left;
+}
+
+#topbar .top-menu {
+    float:right;
+}
+
+#page-title {
+    top: -120px;
+    margin-bottom: -124px;
+    position: relative;
+    padding: 220px 0 160px;
+}
+
+#mainMenu nav ul li a.current {
+    color: blue;
+}

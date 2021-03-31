@@ -1,0 +1,57 @@
+<!-- CONTENT -->
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h3 class="text-uppercase">Contacta con nosotros</h3>
+                <p>Cualquier pregunta, no dudes en contactar con nosotros.</p>
+                <div class="m-t-30">
+                    <form class="widget-contact-form" novalidate action="include/contact-form.php" role="form" method="post">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="name">Nombre</label>
+                                <input type="text" aria-required="true" name="nombre" required class="form-control required name" placeholder="Introduce tu nombre" [(ngModel)]="mensajeUsuario.nombre" >
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="email">Email</label>
+                                <input type="email" aria-required="true" name="email" required class="form-control required email" placeholder="Introduce tu email" [(ngModel)]="mensajeUsuario.apellidos">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="subject">Asunto</label>
+                                <input type="text" name="asunto" required class="form-control required" placeholder="Asunto..." [(ngModel)]="mensajeUsuario.asunto">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea type="text" name="mensaje" required rows="5" class="form-control required" placeholder="Introduce tu mensaje" [(ngModel)]="mensajeUsuario.mensaje"></textarea>
+                        </div>
+                        <!--  <div class="form-group">
+                            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                            <div class="g-recaptcha" data-sitekey="6LddCxAUAAAAAKOg0-U6IprqOZ7vTfiMNSyQT2-M"></div>
+                        </div>  -->
+                        <button class="btn" type="submit" id="form-submit"><i class="fa fa-paper-plane"></i>&nbsp;Enviar mensaje</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h3 class="text-uppercase">Dirección y Mapa</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <address>
+                            <strong>FIL's Center, Inc.</strong><br>
+                            Avda de José Garate, 5, 28823<br>
+                            Coslada, Madrid<br>
+                            <abbr title="Phone">P:</abbr> (+34) 123456789
+                        </address>
+                    </div>
+                </div>
+                <!-- Google Map -->
+                <app-mapa-google [mapHeight]="mapHeight"></app-mapa-google>
+                <!-- <div class="map" data-latitude="-37.817240" data-longitude="144.955826" data-style="light" data-info="Hello from &lt;br&gt; Inspiro Themes"></div> -->
+                <!-- end: Google Map -->
+            </div>
+        </div>
+    </div>
+</section> <!-- end: Content -->

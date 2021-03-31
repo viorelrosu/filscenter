@@ -1,0 +1,58 @@
+<!-- Section -->
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 center no-padding">
+                <form #formRegistro="ngForm" (ngSubmit)="onSubmit()" class="form-transparent-grey needs-validation">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Registro - Nueva Suscripción</h3>
+                            <p>Cree una cuenta introduciendo la información a continuación. <br /> Si eres un cliente recurrente, <a href="/iniciar-sesion">inicie sesión</a>.</p>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="sr-only">Nombre</label>
+                            <input type="text" value="" placeholder="Nombre" aria-required="true" required class="form-control required" name="nombre" [(ngModel)]="usuario.nombre">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="sr-only">Apellidos</label>
+                            <input type="text" value="" placeholder="Apellidos" aria-required="true" required class="form-control required" name="apellidos" [(ngModel)]="usuario.apellidos">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="sr-only">Email</label>
+                            <input type="email" value="" placeholder="Email" aria-required="true" required class="form-control required" name="email" [(ngModel)]="usuario.email">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="sr-only">Contraseña</label>
+                            <input type="password" value="" placeholder="Password" class="form-control" autocomplete="on" name="password" [(ngModel)]="usuario.password">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label class="sr-only">Dirección</label>
+                            <input type="text" value="" placeholder="Dirección" class="form-control" name="direccion">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="sr-only">Localidad</label>
+                            <input type="text" value="" placeholder="Localidad" class="form-control" name="localidad">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="sr-only">Provincia</label>
+                            <input type="text" value="" placeholder="Provincia" class="form-control" name="provincia">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="sr-only">Código Postal</label>
+                            <input type="text" value="" placeholder="Código Postal" class="form-control" name="codigo_postal">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="sr-only">Teléfono</label>
+                            <input type="text" value="" placeholder="Teléfono" class="form-control" name="telefono" [(ngModel)]="usuario.telefono">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" class="btn">Inscríbete</button>
+                            <button type="button" class="btn btn-danger m-l-10">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end: Section -->
