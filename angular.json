@@ -27,14 +27,16 @@
               "src/styles.css",
               "src/assets/css/plugins.css",
               "src/assets/css/style.css",
-              "src/assets/css/custom.css"
+              "src/assets/css/custom.css",
+              "src/assets/js/plugins/bootstrap-switch/bootstrap-switch.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["src/assets/css/variables.scss"]
             },
             "scripts": [
               "src/assets/js/jquery.js",
-              "src/assets/js/plugins.js"
+              "src/assets/js/plugins.js",
+              "src/assets/js/plugins/bootstrap-switch/bootstrap-switch.min.js"
             ]
           },
           "configurations": {

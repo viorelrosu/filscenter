@@ -6,6 +6,7 @@ import { PageHomeComponent } from './pages/home/pages/home/home.component';
 import { PageAboutusComponent } from './pages/aboutus/pages/aboutus/aboutus.component';
 import { PageServiciosComponent } from './pages/servicios/pages/servicios/servicios.component';
 import { PageClasesComponent } from './pages/clases/pages/clases/clases.component';
+import { PageHorarioComponent } from './pages/horario/pages/horario/horario.component';
 import { PageContactoComponent } from './pages/contacto/pages/contacto/contacto.component';
 
 import { PageLoginComponent } from './pages/login/pages/login/login.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'quienes-somos', component: PageAboutusComponent },
   {path: 'clases', component: PageClasesComponent },
   {path: 'servicios', component: PageServiciosComponent },
+  {path: 'horario', component: PageHorarioComponent },
   {path: 'contacto', component: PageContactoComponent },
   {path: 'iniciar-sesion', component: PageLoginComponent },
   {path: 'registro', component: PageSignupComponent },

@@ -1,0 +1,29 @@
+<div class="team-member">
+    <div class="team-image">
+        <img [attr.src]="memberImgUrl">
+    </div>
+    <div class="team-desc">
+        <h3>{{ memberNombre }}</h3>
+        <span>{{ memberTitulo }}</span>
+        <p *ngIf="memberBio">{{ memberBio }}</p>
+        
+        <div class="align-center" *ngIf="facebook || twitter || instagram || email">
+            <a class="btn btn-xs btn-slide btn-dark" [attr.href]="facebook" *ngIf="facebook">
+                <i class="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+            </a>
+            <a class="btn btn-xs btn-slide btn-dark" [attr.href]="twitter" data-width="100" *ngIf="twitter">
+                <i class="fab fa-twitter"></i>
+                <span>Twitter</span>
+            </a>
+            <a class="btn btn-xs btn-slide btn-dark" [attr.href]="instagram" data-width="118" *ngIf="instagram">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+            </a>
+            <a class="btn btn-xs btn-slide btn-dark" [attr.href]="'mailto:'+email" data-width="80" *ngIf="email">
+                <i class="far fa-envelope"></i>
+                <span>Email</span>
+            </a>
+        </div>
+    </div>
+</div>

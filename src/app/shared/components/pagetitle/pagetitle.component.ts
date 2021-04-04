@@ -17,7 +17,7 @@ export class PagetitleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.pageImgUrl = 'assets/images/parallax/' + this.pageImg;
+    this.pageImgUrl = 'assets/fitness/images/parallax/' + this.pageImg;
   }
 
 }

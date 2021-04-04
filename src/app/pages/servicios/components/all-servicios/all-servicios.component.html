@@ -1,0 +1,38 @@
+<section>
+  <div class="container">
+    <div class="heading-text text-center heading-section">
+      <h5 class="text-uppercase">¡Calidad asegurada!</h5>
+      <h2><span>Todo lo que necesitas</span></h2>
+      <p>
+        Ofrecemos una gama de servicios muy variada que seguramente te
+        encantará.
+      </p>
+    </div>
+    <hr class="p-t-30" />
+    <div class="row">
+      <div class="col-lg-4" *ngFor="let servicio of servicios">
+        <shared-servicio
+          [title]="servicio.title"
+          [descr]="servicio.descr"
+          [icon]="servicio.icon"
+        ></shared-servicio>
+      </div>
+    </div>
+    
+    <div class="p-cb mb-5">
+      <div class="cb-icon">
+        <i class="icon-info"></i>
+      </div>
+      <div class="cb-content">
+            <h4>Mensaje COVID</h4>
+            Por nuestra seguridad y la de todos nuestros usuarios seguimos con todos
+            los protocolos de sanidad al respecto y ofrecemos instrucciones a todos
+            nuestros usuarios de como seguir los protocolos. Todos nuestros monitores
+            y empleados han tomado cursos especializados de seguridad y estan muy
+            atentos para que se cumplan todos los protocolos necesarios. Adémas
+            tenemos sesiónes de limpieza y desinfencción varias veces al día en todos
+            los espacios y maquinas utilizadas.
+      </div>
+    </div>
+  </div>
+</section>

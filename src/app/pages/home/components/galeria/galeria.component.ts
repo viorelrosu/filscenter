@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { PortfolioItemComponent } from '@shared/components/portfolio-item/portfolio-item.component';
 @Component({
   selector: 'home-galeria',
   templateUrl: './galeria.component.html',

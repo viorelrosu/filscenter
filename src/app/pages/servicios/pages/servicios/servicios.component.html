@@ -1,1 +1,24 @@
 <app-pagetitle [pageTitle]="pageTitle" [pageDesc]="pageDesc" [pageImg]="pageImg"></app-pagetitle>
+<servicios-all></servicios-all>
+<shared-call-to-action
+    [title]="'¿Esperabas algo más?'"
+    [classTitle]="'text-light text-medium'"
+    [paddingTop]="'p-t-200'"
+    [paddingBottom]="'p-b-200'"
+    [img]="'chica.jpg'"
+    [overlayStyle] = "10"
+    [btnTxt]="'Sorpréndenos'"
+    [btnUrl]="'/contacto'"
+    [btnClass]="'btn-lg btn-rounded'"
+    ></shared-call-to-action>
+<shared-planes-suscripcion></shared-planes-suscripcion>
+<shared-call-to-action
+    [title]="'No te pierdas nuestras promociones'"
+    [classTitle]="'text-light text-medium'"
+    [descr]="'Cambiamos con mucha frecuencia nuestras ofertas y promociones para que siempra tengas una buena razón de unirte a nosotros. ¿Quieres saber cuál es la tuya?'"
+    [img]="'bike.jpg'"
+    [overlayStyle] = "8"
+    [btnTxt]="'Pregúntanos'"
+    [btnUrl]="'/registro'"
+    [btnClass]="'btn-light btn-lg btn-rounded'"
+    ></shared-call-to-action>

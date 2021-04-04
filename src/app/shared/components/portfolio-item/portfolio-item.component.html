@@ -1,0 +1,12 @@
+<!-- portfolio item -->
+<div class="portfolio-item img-zoom">
+    <div class="portfolio-item-wrap">
+        <div class="portfolio-image">
+            <a href="javascript:;"><img [attr.src]="itemImage" [attr.alt]="itemTitle"></a>
+        </div>
+        <div class="portfolio-description">
+            <a [attr.title]="itemTitle" data-lightbox="gallery-image" [attr.href]="itemImage" class="btn btn-light btn-rounded">{{ itemTxt }}</a>
+        </div>
+    </div>
+</div>
+<!-- end: portfolio item -->

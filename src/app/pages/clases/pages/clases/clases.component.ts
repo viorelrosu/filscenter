@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { CallToActionComponent } from '@shared/components/call-to-action/call-to-action.component';
+import { AllClasesComponent } from '../../components/all-clases/all-clases.component';
 @Component({
   selector: 'app-clases',
   templateUrl: './clases.component.html',
@@ -12,7 +13,7 @@ export class PageClasesComponent implements OnInit {
   public pageImg: string;
 
   constructor() {
-    this.pageTitle = 'Nuestras clases';
+    this.pageTitle = 'Nuestras Clases';
     this.pageDesc = 'Estamos aqui para ayudarte';
     this.pageImg = 'clases.jpg';
   }

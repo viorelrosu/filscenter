@@ -5,6 +5,7 @@ import { AboutusModule } from './aboutus/aboutus.module';
 import { ClasesModule } from './clases/clases.module';
 import { ServiciosModule } from './servicios/servicios.module';
 import { ContactoModule } from './contacto/contacto.module';
+import { HorarioModule } from './horario/horario.module';
 
 import { LoginModule } from './login/login.module';
 import { SignupModule } from './signup/signup.module';
@@ -20,7 +21,8 @@ import { RecoverModule } from './recover/recover.module';
     ContactoModule,
     LoginModule,
     SignupModule,
-    RecoverModule
+    RecoverModule,
+    HorarioModule
   ]
 })
 export class PagesModule { }

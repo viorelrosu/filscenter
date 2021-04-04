@@ -1,0 +1,23 @@
+<section>
+  <div class="container">
+    <div class="heading-text text-center heading-section">
+      <h5 class="text-uppercase">Conoce nuestros servicios</h5>
+      <h2><span>Nuestros Servicios</span></h2>
+      <p>
+        Ofrecemos una gama de servicios muy variada que seguramente te encantará.
+        Aqui te dejamos alguno. No te olvides de visitar nuestra página de servicios para tener conocimiento de todos nuestros servicios.
+      </p>
+      <a href="/servicios" class="btn btn-rounded btn-sm">Ver Todos Nuestros Servicios</a>
+    </div>
+    <hr class="p-t-30">
+    <div class="row">
+      <div class="col-lg-4" *ngFor="let servicio of servicios">
+        <shared-servicio
+          [title]="servicio.title"
+          [descr]="servicio.descr"
+          [icon]="servicio.icon"
+        ></shared-servicio>
+      </div>
+    </div>
+  </div>
+</section>

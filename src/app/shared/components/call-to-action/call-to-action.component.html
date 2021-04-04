@@ -1,0 +1,17 @@
+<div
+  [attr.class]="callClass"
+  [attr.style]="'background-image: url('+callImgUrl+')'"
+>
+  <div class="bg-overlay" [attr.data-style]="overlayStyle"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10" data-animate="fadeInUp" data-animate-delay="100">
+        <h3 [attr.class]="classTitle">{{ title }}</h3>
+        <h4 class="text-light"><span>{{ descr }}</span></h4>
+      </div>
+      <div class="col-lg-2" data-animate="fadeInUp" data-animate-delay="200">
+        <a [attr.href]="btnUrl" [attr.class]="callBtnClass">{{ btnTxt }}</a>
+      </div>
+    </div>
+  </div>
+</div>

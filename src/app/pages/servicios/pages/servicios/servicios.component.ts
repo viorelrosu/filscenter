@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CallToActionComponent } from '@shared/components/call-to-action/call-to-action.component';
+import { PlanesSuscripcionComponent } from '@shared/components/planes-suscripcion/planes-suscripcion.component';
 
 @Component({
   selector: 'app-servicios',

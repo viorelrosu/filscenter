@@ -1,0 +1,103 @@
+<app-pagetitle
+  [pageTitle]="pageTitle"
+  [pageDesc]="pageDesc"
+  [pageImg]="pageImg"
+></app-pagetitle>
+<section>
+  <div class="container">
+    <div class="mb-5">
+        <form #formSearchHorario="ngForm" >
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="filter_tipo_vista">Tipo de vista</label>
+                    <select class="form-control" name="filter_actividad" [(ngModel)]="filters.type">
+                        <option selected="selected" value="tabla">Tabla</option>
+                        <option value="lista">Lista</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="filter_fecha_inicio">Fecha de inicio</label>
+                    <input
+                    class="form-control"
+                    type="date"
+                    name="filter_fecha_inicio"
+                    />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="filter_actividad">Actividad</label>
+                    <select class="form-control" name="filter_actividad">
+                        <option value="">Selecciona la actividad</option>
+                        <option>Body Combat</option>
+                        <option>Pilates</option>
+                        <option>Cycling</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="filter_monitor">Monitor</label>
+                    <select class="form-control" name="filter_monitor">
+                    <option value="">Selecciona el monitor</option>
+                    <option>Area Smith</option>
+                    <option>Victor Loda</option>
+                    <option>Emma Rodriguez</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="filters.type == 'tabla'; else vistaTimeline">
+        <horario-tabla [openModalClase]="openModalClase"></horario-tabla>
+    </div>
+    
+  </div>
+</section>
+
+<ng-template #vistaTimeline>
+    <horario-timeline></horario-timeline>
+</ng-template>
+
+<!--Modal -->
+<div class="modal fade" id="modalClase" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-label"><span class="badge badge-pill badge-primary claseTitle text-uppercase">Body Combat</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="monitor">
+                            <img src="assets/fitness/images/trainers/3.png" alt="Alan Monroe" class="rounded-circle"/>
+                            <span>Alan Monre</span>
+                            <span>Monitor</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Hora
+                                <span class="font-weight-bold">10:00 - 11:00</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Fecha
+                                <span class="font-weight-bold">31 de marzo de 2021</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Aforo
+                                <span class="font-weight-bold">5</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Sala
+                                <span class="font-weight-bold">Sala Principal</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-b btn-sm" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- end: Modal -->
