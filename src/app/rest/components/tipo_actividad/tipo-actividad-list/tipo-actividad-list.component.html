@@ -1,0 +1,90 @@
+<div class="d-flex justify-content-end">
+  <button
+    id="plus"
+    enabled
+    (click)="habilitarTipoActividad()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-plus"></i> Tipo Actividad
+  </button>
+  <button
+    id="minus"
+    (click)="deshabilitarTipoActividad()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-minus"></i> Tipo Actividad
+  </button>
+</div>
+<div *ngIf="mostrarTipoActividadAdd == true">
+  <app-tipo-actividad-add></app-tipo-actividad-add>
+</div>
+<h3 class="card-title text-center">Tipo Actividad</h3>
+<div class="card-text">
+  <table
+    id="datatable"
+    class="table table-bordered table-hover dataTable text-center"
+    style="width: 100%"
+    role="grid"
+    aria-describedby="datatable_info"
+  >
+    <thead>
+      <tr role="row">
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Nombre
+        </th>
+        <th
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Acciones
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tipoActividad of tipoActividades" class="text-center">
+        <td>{{ tipoActividad.nombre }}</td>
+        <td>
+          <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+            ><i class="icon-edit"></i
+          ></a>
+          <a
+            class="ml-2"
+            data-toggle="tooltip"
+            data-original-title="Delete"
+            (click)="delete(tipoActividad)"
+            ><i class="icon-trash-2"></i
+          ></a>
+          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
+            ><i class="icon-settings"></i
+          ></a>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th id="" rowspan="1" colspan="1">Nombre</th>
+        <th id="" rowspan="1" colspan="1">Acciones</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<hr />

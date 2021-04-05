@@ -1,0 +1,44 @@
+<h3>Nuevo Tipo de Actividad</h3>
+<div class="card-body">
+  <form class="form-validate" name="form" (ngSubmit)="f.form.valid && addTipoActividad(f.value)" #f="ngForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="username">Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nombre"
+          #tipoActividadAdd="ngModel"
+          [(ngModel)]="tipoActividadAdd.nombre"
+          placeholder="Nombre Tipo Actividad"
+          required=""
+          pattern="[a-zA-Z ]{2,50}"[ngClass]="{
+            'is-invalid':
+              (f.submitted && tipoActividadAdd.invalid) ||
+              (tipoActividadAdd.touched && !tipoActividadAdd.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && tipoActividadAdd.invalid) ||
+            (tipoActividadAdd.touched && !tipoActividadAdd.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="tipoActividadAdd.errors.required || tipoActividadAdd.invalid"
+          >
+            * Nombre no válido
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="btn m-t-30 mt-3"
+    >
+      Añadir
+    </button>
+  </form>
+</div>
+

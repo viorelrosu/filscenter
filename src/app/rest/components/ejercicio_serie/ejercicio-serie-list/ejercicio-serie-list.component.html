@@ -1,0 +1,153 @@
+<div class="d-flex justify-content-end">
+  <button
+    id="plus"
+    (click)="habilitarEjercicioSerie()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-plus"></i> Ejercicio Serie
+  </button>
+  <button
+    id="minus"
+    (click)="deshabilitarEjercicioSerie()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-minus"></i> Ejercicio Serie
+  </button>
+</div>
+<div *ngIf="mostrarEjercicioSerieAdd == true">
+  <app-ejercicio-serie-add></app-ejercicio-serie-add>
+</div>
+
+<h3 class="text-center">Ejercicios Series</h3>
+
+<div class="card-text">
+
+
+  <div class="card-text">
+    <table
+      id="datatable"
+      class="table table-bordered table-hover dataTable text-center"
+      style="width: 100%"
+      role="grid"
+      aria-describedby="datatable_info"
+    >
+      <thead>
+        <tr role="row">
+          <th
+            id=""
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Tabla
+          </th>
+          <th
+            id=""
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Nombre ejercicio
+          </th>
+          <th
+            id=""
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Series
+          </th>
+          <th
+            id=""
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Repeticiones
+          </th>
+          <th
+            id=""
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Veces por semana
+          </th>
+          <th
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Acciones
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ejercicioSerie of ejercicioSeries" class="text-center">
+          <td>{{ ejercicioSerie.tablaEjercicio.id }}</td>
+          <td>{{ ejercicioSerie.ejercicio.nombre }}</td>
+          <td>{{ ejercicioSerie.series }}</td>
+          <td>{{ ejercicioSerie.repeticiones }}</td>
+          <td>{{ ejercicioSerie.porSemana }}</td>
+          <td>
+            <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+              ><i class="icon-edit"></i
+            ></a>
+            <a
+              class="ml-2"
+              data-toggle="tooltip"
+              data-original-title="Delete"
+              (click)="delete(ejercicioSerie)"
+              ><i class="icon-trash-2"></i
+            ></a>
+            <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
+              ><i class="icon-settings"></i
+            ></a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th id="">Tabla</th>
+          <th id="">Nombre ejercicio</th>
+          <th id="">Series</th>
+          <th id="">Repeticiones</th>
+          <th id="">Veces por semana</th>
+          <th id="" rowspan="1" colspan="1">Acciones</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

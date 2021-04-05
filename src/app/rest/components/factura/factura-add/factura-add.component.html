@@ -1,0 +1,141 @@
+<h3>Nueva Factura</h3>
+<div class="card-body">
+  <form
+    class="form-validate"
+    name="form"
+    (ngSubmit)="f.form.valid && addFactura()"
+    #f="ngForm"
+  >
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="username">(*) Fecha Factura</label>
+        <input
+          type="date"
+          class="form-control"
+          name="fecha"
+          #facturaFecha="ngModel"
+          [(ngModel)]="nuevaFactura.fecha"
+          placeholder="Nombre Tipo ejercicio"
+          required
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && facturaFecha.invalid) ||
+              (facturaFecha.touched && !facturaFecha.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && facturaFecha.invalid) ||
+            (facturaFecha.touched && !facturaFecha.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="facturaFecha.errors.required || facturaFecha.invalid">
+            * Fecha no válida
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="numero">(*) Número Factura </label>
+        <input
+          type="number"
+          class="form-control"
+          name="numero"
+          #facturaNumero="ngModel"
+          [(ngModel)]="nuevaFactura.numero"
+          placeholder="Nombre Tipo ejercicio"
+          required
+          min="1"
+          pattern="^([1-9]){1}\d*"
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && facturaNumero.invalid) ||
+              (facturaNumero.touched && !facturaNumero.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && facturaNumero.invalid) ||
+            (facturaNumero.touched && !facturaNumero.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="facturaNumero.errors.required || facturaNumero.invalid">
+            * Número no válido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="pagado">(*) Pagado/Pendiente</label>
+        <select
+          class="form-control"
+          name="pagado"
+          id="pagado"
+          #facturaPagado="ngModel"
+          [(ngModel)]="nuevaFactura.pagado"
+          required
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && facturaPagado.invalid) ||
+              (facturaPagado.touched && !facturaPagado.valid)
+          }"
+          [(ngModel)]="facturaPagadoSelect"
+        >
+          <option value="" selected>-- Elige una opción --</option>
+          <option value="true">Pagado</option>
+          <option value="false">Pendiente</option>
+        </select>
+
+        <div
+          *ngIf="
+            (f.submitted && facturaPagado.invalid) ||
+            (facturaPagado.touched && !facturaPagado.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="facturaPagado.errors.required || facturaPagado.invalid">
+            * Opción no válida
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="usuario">(*) Usuario Adj.</label>
+        <select
+          class="form-control"
+          name="usuario"
+          id="usuario"
+          #facturaUsuario="ngModel"
+          [(ngModel)]="usuarioId"
+          required
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && facturaUsuario.invalid) ||
+              (facturaUsuario.touched && !facturaUsuario.valid)
+          }"
+          [(ngModel)]="facturaUserSelect"
+        >
+          <option value="" selected>-- Elige una opción --</option>
+          <option *ngFor="let usuario of usuarios" value="{{ usuario.id }}">
+            {{ usuario.nombre }}
+          </option>
+        </select>
+
+        <div
+          *ngIf="
+            (f.submitted && facturaUsuario.invalid) ||
+            (facturaUsuario.touched && !facturaUsuario.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="facturaUsuario.errors.required || facturaUsuario.invalid">
+            * Seleccione un usuario
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
+  </form>
+</div>

@@ -1,0 +1,134 @@
+<div style="margin-top: 35px" class="d-flex justify-content-end">
+  <button
+    id="plus"
+    (click)="habilitarFactura()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-plus"></i> Factura
+  </button>
+  <button
+    id="minus"
+    (click)="deshabilitarFactura()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-minus"></i> Factura
+  </button>
+</div>
+<div *ngIf="mostrarFacturaAdd == true">
+  <app-factura-add></app-factura-add>
+</div>
+
+<h3 class="text-center">Facturas</h3>
+
+<div class="card-text">
+  <table
+    id="datatable"
+    class="table table-bordered table-hover dataTable text-center"
+    style="width: 100%"
+    role="grid"
+    aria-describedby="datatable_info"
+  >
+    <thead>
+      <tr role="row">
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Fecha
+        </th>
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Número
+        </th>
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Pagado
+        </th>
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Usuario
+        </th>
+        <th
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Acciones
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let factura of facturas" class="text-center">
+        <td>{{ factura.fecha | date: "MM/dd/yyyy" }}</td>
+        <td>{{ factura.numero }}</td>
+        <td>{{ factura.pagado == true ? "Pagado" : "Pendiente" }}</td>
+        <td>({{factura.usuario.id}}) {{factura.usuario.nombre}}</td>
+        <td>
+          <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+            ><i class="icon-edit"></i
+          ></a>
+          <a
+            class="ml-2"
+            data-toggle="tooltip"
+            data-original-title="Delete"
+            (click)="delete(factura)"
+            ><i class="icon-trash-2"></i
+          ></a>
+          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
+            ><i class="icon-settings"></i
+          ></a>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th id="" rowspan="1" colspan="1">Fecha</th>
+        <th id="" rowspan="1" colspan="1">Número</th>
+        <th id="" rowspan="1" colspan="1">Pagado</th>
+        <th id="" rowspan="1" colspan="1">Usuario</th>
+        <th id="" rowspan="1" colspan="1">Acciones</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>

@@ -1,0 +1,44 @@
+<h3>Nueva Rol</h3>
+<div class="card-body">
+  <form
+    class="form-validate"
+    name="form"
+    (ngSubmit)="f.form.valid && addRol()"
+    #f="ngForm"
+  >
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="username">Número Rol</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nombre"
+          #nombreRol="ngModel"
+          [(ngModel)]="nuevoRol.nombre"
+          placeholder="Número de Rol"
+          required
+          min="1"
+          max="1000"
+          pattern="^([a-zA-ZáéíóúüÁÉÍÓÚÜ]){1}([a-zA-Z_ áéíóúüÁÉÍÓÚÜ]){2,20}"
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && nombreRol.invalid) ||
+              (nombreRol.touched && !nombreRol.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && nombreRol.invalid) ||
+            (nombreRol.touched && !nombreRol.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="nombreRol.errors.required || nombreRol.invalid">
+            * Nombre no válido
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
+  </form>
+</div>

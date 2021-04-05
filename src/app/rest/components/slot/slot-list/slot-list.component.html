@@ -1,0 +1,177 @@
+<div class="d-flex justify-content-end">
+  <button
+    id="plus"
+    enabled
+    (click)="habilitarSlot()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-plus"></i> Slot
+  </button>
+  <button
+    id="minus"
+    (click)="deshabilitarSlot()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-minus"></i> Slot
+  </button>
+</div>
+<div *ngIf="mostrarSlotAdd == true">
+  <app-slot-add></app-slot-add>
+</div>
+
+<h3 class="text-center">Slots</h3>
+
+<div class="card-text">
+
+
+  <div class="card-text">
+    <table
+      id="datatable"
+      class="table table-bordered table-hover dataTable text-center"
+      style="width: 100%"
+      role="grid"
+      aria-describedby="datatable_info"
+    >
+      <thead>
+        <tr>
+          <th
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Actividad
+          </th>
+          <th
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Tipo Actividad
+          </th>
+          <th
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Monitor
+          </th>
+          <th
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Sala
+          </th>
+          <th
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Dia
+          </th>
+          <th
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Hora
+          </th>
+          <th
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Aforo Actual
+          </th>
+          <th
+            id=""
+            class="noExport sorting"
+            tabindex="0"
+            aria-controls="datatable"
+            rowspan="1"
+            colspan="1"
+            aria-label="Actions: activate to sort column ascending"
+            style="width: 54px"
+          >
+            Acciones
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let slot of slots" class="text-center">
+          <td>{{ slot.actividad.nombre }}</td>
+          <td>{{ slot.actividad.tipoActividad.nombre }}</td>
+          <td>*Monitor*</td>
+          <td>{{ slot.sala.numero == null ? "-": slot.sala.numero }}</td>
+          <td>{{ slot.diaSemana }}</td>
+          <td>{{ slot.horaInicio | formatoHora }}</td>
+          <td>{{ slot.aforoActual }}</td>
+          <td>
+            <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+              ><i class="icon-edit"></i
+            ></a>
+            <a
+              class="ml-2"
+              data-toggle="tooltip"
+              data-original-title="Delete"
+              (click)="delete(sala)"
+              ><i class="icon-trash-2"></i
+            ></a>
+            <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
+              ><i class="icon-settings"></i
+            ></a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th id="" rowspan="1" colspan="1">Actividad</th>
+          <th id="" rowspan="1" colspan="1">Tipo Actividad</th>
+          <th id="" rowspan="1" colspan="1">Monitor</th>
+          <th id="" rowspan="1" colspan="1">Sala</th>
+          <th id="" rowspan="1" colspan="1">Día</th>
+          <th id="" rowspan="1" colspan="1">Hora</th>
+          <th id="" rowspan="1" colspan="1">Aforo Actual</th>
+          <th id="" rowspan="1" colspan="1">Acciones</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

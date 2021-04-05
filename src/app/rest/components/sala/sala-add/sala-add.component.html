@@ -1,0 +1,76 @@
+<h3>Nueva Sala</h3>
+<div class="card-body">
+  <form
+    class="form-validate"
+    name="form"
+    (ngSubmit)="f.form.valid && addSala()"
+    #f="ngForm"
+  >
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="username">Aforo Máximo</label>
+        <input
+          type="number"
+          class="form-control"
+          name="aforoMax"
+          #aforoSala="ngModel"
+          [(ngModel)]="nuevaSala.aforoMax"
+          placeholder="Aforo Máximo"
+          required
+          min="1"
+          max="100"
+          pattern="(([1-9])|([1-9])([0-9])|100)"
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && aforoSala.invalid) ||
+              (aforoSala.touched && !aforoSala.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && aforoSala.invalid) ||
+            (aforoSala.touched && !aforoSala.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="aforoSala.errors.required || aforoSala.invalid">
+            * Aforo no válido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="username">Número de Sala</label>
+        <input
+          type="number"
+          class="form-control"
+          name="numeroSala"
+          #numeroSala="ngModel"
+          [(ngModel)]="nuevaSala.numero"
+          placeholder="Número de Sala"
+          required
+          min="1"
+          max="100"
+          pattern="(([1-9])|([1-9])([0-9])|100)"
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && numeroSala.invalid) ||
+              (numeroSala.touched && !numeroSala.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && numeroSala.invalid) ||
+            (numeroSala.touched && !numeroSala.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="numeroSala.errors.required || numeroSala.invalid">
+            * Número no válido
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
+  </form>
+</div>

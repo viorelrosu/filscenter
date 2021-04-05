@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuComponent } from '../../components/menu/menu.component';
 import { TokenStorageService } from '@core/services/token-storage.service';
+import { RouterModule, Routes } from '@angular/router';
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',

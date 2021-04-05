@@ -1,0 +1,145 @@
+<h3>Nueva Actividad</h3>
+<div class="card-body">
+  <form
+    class="form-validate"
+    name="form"
+    (ngSubmit)="f.form.valid && addActividad()"
+    #f="ngForm"
+  >
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="username">(*) Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nombre"
+          #actividadNombre="ngModel"
+          [(ngModel)]="nuevaActividad.nombre"
+          placeholder="Nombre Tipo Actividad"
+          required=""
+          pattern="[a-zA-Z ]{2,50}"
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && actividadNombre.invalid) ||
+              (actividadNombre.touched && !actividadNombre.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && actividadNombre.invalid) ||
+            (actividadNombre.touched && !actividadNombre.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="actividadNombre.errors.required || actividadNombre.invalid"
+          >
+            * Nombre no válido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="username">(*) Dificultad</label>
+        <input
+          type="number"
+          class="form-control"
+          name="dificultad"
+          value="1"
+          #actividadDificultad="ngModel"
+          [(ngModel)]="nuevaActividad.dificultad"
+          min="1"
+          max="10"
+          required=""
+          pattern="([1-9]|10)"
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && actividadDificultad.invalid) ||
+              (actividadDificultad.touched && !actividadDificultad.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && actividadDificultad.invalid) ||
+            (actividadDificultad.touched && !actividadDificultad.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="
+              actividadDificultad.errors.required || actividadDificultad.invalid
+            "
+          >
+            * Actividad no válida
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="descripcion">Descripción</label>
+        <textarea
+          class="form-control"
+          name="descripcion"
+          id="descripcion"
+          cols="50"
+          rows="4"
+          #actividadDescripcion="ngModel"
+          [(ngModel)]="nuevaActividad.descripcion"
+          placeholder="255 caracteres Máx."
+          pattern="([a-zA-Z áéíóúüÁÉÍÓÚÜ]){0,255}"
+        ></textarea>
+
+        <span
+          style="color: red"
+          *ngIf="actividadDescripcion.touched && !actividadDescripcion.valid"
+        >
+          * Descripcion no válida</span
+        >
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="tipoActividad">(*) Tipo de Actividad</label>
+        <select
+          class="form-control"
+          name="tipoActividad"
+          id="tipoActividad"
+          #actividadTipoActividad="ngModel"
+          [(ngModel)]="tipoActividadId"
+          required
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && actividadTipoActividad.invalid) ||
+              (actividadTipoActividad.touched && !actividadTipoActividad.valid)
+          }"
+          [(ngModel)]="tipoActiSelect"
+        >
+          <option value="" selected>-- Elige una opción --</option>
+          <option
+            *ngFor="let tipoActividad of tiposActividades"
+            value="{{ tipoActividad.id }}"
+          >
+            {{ tipoActividad.nombre }}
+          </option>
+        </select>
+
+        <div
+          *ngIf="
+            (f.submitted && actividadTipoActividad.invalid) ||
+            (actividadTipoActividad.touched && !actividadTipoActividad.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="
+              actividadTipoActividad.errors.required ||
+              actividadTipoActividad.invalid
+            "
+          >
+            * Seleccione un tipo de actividad
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
+  </form>
+</div>

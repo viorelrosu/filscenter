@@ -1,0 +1,44 @@
+<h3>Nuevo Tipo De Ejercicio</h3>
+<div class="card-body">
+  <form
+    class="form-validate"
+    name="form"
+    (ngSubmit)="f.form.valid && addTipoEjercicio()"
+    #f="ngForm"
+  >
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="username">Número TipoEjercicio</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nombre"
+          #nombreTipoEjercicio="ngModel"
+          [(ngModel)]="nuevoTipoEjercicio.nombre"
+          placeholder="Número de TipoEjercicio"
+          required
+          min="1"
+          max="1000"
+          pattern="^([a-zA-ZáéíóúüÁÉÍÓÚÜ]){1}([a-zA-Z_ áéíóúüÁÉÍÓÚÜ0-9]){2,100}"
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && nombreTipoEjercicio.invalid) ||
+              (nombreTipoEjercicio.touched && !nombreTipoEjercicio.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && nombreTipoEjercicio.invalid) ||
+            (nombreTipoEjercicio.touched && !nombreTipoEjercicio.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="nombreTipoEjercicio.errors.required || nombreTipoEjercicio.invalid">
+            * Nombre no válido
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
+  </form>
+</div>

@@ -1,0 +1,44 @@
+<h3>Nueva Taquilla</h3>
+<div class="card-body">
+  <form
+    class="form-validate"
+    name="form"
+    (ngSubmit)="f.form.valid && addTaquilla()"
+    #f="ngForm"
+  >
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="username">Número Taquilla</label>
+        <input
+          type="number"
+          class="form-control"
+          name="numero"
+          #numeroTaquilla="ngModel"
+          [(ngModel)]="nuevaTaquilla.numero"
+          placeholder="Número de taquilla"
+          required
+          min="1"
+          max="1000"
+          pattern="(([1-9])|([1-9])([0-9])|([1-9])([0-9])([0-9])|1000)"
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && numeroTaquilla.invalid) ||
+              (numeroTaquilla.touched && !numeroTaquilla.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && numeroTaquilla.invalid) ||
+            (numeroTaquilla.touched && !numeroTaquilla.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="numeroTaquilla.errors.required || numeroTaquilla.invalid">
+            * Número no válido
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
+  </form>
+</div>

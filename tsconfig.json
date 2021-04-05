@@ -7,7 +7,10 @@
       "@env": ["environments/environment"],
       "@shared/*": ["app/shared/*"],
       "@core/*": ["app/core/*"],
-      "@pages/*": ["app/pages/*"]
+      "@pages/*": ["app/pages/*"],
+      "@modelsRest/*": ["app/rest/models/*"],
+      "@componentsRest/*":["app/rest/components/*"],
+      "@servicesRest/*":["app/rest/services/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

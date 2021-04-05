@@ -1,0 +1,36 @@
+<h3 class="text-center">USUARIOS</h3>
+<div class="card-body">
+  <table class="table table-hover">
+    <caption></caption>
+    <thead>
+      <tr class="text-center">
+        <th id="">Nombre</th>
+        <th id="">DNI</th>
+        <th id="">Email</th>
+        <th id="">Fecha Nacimiento</th>
+        <th id="">Telefono</th>
+        <th id="">Usuario</th>
+        <th id="">Número tarjeta</th>
+        <th id="edit">Editar</th>
+        <th id="delete">Borrar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios" class="text-center">
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.dni }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.fechaNacimiento | date: "d/M/YYYY" }}</td>
+        <td>{{ usuario.telefono }}</td>
+        <td>{{ usuario.nombreUsuario }}</td>
+        <td>{{ usuario.numeroTarjeta }}</td>
+        <td><button class="btn btn-warning">Editar</button></td>
+        <td>
+          <button (click)="delete(usuario)" class="btn btn-danger">
+            Borrar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

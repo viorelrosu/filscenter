@@ -1,0 +1,33 @@
+<h3 class="text-center">Tablas Ejercicio</h3>
+
+<div class="card-body">
+  <table class="table table-hover">
+    <caption></caption>
+    <thead>
+      <tr class="text-center">
+        <th id="">Monitor</th>
+        <th id="">Usuario</th>
+        <th id="">Fecha inicio</th>
+        <th id="">Fecha fin</th>
+        <th id="">Activa</th>
+        <th id="edit">Editar</th>
+        <th id="delete">Borrar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tablaEjercicio of tablasEjercicio" class="text-center">
+        <td>**Monitor**</td>
+        <td>**Usuario**</td>
+        <td>{{ tablaEjercicio.fechaInicio | date: "d/M/YYYY" }}</td>
+        <td>{{ tablaEjercicio.fechaFin | date: "d/M/YYYY" }}</td>
+        <td>{{ tablaEjercicio.activa == true ? "Activa" : "Inactiva" }}</td>
+        <td><button class="btn btn-warning">Editar</button></td>
+        <td>
+          <button (click)="delete(tablaEjercicio)" class="btn btn-danger">
+            Borrar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

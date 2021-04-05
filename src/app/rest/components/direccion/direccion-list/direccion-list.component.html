@@ -1,0 +1,203 @@
+<div style="margin-top: 35px" class="d-flex justify-content-end">
+  <button
+    id="plus"
+    (click)="habilitarDireccion()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-plus"></i> Direccion
+  </button>
+  <button
+    id="minus"
+    (click)="deshabilitarDireccion()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-minus"></i> Direccion
+  </button>
+</div>
+<div *ngIf="mostrarDireccionAdd == true">
+  <app-direccion-add></app-direccion-add>
+</div>
+
+<h3 class="text-center">Direcciones</h3>
+
+<div class="card-text">
+  <table
+    id="datatable"
+    class="table table-bordered table-hover dataTable text-center"
+    style="width: 100%"
+    role="grid"
+    aria-describedby="datatable_info"
+  >
+    <thead>
+      <tr role="row">
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Calle
+        </th>
+
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Código Postal
+        </th>
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Bloque
+        </th>
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Escalera
+        </th>
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Piso
+        </th>
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Número
+        </th>
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Puerta
+        </th>
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Localidad
+        </th>
+        <th
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Acciones
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let direccion of direcciones" class="text-center">
+        <td>{{ direccion.calle }}</td>
+        <td>{{ direccion.codigoPostal }}</td>
+        <td>{{ direccion.bloque }}</td>
+        <td>{{ direccion.escalera }}</td>
+        <td>{{ direccion.piso }}</td>
+        <td>{{ direccion.numero }}</td>
+        <td>{{ direccion.puerta }}</td>
+        <td>
+          {{
+            direccion.localidad.nombre != null
+              ? direccion.localidad.nombre+", "+direccion.localidad.provincia.nombre
+              : " "
+          }}
+        </td>
+        <td>
+          <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+            ><i class="icon-edit"></i
+          ></a>
+          <a
+            class="ml-2"
+            data-toggle="tooltip"
+            data-original-title="Delete"
+            (click)="delete(suscripcion)"
+            ><i class="icon-trash-2"></i
+          ></a>
+          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
+            ><i class="icon-settings"></i
+          ></a>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th id="">Calle</th>
+        <th id="">Código Postal</th>
+        <th id="">Bloque</th>
+        <th id="">Escalera</th>
+        <th id="">Piso</th>
+        <th id="">Número</th>
+        <th id="">Puerta</th>
+        <th id="">Localidad</th>
+        <th id="" rowspan="1" colspan="1">Acciones</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+<!--app-provincia-list></app-provincia-list-->
+<app-localidad-list></app-localidad-list>

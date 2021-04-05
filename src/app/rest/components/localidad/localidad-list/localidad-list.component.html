@@ -1,0 +1,55 @@
+<h3 class="text-center">Localidades</h3>
+
+<div class="card-text">
+  <table
+    id="datatable"
+    class="table table-bordered table-hover dataTable text-center"
+    style="width: 100%"
+    role="grid"
+    aria-describedby="datatable_info"
+  >
+    <thead>
+      <tr role="row">
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Nombre
+        </th>
+
+        <th
+          id=""
+          class="sorting_asc"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-sort="ascending"
+          aria-label="Name: activate to sort column descending"
+          style="width: 45px"
+        >
+          Provincia
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let localidad of localidades" class="text-center">
+        <td>{{ localidad.nombre }} </td>
+        <td>{{ localidad.provincia.nombre }}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th id="" rowspan="1" colspan="1">Nombre</th>
+        <th id="" rowspan="1" colspan="1">Provincia</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
