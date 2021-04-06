@@ -1,18 +1,140 @@
+<div style="margin-top: 35px" class="d-flex justify-content-end">
+  <button
+    id="plus"
+    (click)="habilitarUsuario()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-plus"></i> Usuario
+  </button>
+  <button
+    id="minus"
+    (click)="deshabilitarUsuario()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-minus"></i> Usuario
+  </button>
+</div>
+<div *ngIf="mostrarUsuarioAdd == true">
+  <app-usuario-add></app-usuario-add>
+</div>
 <h3 class="text-center">USUARIOS</h3>
-<div class="card-body">
-  <table class="table table-hover">
-    <caption></caption>
+<div class="card-text">
+
+
+  <table
+    id="datatable"
+    class="table table-bordered table-hover dataTable text-center"
+    style="width: 100%"
+    role="grid"
+    aria-describedby="datatable_info"
+  >
     <thead>
-      <tr class="text-center">
-        <th id="">Nombre</th>
-        <th id="">DNI</th>
-        <th id="">Email</th>
-        <th id="">Fecha Nacimiento</th>
-        <th id="">Telefono</th>
-        <th id="">Usuario</th>
-        <th id="">Número tarjeta</th>
-        <th id="edit">Editar</th>
-        <th id="delete">Borrar</th>
+      <tr role="row">
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Nombre
+        </th>
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          DNI
+        </th>
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Email
+        </th>
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Fecha Nacimiento
+        </th>
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Telefono
+        </th>
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Usuario
+        </th>
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Número tarjeta
+        </th>
+        <th
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Acciones
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -24,13 +146,34 @@
         <td>{{ usuario.telefono }}</td>
         <td>{{ usuario.nombreUsuario }}</td>
         <td>{{ usuario.numeroTarjeta }}</td>
-        <td><button class="btn btn-warning">Editar</button></td>
         <td>
-          <button (click)="delete(usuario)" class="btn btn-danger">
-            Borrar
-          </button>
+          <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+            ><i class="icon-edit"></i
+          ></a>
+          <a
+            class="ml-2"
+            data-toggle="tooltip"
+            data-original-title="Delete"
+            (click)="delete(usuario)"
+            ><i class="icon-trash-2"></i
+          ></a>
+          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
+            ><i class="icon-settings"></i
+          ></a>
         </td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <th id="">Nombre</th>
+        <th id="">DNI</th>
+        <th id="">Email</th>
+        <th id="">Fecha Nacimiento</th>
+        <th id="">Telefono</th>
+        <th id="">Usuario</th>
+        <th id="">Número tarjeta</th>
+        <th id="" rowspan="1" colspan="1">Acciones</th>
+      </tr>
+    </tfoot>
   </table>
 </div>

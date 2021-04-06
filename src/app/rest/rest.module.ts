@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 
+//imports componentes
 import { SharedModule } from "@shared/shared.module";
 import { ActividadAddComponent } from "./components/actividad/actividad-add/actividad-add.component";
 import { ActividadListComponent } from "./components/actividad/actividad-list/actividad-list.component";
@@ -35,7 +36,11 @@ import { TipoSuscripcionAddComponent } from "./components/tipo_suscripcion/tipo-
 import { TipoSuscripcionListComponent } from "./components/tipo_suscripcion/tipo-suscripcion-list/tipo-suscripcion-list.component";
 import { UsuarioAddComponent } from "./components/usuario/usuario-add/usuario-add.component";
 import { UsuarioListComponent } from "./components/usuario/usuario-list/usuario-list.component";
+import { TablaEjercicioAddComponent } from "@componentsRest/tabla_ejercicio/tabla-ejercicio-add/tabla-ejercicio-add.component";
+import { TablaEjercicioListComponent } from "@componentsRest/tabla_ejercicio/tabla-ejercicio-list/tabla-ejercicio-list.component";
 
+
+//imports pipes
 import { FormatoHoraPipe } from "./pipes/formatoHora.pipe";
 
 
@@ -77,7 +82,9 @@ import { FormatoHoraPipe } from "./pipes/formatoHora.pipe";
     SlotListComponent,
     SlotAddComponent,
     EjercicioSerieListComponent,
-    EjercicioSerieAddComponent
+    EjercicioSerieAddComponent,
+    TablaEjercicioListComponent,
+    TablaEjercicioAddComponent
   ],
   imports: [SharedModule],
 })

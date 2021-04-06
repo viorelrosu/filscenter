@@ -17,6 +17,10 @@ export class RolServiceService {
     return this._http.get(this.url);
   }
 
+  getRol(rol:number):Observable<any>{
+    return this._http.get<Rol>(this.url+"/"+rol);
+  }
+
   deleteRol(rol:Rol){
     return this._http.delete<Rol>(this.url+"/"+rol.id);
   }

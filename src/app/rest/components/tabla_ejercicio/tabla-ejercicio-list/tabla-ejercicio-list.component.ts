@@ -9,6 +9,8 @@ import { TablaEjercicioServiceService } from "@servicesRest/tabla_ejercicio/tabl
   styleUrls: ["./tabla-ejercicio-list.component.css"],
 })
 export class TablaEjercicioListComponent implements OnInit {
+  mostrarTablaEjercicioAdd :boolean= false;
+
   tablasEjercicio: TablaEjercicio[];
 
   constructor(
@@ -17,6 +19,7 @@ export class TablaEjercicioListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    document.getElementById("minus").hidden = true;
     this.service.getTablasEjercicios().subscribe((data) => {
       this.tablasEjercicio = data;
     });
@@ -28,5 +31,17 @@ export class TablaEjercicioListComponent implements OnInit {
         (p) => p != tablaEjercicio
       );
     });
+  }
+
+  habilitarTablaEjercicio(){
+    this.mostrarTablaEjercicioAdd = true;
+    document.getElementById("plus").hidden = true;
+    document.getElementById("minus").hidden = false;
+  }
+
+  deshabilitarTablaEjercicio(){
+    this.mostrarTablaEjercicioAdd = false;
+    document.getElementById("plus").hidden = false;
+    document.getElementById("minus").hidden = true;
   }
 }

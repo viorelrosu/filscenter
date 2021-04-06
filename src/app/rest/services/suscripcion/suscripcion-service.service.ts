@@ -15,7 +15,9 @@ export class SuscripcionServiceService {
   getSuscripciones():Observable<any>{
     return this._http.get(this.url);
   }
-
+  getSuscripcion(suscripcion:number):Observable<any>{
+    return this._http.get<Suscripcion>(this.url+"/"+suscripcion);
+  }
 
   deleteSuscripcion(suscripcion:Suscripcion){
     return this._http.delete<Suscripcion>(this.url+"/"+suscripcion.id);

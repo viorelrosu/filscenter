@@ -16,6 +16,9 @@ export class DireccionServiceService {
     return this._http.get(this.url);
   }
 
+  getDireccion(direccion:number):Observable<any>{
+    return this._http.get<Direccion>(this.url+"/"+direccion);
+  }
   deleteDireccion(direccion:Direccion){
     return this._http.delete<Direccion>(this.url+"/"+direccion.id)
   }

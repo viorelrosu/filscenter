@@ -23,4 +23,8 @@ export class UsuarioServiceService {
     return this._http.delete<Usuario>(this.url + "/" + usuario.id);
   }
 
+  createUsuario(usuario:Usuario):Observable<any>{
+    return this._http.post<Usuario>(this.url,usuario);
+  }
+
 }

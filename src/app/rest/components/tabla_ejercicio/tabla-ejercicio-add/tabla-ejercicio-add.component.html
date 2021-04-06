@@ -1,1 +1,198 @@
-<p>tabla-ejercicio-add works!</p>
+<h3>Nuevo Tabla de Ejercicio</h3>
+<div class="card-body">
+  <form
+    class="form-validate"
+    name="form"
+    (ngSubmit)="f.form.valid && addTablaEjercicio()"
+    #f="ngForm"
+  >
+    <div class="form-row">
+      <div class="form-group col-md-2">
+        <label for="tablaActiva">(*) ¿Tabla Activa?</label>
+        <select
+          class="form-control"
+          name="tablaActiva"
+          id="tablaActiva"
+          #tablaEjercicioActiva="ngModel"
+          [(ngModel)]="nuevaTablaEjercicio.activa"
+          required
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && tablaEjercicioActiva.invalid) ||
+              (tablaEjercicioActiva.touched && !tablaEjercicioActiva.valid)
+          }"
+          [(ngModel)]="tablaAcivaSelect"
+        >
+          <option value="" selected>- Elige una opción -</option>
+          <option value="true">Sí</option>
+          <option value="false">No</option>
+        </select>
+        <div
+          *ngIf="
+            (f.submitted && tablaEjercicioActiva.invalid) ||
+            (tablaEjercicioActiva.touched && !tablaEjercicioActiva.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="
+              tablaEjercicioActiva.errors.required ||
+              tablaEjercicioActiva.invalid
+            "
+          >
+            * opción no válida
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-5">
+        <label for="fechaInicio">(*) Fecha de Inicio</label>
+        <input
+          type="date"
+          class="form-control"
+          id="fechaInicio"
+          name="fechaInicio"
+          #tablaEjercicioFechaInicio="ngModel"
+          [(ngModel)]="nuevaTablaEjercicio.fechaInicio"
+          placeholder="Nombre Tipo ejercicio"
+          required=""
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && tablaEjercicioFechaInicio.invalid) ||
+              (tablaEjercicioFechaInicio.touched &&
+                !tablaEjercicioFechaInicio.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && tablaEjercicioFechaInicio.invalid) ||
+            (tablaEjercicioFechaInicio.touched &&
+              !tablaEjercicioFechaInicio.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="
+              tablaEjercicioFechaInicio.errors.required ||
+              tablaEjercicioFechaInicio.invalid
+            "
+          >
+            * Fecha no válida
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-5">
+        <label for="fechaFin">(*) Fecha de Fin</label>
+        <input
+          type="date"
+          class="form-control"
+          id="fechaFin"
+          name="fechaFin"
+          #tablaEjercicioFechaFin="ngModel"
+          [(ngModel)]="nuevaTablaEjercicio.fechaFin"
+          placeholder="Nombre Tipo ejercicio"
+          required=""
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && tablaEjercicioFechaFin.invalid) ||
+              (tablaEjercicioFechaFin.touched && !tablaEjercicioFechaFin.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && tablaEjercicioFechaFin.invalid) ||
+            (tablaEjercicioFechaFin.touched && !tablaEjercicioFechaFin.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="
+              tablaEjercicioFechaFin.errors.required ||
+              tablaEjercicioFechaFin.invalid
+            "
+          >
+            * Fecha no válida
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="monitor">(*) Monitor</label>
+        <select
+          class="form-control"
+          name="monitor"
+          id="monitor"
+          #monitorTabla="ngModel"
+          [(ngModel)]="monitorId"
+          required
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && monitorTabla.invalid) ||
+              (monitorTabla.touched && !monitorTabla.valid)
+          }"
+          [(ngModel)]="slotMonitorSelect"
+        >
+          <option value="" selected>- Elige una opción -</option>
+          <!--p> aqui se haria un if que sacase todos los que tuvieran usuario.rol == monitor </p-->
+          <option *ngFor="let monitor of monitores" value="{{ monitor.id }}">
+            {{ monitor.nombre }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            (f.submitted && monitorTabla.invalid) ||
+            (monitorTabla.touched && !monitorTabla.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="monitorTabla.errors.required || monitorTabla.invalid">
+            * Monitor no válido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="sala">(*) Suscriptor</label>
+        <select
+          class="form-control"
+          name="sala"
+          id="sala"
+          #suscriptorTabla="ngModel"
+          [(ngModel)]="suscriptorId"
+          required
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && suscriptorTabla.invalid) ||
+              (suscriptorTabla.touched && !suscriptorTabla.valid)
+          }"
+          [(ngModel)]="suscriptorSelect"
+        >
+          <option value="" selected>- Elige una opción -</option>
+          <!--p> aqui se haria un if que sacase todos los que tuvieran usuario.rol == usuario </p-->
+          <option
+            *ngFor="let suscriptor of suscriptores"
+            value="{{ suscriptor.id }}"
+          >
+            {{ suscriptor.nombre }} -
+            {{ suscriptor.numeroTarjeta == null ? "tarjetaNull" : "" }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            (f.submitted && suscriptorTabla.invalid) ||
+            (suscriptorTabla.touched && !suscriptorTabla.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="suscriptorTabla.errors.required || suscriptorTabla.invalid"
+          >
+            * Usuario no válido
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
+  </form>
+</div>

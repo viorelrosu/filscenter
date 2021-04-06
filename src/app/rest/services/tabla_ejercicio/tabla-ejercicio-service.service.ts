@@ -23,4 +23,8 @@ export class TablaEjercicioServiceService {
   deleteTablaEjercicio(tablaEjercicio: TablaEjercicio) {
     return this._http.delete<TablaEjercicio>(this.url + "/" + tablaEjercicio.id);
   }
+
+  createTablaEjercicio(tablaEjercicio:TablaEjercicio):Observable<any>{
+    return this._http.post<TablaEjercicio>(this.url,tablaEjercicio);
+  }
 }

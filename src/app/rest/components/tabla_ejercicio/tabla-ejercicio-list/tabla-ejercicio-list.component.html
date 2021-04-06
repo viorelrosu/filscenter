@@ -1,33 +1,150 @@
+<div class="d-flex justify-content-end">
+  <button
+    id="plus"
+    enabled
+    (click)="habilitarTablaEjercicio()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-plus"></i> Tabla Ejercicio
+  </button>
+  <button
+    id="minus"
+    (click)="deshabilitarTablaEjercicio()"
+    type="button"
+    class="btn btn-light"
+  >
+    <i class="icon-minus"></i> Tabla Ejercicio
+  </button>
+</div>
+<div *ngIf="mostrarTablaEjercicioAdd == true">
+  <app-tabla-ejercicio-add></app-tabla-ejercicio-add>
+</div>
+
 <h3 class="text-center">Tablas Ejercicio</h3>
 
-<div class="card-body">
-  <table class="table table-hover">
-    <caption></caption>
+<div class="card-text">
+  <table
+    id="datatable"
+    class="table table-bordered table-hover dataTable text-center"
+    style="width: 100%"
+    role="grid"
+    aria-describedby="datatable_info"
+  >
     <thead>
-      <tr class="text-center">
+      <tr role="row">
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Monitor
+        </th>
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Usuario
+        </th>
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Fecha inicio
+        </th>
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Fecha fin
+        </th>
+        <th
+          id=""
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Activa
+        </th>
+        <th
+          id=""
+          class="noExport sorting"
+          tabindex="0"
+          aria-controls="datatable"
+          rowspan="1"
+          colspan="1"
+          aria-label="Actions: activate to sort column ascending"
+          style="width: 54px"
+        >
+          Acciones
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tablaEjercicio of tablasEjercicio" class="text-center">
+        <td>{{ tablaEjercicio.monitor.nombre }}</td>
+        <td>{{ tablaEjercicio.suscriptor.nombre }}</td>
+        <td>{{ tablaEjercicio.fechaInicio | date: "d/M/YYYY" }}</td>
+        <td>{{ tablaEjercicio.fechaFin | date: "d/M/YYYY" }}</td>
+        <td>{{ tablaEjercicio.activa == true ? "Activa" : "Inactiva" }}</td>
+        <td>
+          <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+            ><i class="icon-edit"></i
+          ></a>
+          <a
+            class="ml-2"
+            data-toggle="tooltip"
+            data-original-title="Delete"
+            (click)="delete(tablaEjercicio)"
+            ><i class="icon-trash-2"></i
+          ></a>
+          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
+            ><i class="icon-settings"></i
+          ></a>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
         <th id="">Monitor</th>
         <th id="">Usuario</th>
         <th id="">Fecha inicio</th>
         <th id="">Fecha fin</th>
         <th id="">Activa</th>
-        <th id="edit">Editar</th>
-        <th id="delete">Borrar</th>
+        <th id="" rowspan="1" colspan="1">Acciones</th>
       </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let tablaEjercicio of tablasEjercicio" class="text-center">
-        <td>**Monitor**</td>
-        <td>**Usuario**</td>
-        <td>{{ tablaEjercicio.fechaInicio | date: "d/M/YYYY" }}</td>
-        <td>{{ tablaEjercicio.fechaFin | date: "d/M/YYYY" }}</td>
-        <td>{{ tablaEjercicio.activa == true ? "Activa" : "Inactiva" }}</td>
-        <td><button class="btn btn-warning">Editar</button></td>
-        <td>
-          <button (click)="delete(tablaEjercicio)" class="btn btn-danger">
-            Borrar
-          </button>
-        </td>
-      </tr>
-    </tbody>
+    </tfoot>
   </table>
 </div>

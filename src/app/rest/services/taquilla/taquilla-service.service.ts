@@ -15,6 +15,9 @@ export class TaquillaServiceService {
   getTaquillas():Observable<any>{
     return this._http.get(this.url);
   }
+  getTaquilla(taquilla:number):Observable<any>{
+    return this._http.get<Taquilla>(this.url+"/"+taquilla);
+  }
 
   deleteTaquilla(taquilla:Taquilla){
     return this._http.delete<Taquilla>(this.url+"/"+taquilla.id);
