@@ -9,7 +9,9 @@ import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.ser
   styleUrls: ["./usuario-list.component.css"],
 })
 export class UsuarioListComponent implements OnInit {
+
   mostrarUsuarioAdd:boolean=false;
+  
   usuarios: Usuario[];
 
   constructor(private service: UsuarioServiceService, private router: Router) {}

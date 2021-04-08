@@ -42,6 +42,7 @@ import { TablaEjercicioListComponent } from "@componentsRest/tabla_ejercicio/tab
 
 //imports pipes
 import { FormatoHoraPipe } from "./pipes/formatoHora.pipe";
+import { TipoActividadUpdateComponent } from "@componentsRest/tipo_actividad/tipo-actividad-update/tipo-actividad-update.component";
 
 
 
@@ -84,7 +85,8 @@ import { FormatoHoraPipe } from "./pipes/formatoHora.pipe";
     EjercicioSerieListComponent,
     EjercicioSerieAddComponent,
     TablaEjercicioListComponent,
-    TablaEjercicioAddComponent
+    TablaEjercicioAddComponent,
+    TipoActividadUpdateComponent
   ],
   imports: [SharedModule],
 })

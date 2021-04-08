@@ -20,6 +20,7 @@
 <div *ngIf="mostrarTipoActividadAdd == true">
   <app-tipo-actividad-add></app-tipo-actividad-add>
 </div>
+
 <h3 class="card-title text-center">Tipo Actividad</h3>
 <div class="card-text">
   <table
@@ -62,7 +63,11 @@
       <tr *ngFor="let tipoActividad of tipoActividades" class="text-center">
         <td>{{ tipoActividad.nombre }}</td>
         <td>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+          <a
+            class="ml-2"
+            data-toggle="tooltip"
+            data-original-title="Edit"
+            (click)="open(content, tipoActividad)"
             ><i class="icon-edit"></i
           ></a>
           <a
@@ -88,3 +93,67 @@
 </div>
 
 <hr />
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Tipo de Actividad</h4>
+  </div>
+  <div class="modal-body" *ngIf="tipoActividadUpdate.id != null">
+    <div class="card-body">
+      <form
+        class="form-validate"
+        name="form"
+        (ngSubmit)="f.form.valid && update()"
+        #f="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="username">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nombre"
+              #tipoActividadAdd="ngModel"
+              [(ngModel)]="tipoActividadUpdate.nombre"
+              placeholder="Nombre Tipo Actividad"
+              required=""
+              pattern="[a-zA-Z ]{2,50}"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && tipoActividadAdd.invalid) ||
+                  (tipoActividadAdd.touched && !tipoActividadAdd.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && tipoActividadAdd.invalid) ||
+                (tipoActividadAdd.touched && !tipoActividadAdd.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  tipoActividadAdd.errors.required || tipoActividadAdd.invalid
+                "
+              >
+                * Nombre no válido
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-outline-dark">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

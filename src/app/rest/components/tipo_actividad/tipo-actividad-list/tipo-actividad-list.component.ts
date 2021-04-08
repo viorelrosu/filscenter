@@ -1,7 +1,9 @@
-import { Component, OnInit, DoCheck } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { TipoActividad } from "@modelsRest/TipoActividad";
 import { TipoActividadServiceService } from "../../../services/tipo_actividad/tipo-actividad-service.service";
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 @Component({
   selector: "app-tipo-actividad-list",
@@ -9,36 +11,27 @@ import { TipoActividadServiceService } from "../../../services/tipo_actividad/ti
   styleUrls: ["./tipo-actividad-list.component.css"],
 })
 export class TipoActividadListComponent implements OnInit {
+
   mostrarTipoActividadAdd: boolean = false;
+  private closeResult:string = '';
 
   tipoActividades: TipoActividad[];
+  tipoActividadUpdate:any;
 
   constructor(
-    private service: TipoActividadServiceService,
-    private router: Router
-  ) {}
+    private _service: TipoActividadServiceService,
+    private _router: Router,
+    private modalService: NgbModal
+  ) {
+    this.tipoActividadUpdate={};
+  }
 
   ngOnInit(): void {
+    
     document.getElementById("minus").hidden = true;
 
-    this.service.getTipoActividades().subscribe((data) => {
+    this._service.getTipoActividades().subscribe((data) => {
       this.tipoActividades = data;
-    });
-  }
-
-  DoCheck(): void {
-    this.service.getTipoActividades().subscribe((data) => {
-      this.tipoActividades = data;
-    });
-  }
-
-  delete(tipoActividad: TipoActividad) {
-    this.service.deleteTipoActividad(tipoActividad).subscribe((data) => {
-      this.tipoActividades = this.tipoActividades.filter(
-        (p) => p != tipoActividad
-      );
-      window.location.reload();
-      alert("Tipo de Actividad eliminado");
     });
   }
 
@@ -52,5 +45,45 @@ export class TipoActividadListComponent implements OnInit {
     this.mostrarTipoActividadAdd = false;
     document.getElementById("plus").hidden = false;
     document.getElementById("minus").hidden = true;
+  }
+
+
+  delete(tipoActividad: TipoActividad) {
+    this._service.deleteTipoActividad(tipoActividad).subscribe((data) => {
+      this.tipoActividades = this.tipoActividades.filter(
+        (p) => p != tipoActividad
+      );
+      window.location.reload();
+      alert("Tipo de Actividad eliminado");
+    });
+  }
+
+  update(){
+    this._service.updateTipoActividad(this.tipoActividadUpdate).subscribe(data=>{
+      alert("Tipo actividad actualizada!");
+      this.modalService.dismissAll();    
+    });
+    window.location.reload();
+  }
+
+  open(content,tipoActividad:TipoActividad) {
+    this._service.getTipoActividad(tipoActividad.id).subscribe(data=>{
+      this.tipoActividadUpdate = data;
+    })
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title',centered:true}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

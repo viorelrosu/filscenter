@@ -4,29 +4,34 @@ import { Observable } from "rxjs";
 import { TipoActividad } from '../../models/TipoActividad';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class TipoActividadServiceService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private _http:HttpClient) { }
 
   url="http://localhost:8080/webservice/tipoActividad";
   //coger todas las actividades
   getTipoActividades():Observable<any>{
-    return this.http.get<TipoActividad>(this.url);
+    return this._http.get<TipoActividad>(this.url);
   }
   //coger una actividad
   getTipoActividad(tipoActividad:number):Observable<TipoActividad>{
-    return this.http.get<TipoActividad>(this.url+"/"+tipoActividad);
+    return this._http.get<TipoActividad>(this.url+"/"+tipoActividad);
   }
 
   deleteTipoActividad(tipoActividad:TipoActividad):Observable<any>{
-    return this.http.delete<TipoActividad>(this.url+"/"+tipoActividad.id);
+    return this._http.delete<TipoActividad>(this.url+"/"+tipoActividad.id);
   }
 
   createTipoActividad(tipoActividad:TipoActividad):Observable<any>{
-    return this.http.post<TipoActividad>(this.url,tipoActividad);
+    return this._http.post<TipoActividad>(this.url,tipoActividad);
+  }
+
+  updateTipoActividad(tipoActividad:TipoActividad):Observable<any>{
+    return this._http.put<TipoActividad>(this.url+"/"+tipoActividad.id,tipoActividad);
   }
   
 }

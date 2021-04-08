@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import * as $ from '../../src/assets/js/jquery';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import * as $ from '../../src/assets/js/jquery';
     CoreModule,
     PagesModule,
     RestModule,
-    CuentaModule
+    CuentaModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
