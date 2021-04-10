@@ -27,4 +27,8 @@ export class TipoSuscripcionServiceService {
   createTipoSuscripcion(tipoSuscripcion:TipoSuscripcion):Observable<any>{
     return this._http.post<TipoSuscripcion>(this.url,tipoSuscripcion);
   }
+
+  updateTipoSuscripcion(tipoSuscripcion:TipoSuscripcion):Observable<any>{
+    return this._http.put<TipoSuscripcion>(this.url+"/"+tipoSuscripcion.id,tipoSuscripcion);
+  }
 }

@@ -3,7 +3,6 @@ import { Router } from "@angular/router";
 import { TipoActividad } from "@modelsRest/TipoActividad";
 import { TipoActividadServiceService } from "../../../services/tipo_actividad/tipo-actividad-service.service";
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 @Component({
   selector: "app-tipo-actividad-list",
@@ -16,6 +15,7 @@ export class TipoActividadListComponent implements OnInit {
   private closeResult:string = '';
 
   tipoActividades: TipoActividad[];
+
   tipoActividadUpdate:any;
 
   constructor(

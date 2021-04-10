@@ -19,6 +19,9 @@ export class TipoEjercicioServiceService {
     return this._http.get<TipoEjercicio>(this.url+"/"+tipoEjercicio);
   }
 
+  updateTipoEjercicio(tipoEjercicio:TipoEjercicio):Observable<any>{
+    return this._http.put<TipoEjercicio>(this.url+"/"+tipoEjercicio.id,tipoEjercicio);
+  }
   deleteTipoEjercicio(tipoEjercicio: TipoEjercicio) {
     return this._http.delete<TipoEjercicio>(this.url + "/" + tipoEjercicio.id);
   }

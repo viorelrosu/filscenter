@@ -17,7 +17,7 @@
           [(ngModel)]="nuevaActividad.nombre"
           placeholder="Nombre Tipo Actividad"
           required=""
-          pattern="[a-zA-Z ]{2,50}"
+          pattern="^([a-zA-ZáéíóúÁÉÍÓÚÜ]){1}[a-zA-Z áéíóúÁÉÍÓÚÜ]{2,50}"
           [ngClass]="{
             'is-invalid':
               (f.submitted && actividadNombre.invalid) ||

@@ -1,5 +1,5 @@
 <app-tipo-actividad-list></app-tipo-actividad-list>
-<div style="margin-top: 35px;" class="d-flex justify-content-end">
+<div style="margin-top: 35px" class="d-flex justify-content-end">
   <button
     id="plusActividad"
     (click)="habilitarActividad()"
@@ -102,7 +102,11 @@
         <td>{{ actividad.tipoActividad.nombre }}</td>
         <td>{{ actividad.descripcion }}</td>
         <td>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+          <a
+            class="ml-2"
+            data-toggle="tooltip"
+            data-original-title="Edit"
+            (click)="open(content, actividad)"
             ><i class="icon-edit"></i
           ></a>
           <a
@@ -131,3 +135,173 @@
 </div>
 
 <hr />
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Actividad</h4>
+  </div>
+  <div class="modal-body" *ngIf="actividadUpdate.id != null">
+    <div class="card-body">
+      <form
+        class="form-validate"
+        name="form"
+        (ngSubmit)="f.form.valid && update()"
+        #f="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="username">(*) Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nombre"
+              #actividadNombre="ngModel"
+              [(ngModel)]="actividadUpdate.nombre"
+              placeholder="Nombre Tipo Actividad"
+              required=""
+              pattern="[a-zA-Z ]{2,50}"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && actividadNombre.invalid) ||
+                  (actividadNombre.touched && !actividadNombre.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && actividadNombre.invalid) ||
+                (actividadNombre.touched && !actividadNombre.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  actividadNombre.errors.required || actividadNombre.invalid
+                "
+              >
+                * Nombre no válido
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="username">(*) Dificultad</label>
+            <input
+              type="number"
+              class="form-control"
+              name="dificultad"
+              value="1"
+              #actividadDificultad="ngModel"
+              [(ngModel)]="actividadUpdate.dificultad"
+              min="1"
+              max="10"
+              required=""
+              pattern="([1-9]|10)"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && actividadDificultad.invalid) ||
+                  (actividadDificultad.touched && !actividadDificultad.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && actividadDificultad.invalid) ||
+                (actividadDificultad.touched && !actividadDificultad.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  actividadDificultad.errors.required ||
+                  actividadDificultad.invalid
+                "
+              >
+                * Actividad no válida
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="descripcion">Descripción</label>
+            <textarea
+              class="form-control"
+              name="descripcion"
+              id="descripcion"
+              cols="50"
+              rows="4"
+              #actividadDescripcion="ngModel"
+              [(ngModel)]="actividadUpdate.descripcion"
+              placeholder="255 caracteres Máx."
+              pattern="([a-zA-Z áéíóúüÁÉÍÓÚÜ]){0,255}"
+            ></textarea>
+
+            <span
+              style="color: red"
+              *ngIf="
+                actividadDescripcion.touched && !actividadDescripcion.valid
+              "
+            >
+              * Descripcion no válida</span
+            >
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="tipoActividad">(*) Tipo de Actividad</label>
+            <select
+              class="form-control"
+              name="tipoActividad"
+              id="tipoActividad"
+              #actividadTipoActividad="ngModel"
+              [(ngModel)]="tipoActividadId"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && actividadTipoActividad.invalid) ||
+                  (actividadTipoActividad.touched &&
+                    !actividadTipoActividad.valid)
+              }"
+              [(ngModel)]="actividadUpdate.tipoActividad.id"
+            >
+              <option value="" selected>-- Elige una opción --</option>
+              <option
+                *ngFor="let tipoActividad of tiposActividades"
+                value="{{ tipoActividad.id }}"
+              >
+                {{ tipoActividad.nombre }}
+              </option>
+            </select>
+
+            <div
+              *ngIf="
+                (f.submitted && actividadTipoActividad.invalid) ||
+                (actividadTipoActividad.touched &&
+                  !actividadTipoActividad.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  actividadTipoActividad.errors.required ||
+                  actividadTipoActividad.invalid
+                "
+              >
+                * Seleccione un tipo de actividad
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-outline-dark">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
