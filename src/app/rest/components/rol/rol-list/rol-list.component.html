@@ -64,6 +64,7 @@
         <td>{{ rol.nombre }}</td>
         <td>
           <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+          (click)="open(content,rol)"
             ><i class="icon-edit"></i
           ></a>
           <a
@@ -87,3 +88,64 @@
     </tfoot>
   </table>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Rol</h4>
+  </div>
+  <div class="modal-body" *ngIf="rolUpdate.id != null">
+    <div class="card-body">
+      <form
+        class="form-validate"
+        name="form"
+        (ngSubmit)="f.form.valid && update()"
+        #f="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="username">Número Rol</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nombre"
+              #nombreRol="ngModel"
+              [(ngModel)]="rolUpdate.nombre"
+              placeholder="Número de Rol"
+              required
+              min="1"
+              max="1000"
+              pattern="^([a-zA-ZáéíóúüÁÉÍÓÚÜ]){1}([a-zA-Z_ áéíóúüÁÉÍÓÚÜ]){2,20}"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && nombreRol.invalid) ||
+                  (nombreRol.touched && !nombreRol.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && nombreRol.invalid) ||
+                (nombreRol.touched && !nombreRol.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div *ngIf="nombreRol.errors.required || nombreRol.invalid">
+                * Nombre no válido
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-outline-dark">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

@@ -13,7 +13,6 @@ import { Direccion } from "@shared/models/direccion";
   styleUrls: ["./direccion-add.component.css"],
 })
 export class DireccionAddComponent implements OnInit {
-
   nuevaDireccion: any;
 
   localidadId: number;
@@ -31,8 +30,7 @@ export class DireccionAddComponent implements OnInit {
     private _serviceUsuario: UsuarioServiceService,
     private _router: Router
   ) {
-    this.nuevaDireccion = {
-    };
+    this.nuevaDireccion = {};
   }
 
   ngOnInit(): void {
@@ -51,7 +49,6 @@ export class DireccionAddComponent implements OnInit {
       .then((data) => {
         this.nuevaDireccion.usuario = data;
         console.log(this.nuevaDireccion.usuario);
-        
       });
   }
 
@@ -68,10 +65,9 @@ export class DireccionAddComponent implements OnInit {
     this.obtenerLocalidad()
       .then(() => this.obtenerUsuario())
       .then(() => {
+        //console.log(JSON.stringify(this.nuevaDireccion));
 
-        console.log(JSON.stringify(this.nuevaDireccion));
-  
-        /*this._service.createDireccion(this.nuevaDireccion).subscribe(
+        this._service.createDireccion(this.nuevaDireccion).subscribe(
           (data) => {
             alert("Dirección agregada");
             window.location.reload();
@@ -79,9 +75,8 @@ export class DireccionAddComponent implements OnInit {
           (err) => {
             alert("error");
             console.log(err);
-            
           }
-        );*/
+        );
       });
   }
 }

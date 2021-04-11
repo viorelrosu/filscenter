@@ -26,5 +26,8 @@ export class SalaServiceService {
   createSala(sala:Sala):Observable<any>{
     return this._http.post<Sala>(this.url,sala);
   }
+  updateSala(sala: Sala): Observable<any> {
+    return this._http.put<Sala>(this.url + "/" + sala.id, sala);
+  }
   
 }

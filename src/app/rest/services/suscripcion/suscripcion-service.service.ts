@@ -26,4 +26,7 @@ export class SuscripcionServiceService {
   createSuscripcion(suscripcion:Suscripcion):Observable<any>{
     return this._http.post<Suscripcion>(this.url,suscripcion);
   }
+  updateSuscripcion(suscripcion:Suscripcion): Observable<any> {
+    return this._http.put<Suscripcion>(this.url + "/" + suscripcion.id, suscripcion);
+  }
 }

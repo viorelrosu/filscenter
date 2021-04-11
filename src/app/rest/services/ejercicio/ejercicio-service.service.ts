@@ -27,4 +27,8 @@ export class EjercicioServiceService {
   createEjercicio(ejercicio:Ejercicio):Observable<any>{
     return this._http.post<Ejercicio>(this.url,ejercicio);
   }
+
+  updateEjercicio(ejercicio: Ejercicio): Observable<any> {
+    return this._http.put<Ejercicio>(this.url + "/" + ejercicio.id, ejercicio);
+  }
 }

@@ -21,10 +21,6 @@
   <app-taquilla-add></app-taquilla-add>
 </div>
 
-
-
-
-
 <h3 class="card-title text-center">Taquillas</h3>
 <div class="card-text">
   <table
@@ -69,6 +65,7 @@
         <td>{{ taquilla.numero }}</td>
         <td>
           <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+          (click)="open(content,taquilla)"
             ><i class="icon-edit"></i
           ></a>
           <a
@@ -92,3 +89,66 @@
     </tfoot>
   </table>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Taquilla</h4>
+  </div>
+  <div class="modal-body" *ngIf="taquillaUpdate.id != null">
+    <div class="card-body">
+      <form
+        class="form-validate"
+        name="form"
+        (ngSubmit)="f.form.valid && update()"
+        #f="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="username">Número Taquilla</label>
+            <input
+              type="number"
+              class="form-control"
+              name="numero"
+              #numeroTaquilla="ngModel"
+              [(ngModel)]="taquillaUpdate.numero"
+              placeholder="Número de taquilla"
+              required
+              min="1"
+              max="1000"
+              pattern="(([1-9])|([1-9])([0-9])|([1-9])([0-9])([0-9])|1000)"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && numeroTaquilla.invalid) ||
+                  (numeroTaquilla.touched && !numeroTaquilla.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && numeroTaquilla.invalid) ||
+                (numeroTaquilla.touched && !numeroTaquilla.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="numeroTaquilla.errors.required || numeroTaquilla.invalid"
+              >
+                * Número no válido
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-outline-dark">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

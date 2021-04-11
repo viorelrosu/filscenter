@@ -163,12 +163,18 @@
         <td>
           {{
             direccion.localidad.nombre != null
-              ? direccion.localidad.nombre+", "+direccion.localidad.provincia.nombre
+              ? direccion.localidad.nombre +
+                ", " +
+                direccion.localidad.provincia.nombre
               : " "
           }}
         </td>
         <td>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+          <a
+            class="ml-2"
+            data-toggle="tooltip"
+            data-original-title="Edit"
+            (click)="open(content, direccion)"
             ><i class="icon-edit"></i
           ></a>
           <a
@@ -199,5 +205,354 @@
     </tfoot>
   </table>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Dirección</h4>
+  </div>
+  <div class="modal-body" *ngIf="direccionUpdate.id != null">
+    <div class="card-body">
+      <form
+        class="form-validate"
+        name="form"
+        (ngSubmit)="f.form.valid && update()"
+        #f="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="calle">(*) Calle</label>
+            <input
+              type="text"
+              class="form-control"
+              id="calle"
+              name="calle"
+              #direccionCalle="ngModel"
+              [(ngModel)]="direccionUpdate.calle"
+              placeholder="C/"
+              required
+              pattern="^([a-zA-Z]){1}([a-zA-Z ]){2,50}"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && direccionCalle.invalid) ||
+                  (direccionCalle.touched && !direccionCalle.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && direccionCalle.invalid) ||
+                (direccionCalle.touched && !direccionCalle.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="direccionCalle.errors.required || direccionCalle.invalid"
+              >
+                * Calle no válida
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="numero">(*) Número</label>
+            <input
+              type="number"
+              class="form-control"
+              id="numero"
+              name="numero"
+              #direccionNumero="ngModel"
+              [(ngModel)]="direccionUpdate.numero"
+              placeholder="Nº"
+              min="1"
+              max="1000"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && direccionNumero.invalid) ||
+                  (direccionNumero.touched && !direccionNumero.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && direccionNumero.invalid) ||
+                (direccionNumero.touched && !direccionNumero.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  direccionNumero.errors.required || direccionNumero.invalid
+                "
+              >
+                * Número no válido
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="bloque">Bloque</label>
+            <input
+              type="number"
+              class="form-control"
+              id="bloque"
+              name="bloque"
+              #direccionBloque="ngModel"
+              [(ngModel)]="direccionUpdate.bloque"
+              placeholder="Ej: 1"
+              pattern="^([1-9]\d*)"
+              min="1"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && direccionBloque.invalid) ||
+                  (direccionBloque.touched && !direccionBloque.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && direccionBloque.invalid) ||
+                (direccionBloque.touched && !direccionBloque.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  direccionBloque.errors.required || direccionBloque.invalid
+                "
+              >
+                * Bloque no válido
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="escalera">Escalera</label>
+            <input
+              type="number"
+              class="form-control"
+              id="escalera"
+              name="escalera"
+              #direccionEscalera="ngModel"
+              [(ngModel)]="direccionUpdate.escalera"
+              placeholder="Ej: 1"
+              pattern="^([1-9]\d*)"
+              min="1"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && direccionEscalera.invalid) ||
+                  (direccionEscalera.touched && !direccionEscalera.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && direccionEscalera.invalid) ||
+                (direccionEscalera.touched && !direccionEscalera.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  direccionEscalera.errors.required || direccionEscalera.invalid
+                "
+              >
+                * Escalera no válida
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="piso">Piso</label>
+            <input
+              type="number"
+              class="form-control"
+              id="piso"
+              name="piso"
+              #direccionPiso="ngModel"
+              [(ngModel)]="direccionUpdate.piso"
+              placeholder="Ej: 1"
+              pattern="^([1-9]\d*)"
+              min="1"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && direccionPiso.invalid) ||
+                  (direccionPiso.touched && !direccionPiso.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && direccionPiso.invalid) ||
+                (direccionPiso.touched && !direccionPiso.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="direccionPiso.errors.required || direccionPiso.invalid"
+              >
+                * Piso no válido
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="puerta">Puerta</label>
+            <input
+              type="text"
+              class="form-control"
+              id="puerta"
+              name="puerta"
+              #direccionPuerta="ngModel"
+              [(ngModel)]="direccionUpdate.puerta"
+              placeholder="Ej: 1,A"
+              pattern="^(\d|[a-zA-Z]{1})"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && direccionPuerta.invalid) ||
+                  (direccionPuerta.touched && !direccionPuerta.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && direccionPuerta.invalid) ||
+                (direccionPuerta.touched && !direccionPuerta.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  direccionPuerta.errors.required || direccionPuerta.invalid
+                "
+              >
+                * Puerta no válida
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="cp"> (*) Código Postal</label>
+            <input
+              type="text"
+              class="form-control"
+              id="cp"
+              name="cp"
+              #direccionCP="ngModel"
+              [(ngModel)]="direccionUpdate.codigoPostal"
+              placeholder="Ej: 29850"
+              required
+              pattern="^\d{5,6}"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && direccionCP.invalid) ||
+                  (direccionCP.touched && !direccionCP.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && direccionCP.invalid) ||
+                (direccionCP.touched && !direccionCP.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div *ngIf="direccionCP.errors.required || direccionCP.invalid">
+                * Código Postal no válido
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="localidad">(*) Localidad</label>
+            <select
+              class="form-control"
+              name="localidad"
+              id="localidad"
+              #direccionLocalidad="ngModel"
+              [(ngModel)]="localidadId"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && direccionLocalidad.invalid) ||
+                  (direccionLocalidad.touched && !direccionLocalidad.valid)
+              }"
+              [(ngModel)]="direccionUpdate.localidad.id"
+            >
+              <option value="" selected>-- Elige una opción --</option>
+              <option
+                *ngFor="let localidad of localidades"
+                value="{{ localidad.id }}"
+              >
+                {{ localidad.nombre }}, {{ localidad.provincia.nombre }}
+              </option>
+            </select>
+
+            <div
+              *ngIf="
+                (f.submitted && direccionLocalidad.invalid) ||
+                (direccionLocalidad.touched && !direccionLocalidad.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  direccionLocalidad.errors.required ||
+                  direccionLocalidad.invalid
+                "
+              >
+                * Seleccione una Localidad
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="usuario">(*) Usuario</label>
+            <select
+              class="form-control"
+              name="usuario"
+              id="usuario"
+              #direccionUsuario="ngModel"
+              [(ngModel)]="usuarioId"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && direccionUsuario.invalid) ||
+                  (direccionUsuario.touched && !direccionUsuario.valid)
+              }"
+              
+            >
+              <option value="" selected>-- Elige una opción --</option>
+              <option *ngFor="let usuario of usuarios" value="{{ usuario.id }}">
+                {{ usuario.nombre }}
+              </option>
+            </select>
+
+            <div
+              *ngIf="
+                (f.submitted && direccionUsuario.invalid) ||
+                (direccionUsuario.touched && !direccionUsuario.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  direccionUsuario.errors.required || direccionUsuario.invalid
+                "
+              >
+                * Seleccione un usuario
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-outline-dark">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
 <!--app-provincia-list></app-provincia-list-->
 <app-localidad-list></app-localidad-list>

@@ -28,4 +28,8 @@ export class RolServiceService {
   createRol(rol:Rol):Observable<any>{
     return this._http.post<Rol>(this.url,rol);
   }
+
+  updateRol(rol: Rol): Observable<any> {
+    return this._http.put<Rol>(this.url + "/" + rol.id, rol);
+  }
 }

@@ -28,4 +28,8 @@ export class SlotServiceService {
     return this._http.post<Slot>(this.url,slot);
   }
 
+  updateSlot(slot: Slot): Observable<any> {
+    return this._http.put<Slot>(this.url + "/" + slot.id, slot);
+  }
+
 }

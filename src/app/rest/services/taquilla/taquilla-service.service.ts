@@ -26,4 +26,8 @@ export class TaquillaServiceService {
   createTaquilla (taquilla:Taquilla):Observable<any>{
     return this._http.post<Taquilla>(this.url,taquilla);
   }
+
+  updateTaquilla(taquilla:Taquilla): Observable<any> {
+    return this._http.put<Taquilla>(this.url + "/" + taquilla.id, taquilla);
+  }
 }

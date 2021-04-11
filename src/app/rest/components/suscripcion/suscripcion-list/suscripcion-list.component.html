@@ -108,6 +108,7 @@
         <td>{{ suscripcion.usuario.nombre }}</td>
         <td>
           <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+          (click)="open(content,suscripcion)"
             ><i class="icon-edit"></i
           ></a>
           <a
@@ -134,3 +135,185 @@
     </tfoot>
   </table>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Suscripción</h4>
+  </div>
+  <div class="modal-body" *ngIf="suscripcionUpdate.id != null">
+    <div class="card-body">
+      <form
+        class="form-validate"
+        name="form"
+        (ngSubmit)="f.form.valid && update()"
+        #f="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="username">(*) Fecha de alta</label>
+            <input
+              type="date"
+              class="form-control"
+              name="fechaAlta"
+              #suscripcionFechaAlta="ngModel"
+              [(ngModel)]="suscripcionUpdate.fechaAlta"
+              placeholder="Nombre Tipo ejercicio"
+              required=""
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && suscripcionFechaAlta.invalid) ||
+                  (suscripcionFechaAlta.touched && !suscripcionFechaAlta.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && suscripcionFechaAlta.invalid) ||
+                (suscripcionFechaAlta.touched && !suscripcionFechaAlta.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  suscripcionFechaAlta.errors.required ||
+                  suscripcionFechaAlta.invalid
+                "
+              >
+                * Fecha no válida
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="username">(*) Fecha de baja</label>
+            <input
+              type="date"
+              class="form-control"
+              name="fechaBaja"
+              #ejercicioNombre="ngModel"
+              [(ngModel)]="suscripcionUpdate.fechaBaja"
+              placeholder="Nombre Tipo ejercicio"
+              required=""
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && ejercicioNombre.invalid) ||
+                  (ejercicioNombre.touched && !ejercicioNombre.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && ejercicioNombre.invalid) ||
+                (ejercicioNombre.touched && !ejercicioNombre.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  ejercicioNombre.errors.required || ejercicioNombre.invalid
+                "
+              >
+                * Fecha no válida
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="tipoEjercicio">(*) Tipo de Suscripción</label>
+            <select
+              class="form-control"
+              name="tipoSuscripcion"
+              id="tipoSuscripcion"
+              #suscripcionTipoSuscripcion="ngModel"
+              [(ngModel)]="tipoSuscripcionId"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && suscripcionTipoSuscripcion.invalid) ||
+                  (suscripcionTipoSuscripcion.touched &&
+                    !suscripcionTipoSuscripcion.valid)
+              }"
+              [(ngModel)]="suscripcionUpdate.tipoSuscripcion.id"
+            >
+              <option value="" selected>-- Elige una opción --</option>
+              <option
+                *ngFor="let tipoSuscripcion of tiposSuscripcion"
+                value="{{ tipoSuscripcion.id }}"
+              >
+                {{ tipoSuscripcion.nombre }}
+              </option>
+            </select>
+
+            <div
+              *ngIf="
+                (f.submitted && suscripcionTipoSuscripcion.invalid) ||
+                (suscripcionTipoSuscripcion.touched &&
+                  !suscripcionTipoSuscripcion.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  suscripcionTipoSuscripcion.errors.required ||
+                  suscripcionTipoSuscripcion.invalid
+                "
+              >
+                * Seleccione un tipo de suscripcion
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="usuario">(*) Usuario</label>
+            <select
+              class="form-control"
+              name="usuario"
+              id="usuario"
+              #suscripcionUsuario="ngModel"
+              [(ngModel)]="usuarioId"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && suscripcionUsuario.invalid) ||
+                  (suscripcionUsuario.touched && !suscripcionUsuario.valid)
+              }"
+              [(ngModel)]="suscripcionUpdate.usuario.id"
+            >
+              <option value="" selected>-- Elige una opción --</option>
+              <option *ngFor="let usuario of usuarios" value="{{ usuario.id }}">
+                {{ usuario.nombre }}
+              </option>
+            </select>
+
+            <div
+              *ngIf="
+                (f.submitted && suscripcionTipoSuscripcion.invalid) ||
+                (suscripcionTipoSuscripcion.touched &&
+                  !suscripcionTipoSuscripcion.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  suscripcionTipoSuscripcion.errors.required ||
+                  suscripcionTipoSuscripcion.invalid
+                "
+              >
+                * Seleccione un usuario
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-outline-dark">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

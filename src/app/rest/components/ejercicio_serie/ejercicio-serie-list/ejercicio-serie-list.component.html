@@ -23,8 +23,6 @@
 <h3 class="text-center">Ejercicios Series</h3>
 
 <div class="card-text">
-
-
   <div class="card-text">
     <table
       id="datatable"
@@ -123,6 +121,7 @@
           <td>{{ ejercicioSerie.porSemana }}</td>
           <td>
             <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
+            (click)="open(content,ejercicioSerie)"
               ><i class="icon-edit"></i
             ></a>
             <a
@@ -151,3 +150,238 @@
     </table>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Ejercicio</h4>
+  </div>
+  <div class="modal-body" *ngIf="ejercicioSerieUpdate.id != null">
+    <div class="card-body">
+      <form
+        class="form-validate"
+        name="form"
+        (ngSubmit)="f.form.valid && update()"
+        #f="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="semana">(*) Veces por Semana</label>
+            <input
+              type="number"
+              class="form-control"
+              id="semana"
+              name="semana"
+              #ejercicioSerieSemana="ngModel"
+              [(ngModel)]="ejercicioSerieUpdate.porSemana"
+              placeholder="Veces a realizar por semana"
+              required
+              min="1"
+              max="6"
+              pattern="^([1-9]){1}"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && ejercicioSerieSemana.invalid) ||
+                  (ejercicioSerieSemana.touched && !ejercicioSerieSemana.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && ejercicioSerieSemana.invalid) ||
+                (ejercicioSerieSemana.touched && !ejercicioSerieSemana.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  ejercicioSerieSemana.errors.required ||
+                  ejercicioSerieSemana.invalid
+                "
+              >
+                * Veces seleccionadas no válida
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="repeticiones">(*) Repeticiones</label>
+            <input
+              type="number"
+              class="form-control"
+              id="repeticiones"
+              name="repeticiones"
+              #ejercicioSerieRepeticiones="ngModel"
+              [(ngModel)]="ejercicioSerieUpdate.repeticiones"
+              placeholder="Series del ejercicio"
+              required
+              min="1"
+              max="999"
+              pattern="^([1-9]){1}\d*"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && ejercicioSerieRepeticiones.invalid) ||
+                  (ejercicioSerieRepeticiones.touched &&
+                    !ejercicioSerieRepeticiones.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && ejercicioSerieRepeticiones.invalid) ||
+                (ejercicioSerieRepeticiones.touched &&
+                  !ejercicioSerieRepeticiones.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  ejercicioSerieRepeticiones.errors.required ||
+                  ejercicioSerieRepeticiones.invalid
+                "
+              >
+                * Repeticiones no válidas
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="series">(*) Series</label>
+            <input
+              type="number"
+              class="form-control"
+              id="series"
+              name="series"
+              #ejercicioSerieSeries="ngModel"
+              [(ngModel)]="ejercicioSerieUpdate.series"
+              placeholder="Series del ejercicio"
+              required
+              min="1"
+              max="15"
+              pattern="^([1-9]){1}\d*"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && ejercicioSerieSeries.invalid) ||
+                  (ejercicioSerieSeries.touched && !ejercicioSerieSeries.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && ejercicioSerieSeries.invalid) ||
+                (ejercicioSerieSeries.touched && !ejercicioSerieSeries.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  ejercicioSerieSeries.errors.required ||
+                  ejercicioSerieSeries.invalid
+                "
+              >
+                * Series seleccionadas no válida
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="ejercicio">(*) Ejercicio</label>
+            <select
+              class="form-control"
+              name="ejercicio"
+              id="ejercicio"
+              #ejercicioSerieEjercicio="ngModel"
+              [(ngModel)]="ejercicioId"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && ejercicioSerieEjercicio.invalid) ||
+                  (ejercicioSerieEjercicio.touched &&
+                    !ejercicioSerieEjercicio.valid)
+              }"
+              [(ngModel)]="ejercicioSerieUpdate.ejercicio.id"
+            >
+              <option value="" selected>-- Elige una opción --</option>
+              <option
+                *ngFor="let ejercicio of ejercicios"
+                value="{{ ejercicio.id }}"
+              >
+                {{ ejercicio.nombre }}
+              </option>
+            </select>
+
+            <div
+              *ngIf="
+                (f.submitted && ejercicioSerieEjercicio.invalid) ||
+                (ejercicioSerieEjercicio.touched &&
+                  !ejercicioSerieEjercicio.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  ejercicioSerieEjercicio.errors.required ||
+                  ejercicioSerieEjercicio.invalid
+                "
+              >
+                * Seleccione un ejercicio
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="tabla">(*) Tabla de ejercicio</label>
+            <select
+              class="form-control"
+              name="tabla"
+              id="tabla"
+              #ejercicioSerieTabla="ngModel"
+              [(ngModel)]="tablaId"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && ejercicioSerieTabla.invalid) ||
+                  (ejercicioSerieTabla.touched && !ejercicioSerieTabla.valid)
+              }"
+              [(ngModel)]="ejercicioSerieUpdate.tablaEjercicio.id"
+            >
+              <option value="" selected>-- Elige una opción --</option>
+              <option
+                *ngFor="let tablaEjercicio of tablasEjercicio"
+                value="{{ tablaEjercicio.id }}"
+              >
+                {{ tablaEjercicio.suscriptor.nombre }} (
+                {{ tablaEjercicio.fechaInicio | date: "M/d/yy" }} -
+                {{ tablaEjercicio.fechaFin | date: "M/d/yy" }})
+              </option>
+            </select>
+
+            <div
+              *ngIf="
+                (f.submitted && ejercicioSerieTabla.invalid) ||
+                (ejercicioSerieTabla.touched && !ejercicioSerieTabla.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  ejercicioSerieTabla.errors.required ||
+                  ejercicioSerieTabla.invalid
+                "
+              >
+                * Seleccione un ejercicio
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-outline-dark">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

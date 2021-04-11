@@ -14,6 +14,9 @@ export class FacturaServiceService {
   getFacturas(): Observable<any> {
     return this._http.get(this.url);
   }
+  getFactura(factura:number):Observable<any>{
+    return this._http.get<Factura>(this.url+"/"+factura);
+  }
 
   deleteFactura(factura:Factura){
     return this._http.delete<Factura>(this.url+"/"+factura.id);
@@ -21,4 +24,9 @@ export class FacturaServiceService {
   createFactura(factura:Factura):Observable<any>{
     return this._http.post<Factura>(this.url,factura);
   }
+
+  updateFactura(factura: Factura): Observable<any> {
+    return this._http.put<Factura>(this.url + "/" + factura.id, factura);
+  }
+
 }

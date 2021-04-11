@@ -16,11 +16,19 @@ export class EjercicioSerieServiceService {
     return this._http.get(this.url);
   }
 
+  getEjercicioSerie(ejercicioSerie:number):Observable<any>{
+    return this._http.get<EjercicioSerie>(this.url+"/"+ejercicioSerie);
+  }
+
   deleteEjercicioSerie(ejercicioSerie:EjercicioSerie){
     return this._http.delete<EjercicioSerie>(this.url+"/"+ejercicioSerie.id)
   }
 
   createEjercicioSerie(ejercicioSerie:EjercicioSerie):Observable<any>{
     return this._http.post<EjercicioSerie>(this.url,ejercicioSerie);
+  }
+
+  updateEjercicioSerie(ejercicioSerie: EjercicioSerie): Observable<any> {
+    return this._http.put<EjercicioSerie>(this.url + "/" + ejercicioSerie.id, ejercicioSerie);
   }
 }

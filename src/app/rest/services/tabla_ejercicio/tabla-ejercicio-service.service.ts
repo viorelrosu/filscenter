@@ -27,4 +27,8 @@ export class TablaEjercicioServiceService {
   createTablaEjercicio(tablaEjercicio:TablaEjercicio):Observable<any>{
     return this._http.post<TablaEjercicio>(this.url,tablaEjercicio);
   }
+
+  updateTablaEjercicio(tablaEjercicio: TablaEjercicio): Observable<any> {
+    return this._http.put<TablaEjercicio>(this.url + "/" + tablaEjercicio.id, tablaEjercicio);
+  }
 }
