@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { TokenStorageService } from '@core/services/token-storage.service';
 
 @Component({
   selector: 'cuenta-menu',
@@ -7,14 +8,19 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
   public active: string;
+  public sessionUser: any;
 
   @Input() menuActive: string;
 
-  constructor() { 
+  constructor(
+    private _tokenStorage: TokenStorageService
+  ) { 
     this.active = 'datos';
     if(this.menuActive) {
       this.active = this.menuActive;
     }
+
+    this.sessionUser = this._tokenStorage.getUser();
   }
 
   ngOnInit(): void {

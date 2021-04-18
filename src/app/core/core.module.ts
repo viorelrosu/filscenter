@@ -7,6 +7,8 @@ import { TopbarComponent } from './components/topbar/topbar.component';
 
 import { HttpClientModule } from '@angular/common/http';
 
+import { authInterceptorProviders } from './helpers/auth.interceptor';
+
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, TopbarComponent],
   imports: [
@@ -14,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     RouterModule
   ],
+  providers: [authInterceptorProviders],
   exports: [HeaderComponent,FooterComponent]
 })
 export class CoreModule { }

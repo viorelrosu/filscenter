@@ -5,6 +5,7 @@ import { TipoActividad } from "@modelsRest/TipoActividad";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { ActividadServiceService } from "@servicesRest/actividad/actividad-service.service";
 import { TipoActividadServiceService } from "@servicesRest/tipo_actividad/tipo-actividad-service.service";
+import { HelperService } from '@core/services/helper.service';
 
 @Component({
   selector: "app-actividad-list",
@@ -21,12 +22,14 @@ export class ActividadListComponent implements OnInit {
     private _service: ActividadServiceService,
     private _serviceTipoActividad:TipoActividadServiceService,
     private _router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _helperService: HelperService
   ) {
     this.actividadUpdate = {};
   }
 
   ngOnInit(): void {
+    this._helperService.isRolOK('admin');
     document.getElementById("minusActividad").hidden = true;
 
     this._service.getActividades().subscribe((data) => {

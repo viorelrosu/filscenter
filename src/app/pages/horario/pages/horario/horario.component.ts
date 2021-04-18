@@ -31,8 +31,6 @@ export class PageHorarioComponent implements OnInit, DoCheck {
     $('#modalClase').appendTo("body");
   }
 
-  //data-target="#modal" data-toggle="modal"
-
   openModalClase(index: number, hora: string) :void {
     var modal = $('#modalClase');
     var claseMonitor = $('#modalClase').find('.monitor-nombre');

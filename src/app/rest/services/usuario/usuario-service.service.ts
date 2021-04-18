@@ -19,6 +19,10 @@ export class UsuarioServiceService {
     return this._http.get<Usuario>(this.url + "/" + usuario);
   }
 
+  getUsuarioByEmail(email: string): Observable<any> {
+    return this._http.get<Usuario>(this.url + "/email/" + email);
+  }
+
   deleteUsuario(usuario: Usuario) {
     return this._http.delete<Usuario>(this.url + "/" + usuario.id);
   }

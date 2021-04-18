@@ -17,9 +17,13 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <ul class="top-menu">
+                <ul class="top-menu" *ngIf="!isLoginIn">
                     <li><a href="/iniciar-sesion">Iniciar Sesión</a></li>
                     <li><a href="/registro">Regístrate</a></li>
+                </ul>
+                <ul class="top-menu" *ngIf="isLoginIn">
+                    <li><a href="/cuenta">Bienvenido {{ sessionUser.nombre }}</a></li>
+                    <li><a href="javascript:;" (click)="logout()">Salir</a></li>
                 </ul>
             </div>
         </div>

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuComponent } from '../../components/menu/menu.component';
-import { TokenStorageService } from '@core/services/token-storage.service';
-import { RouterModule, Routes } from '@angular/router';
+import { HelperService } from '@core/services/helper.service';
 
 @Component({
   selector: 'app-perfil',
@@ -17,13 +16,11 @@ export class PagePerfilComponent implements OnInit {
   public title: string;
   public menuActive: string;
 
-  public isLoggedIn: boolean = true;
   public sessionUser: any;
 
   constructor(
-    private _tokenStorageService: TokenStorageService,
-    private _router: Router
-    ) {
+    private _helperService: HelperService,
+  ) {
     this.pageTitle = 'Mi Cuenta';
     this.pageDesc = 'Todo lo que necesitas de tu perfil';
     this.pageImg = 'login.jpg';
@@ -32,17 +29,10 @@ export class PagePerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this._tokenStorageService.getToken()) {
-      this.isLoggedIn = true;
-      this.sessionUser = this._tokenStorageService.getUser();
-    } 
-    this.redirectToLogin();
-  }
-
-  redirectToLogin() {
-    if(!this.isLoggedIn) {
-      this._router.navigate(['/iniciar-sesion']);
-    }
+    //window.location.reload();
+    this._helperService.checkIsLoginAndRedirectToLogin();
+    this.sessionUser = this._helperService.getSessionUser();
+    console.log(this.sessionUser);
   }
 
 }

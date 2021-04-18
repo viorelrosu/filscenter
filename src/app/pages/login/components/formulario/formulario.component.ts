@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
 import { TokenStorageService } from '@core/services/token-storage.service';
+import { UsuarioServiceService } from '@servicesRest/usuario/usuario-service.service';
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login-formulario',
@@ -12,49 +15,61 @@ export class FormularioComponent implements OnInit {
     username: null,
     password: null
   };
-  public sessionUser: any;
-  public isLoggedIn = false;
-  public isLoginFailed = false;
-  public errorMessage = '';
+
+  public isLoggedIn: boolean = false;
+  public isLoginFailed: boolean = false;
+  public errorMessage: string = 'Error';
 
   constructor(
     private _authService: AuthService,
-    private _tokenStorage: TokenStorageService
+    private _tokenStorage: TokenStorageService,
+    private _restUserService: UsuarioServiceService,
+    private _router: Router
   ) { 
   }
 
   ngOnInit(): void {
-    if (this._tokenStorage.getToken()) {
-      this.isLoggedIn = true;
-      this.sessionUser = this._tokenStorage.getUser();
-    }
   }
 
   onSubmit() {
-    console.log(this.form.email);
-    console.log(this.form.password);
-
+    // console.log(this.form.username);
+    // console.log(this.form.password);
     const { username, password } = this.form;
 
     this._authService.login(username, password).subscribe(
       result => {
-        this._tokenStorage.saveToken(result.accessToken);
-        this._tokenStorage.saveUser(result);
-
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.sessionUser = this._tokenStorage.getUser();
-        this.reloadPage();
+        //console.log(result);
+        this._restUserService.getUsuarioByEmail(result.username).toPromise()
+        .then(data => {
+            //console.log(data);
+            data.isAdmin = (data.rol.nombre  == 'admin') ? true : false;
+            this._tokenStorage.saveUser(data);
+            this._tokenStorage.saveToken(result.accessToken);
+            this.isLoginFailed = false;
+            this.isLoggedIn = true;
+            this.redirectPage();
+        })
+        .catch((error)=>{
+          console.log("Promise rejected with " + JSON.stringify(error));
+        });
       },
       err => {
-        this.errorMessage = err.error.message;
+        console.log(err);
+        //console.log(err.error);
+        // this.errorMessage = err.error.message;
+        this.errorMessage = 'Los datos son incorrectos.';
         this.isLoginFailed = true;
+        console.log(err.error.message);
       }
     );
   }
 
-  reloadPage(){
-    window.location.reload();
+  redirectPage(){
+    if(this.isLoggedIn) {
+      this._router.navigate(['/cuenta']).then(() => {
+        window.location.reload();
+      });
+    }
   }  
 
 }

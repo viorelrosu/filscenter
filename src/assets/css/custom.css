@@ -115,3 +115,16 @@
 .table.horario td {
     vertical-align: middle!important;
 }
+
+.horarioClase {
+    height: 34px!important;
+}
+
+
+/* header */
+#header.dark .header-inner #logo a > img{
+    display:block;
+    height: 50px;
+    margin-top: 20px;
+}
+
