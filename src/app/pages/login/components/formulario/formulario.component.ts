@@ -43,6 +43,7 @@ export class FormularioComponent implements OnInit {
         .then(data => {
             //console.log(data);
             data.isAdmin = (data.rol.nombre  == 'admin') ? true : false;
+            data.isMonitor = (data.rol.nombre  == 'monitor') ? true : false;
             this._tokenStorage.saveUser(data);
             this._tokenStorage.saveToken(result.accessToken);
             this.isLoginFailed = false;
