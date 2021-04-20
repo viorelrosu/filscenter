@@ -4,7 +4,7 @@
         <ul>
           <li [class.active]="active == 'datos'"><a href="#">Datos</a></li>
           <li [class.active]="active == 'horario'"><a href="#">Horario</a></li>
-          <li [class.active]="active == 'factura'"><a href="/cuenta/factura/list">Facturas</a>
+          <!-- <li [class.active]="active == 'factura'"><a href="/cuenta/factura/list">Facturas</a> -->
           <li class="dropdown" [class.active]="active == 'web'" *ngIf="sessionUser.isAdmin" >
             <a href="javascript:;">Web</a>
             <ul class="dropdown-menu">
@@ -12,7 +12,8 @@
               <li><a href="#">Páginas</a></li>
             </ul>
           </li>
-          <li [class]="'dropdown'" [class.active]="active == 'actividad'" *ngIf="sessionUser.isAdmin">
+          <li [class]="'dropdown'" [class.active]="active == 'actividad'">
+            <!-- <li [class]="'dropdown'" [class.active]="active == 'actividad'" *ngIf="sessionUser.isAdmin"> -->
             <a href="javascript:;">Actividades</a>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="/cuenta/actividad/list">Actividades</a></li>
@@ -21,7 +22,8 @@
                 <li><a class="dropdown-item" href="/cuenta/sala/list">Salas</a></li>
             </ul>
           </li>
-          <li class="dropdown" [class.active]="active == 'ejercicio'"  *ngIf="sessionUser.isAdmin">
+          <li class="dropdown" [class.active]="active == 'ejercicio'">
+            <!-- <li class="dropdown" [class.active]="active == 'ejercicio'"  *ngIf="sessionUser.isAdmin"> -->
             <a href="javascript:;">Ejercicios</a>
             <ul class="dropdown-menu menu-last">
                 <li><a class="dropdown-item" href="/cuenta/tablaEjercicio/list">Tablas</a></li>
@@ -29,7 +31,8 @@
                 <li><a class="dropdown-item" href="/cuenta/ejercicio/list">Ejercicios</a></li>
             </ul>
           </li>
-          <li class="dropdown" [class.active]="active == 'usuario'" *ngIf="sessionUser.isAdmin">
+          <li class="dropdown" [class.active]="active == 'usuario'">
+          <!-- <li class="dropdown" [class.active]="active == 'usuario'" *ngIf="sessionUser.isAdmin"> -->
             <a href="javascript:;">Usuarios</a>
             <ul class="dropdown-menu menu-last">
                 <li><a class="dropdown-item" href="/cuenta/usuario/list">Usuarios</a></li>

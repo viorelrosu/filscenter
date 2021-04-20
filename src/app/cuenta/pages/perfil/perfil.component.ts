@@ -30,9 +30,9 @@ export class PagePerfilComponent implements OnInit {
 
   ngOnInit(): void {
     //window.location.reload();
-    this._helperService.checkIsLoginAndRedirectToLogin();
-    this.sessionUser = this._helperService.getSessionUser();
-    console.log(this.sessionUser);
+    //this._helperService.checkIsLoginAndRedirectToLogin();
+    //this.sessionUser = this._helperService.getSessionUser();
+    //console.log(this.sessionUser);
   }
 
 }
