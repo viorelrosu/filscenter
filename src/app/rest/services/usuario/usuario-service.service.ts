@@ -10,7 +10,8 @@ export class UsuarioServiceService {
   constructor(private _http: HttpClient) {}
 
   url = "http://localhost:8080/webservice/usuario";
-
+  urlAlta = "http://localhost:8080/webservice/altaUsuario";
+  
   getUsuarios(): Observable<any> {
     return this._http.get(this.url);
   }
@@ -29,6 +30,10 @@ export class UsuarioServiceService {
 
   createUsuario(usuario: Usuario): Observable<any> {
     return this._http.post<Usuario>(this.url, usuario);
+  }
+
+  altaUser(usuario:Usuario) : Observable<any>{
+    return this._http.post<Usuario>(this.urlAlta, usuario);
   }
 
   updateUsuario(usuario: Usuario): Observable<any> {

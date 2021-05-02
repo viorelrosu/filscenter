@@ -1,8 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Direccion } from "@modelsRest/Direccion";
+import { Localidad } from "@modelsRest/Localidad";
+import { Provincia } from "@modelsRest/Provincia";
 import { Suscripcion } from "@modelsRest/Suscripcion";
 import { Taquilla } from "@modelsRest/Taquilla";
 import { DireccionServiceService } from "@servicesRest/direccion/direccion-service.service";
+import { LocalidadServiceService } from "@servicesRest/localidad/localidad-service.service";
+import { ProvinciaServiceService } from "@servicesRest/provincia/provincia-service.service";
 import { RolServiceService } from "@servicesRest/rol/rol-service.service";
 import { SuscripcionServiceService } from "@servicesRest/suscripcion/suscripcion-service.service";
 import { TaquillaServiceService } from "@servicesRest/taquilla/taquilla-service.service";
@@ -15,70 +19,53 @@ import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.ser
 })
 export class UsuarioAddComponent implements OnInit {
   nuevoUsuario: any;
+  direccion: any;
 
-  DireccionId: number;
-  direcciones: Direccion[];
-  suscripcionId: number;
-  suscripciones: Suscripcion[];
-  TaquillaId: number;
-  taquillas: Taquilla[];
+  localidades: Localidad[];
+  provincias: Provincia[];
+
   rolId: number = 1;
+  localidadId: number;
+  provinciaId: number = 0;
 
-  direccionSelect = "";
-  suscripcionSelect = "";
-  taquillaSelect = "";
+  localidadSelect = "";
+  provinciaSelect = "";
 
   constructor(
     private _service: UsuarioServiceService,
-    private _serviceDireccion: DireccionServiceService,
-    private _serviceRol: RolServiceService,
-    private _serviceTaquilla: TaquillaServiceService,
-    private _serviceSuscripcion: SuscripcionServiceService
+    private _serviceLocalidad: LocalidadServiceService,
+    private _serviceProvincia: ProvinciaServiceService,
+    private _serviceRol: RolServiceService
   ) {
     this.nuevoUsuario = {};
+    this.direccion = {};
   }
 
   ngOnInit(): void {
-    this._serviceDireccion.getDirecciones().subscribe((data) => {
-      this.direcciones = data;
-    });
-
-    this._serviceSuscripcion.getSuscripciones().subscribe((data) => {
-      this.suscripciones = data;
-    });
-
-    this._serviceTaquilla.getTaquillas().subscribe((data) => {
-      this.taquillas = data;
+    this._serviceProvincia.getProvincias().subscribe((data) => {
+      this.provincias = data;
     });
   }
 
-  obtenerDireccion() {
-    return this._serviceDireccion
-      .getDireccion(this.DireccionId)
+  // metodo para cargar los localidades de la provincia
+  cargarLocalidades(provinciaId) {
+    this.localidadSelect = "";
+    this._serviceLocalidad.getLocalidadesByProvinciaID(provinciaId).subscribe((data) => {
+      this.localidades = data;
+    }); 
+  }
+
+  // metodo para obtener y enlazar la localidad con la direccion que se va a crear
+  obtenerLocalidad() {
+    return this._serviceLocalidad
+      .getLocalidad(this.localidadId)
       .toPromise()
       .then((data) => {
-        this.nuevoUsuario.direccion = data;
+        this.direccion.localidad = data;
       });
   }
 
-  obtenerTaquilla() {
-    return this._serviceTaquilla
-      .getTaquilla(this.TaquillaId)
-      .toPromise()
-      .then((data) => {
-        this.nuevoUsuario.taquilla = data;
-      });
-  }
-
-  obtenerSuscripcion() {
-    return this._serviceSuscripcion
-      .getSuscripcion(this.suscripcionId)
-      .toPromise()
-      .then((data) => {
-        this.nuevoUsuario.suscripcion = data;
-      });
-  }
-
+  //metodo para obtener y enlazar el rol (por default será el de ROLE_USER)
   obtenerRol() {
     return this._serviceRol
       .getRol(this.rolId)
@@ -87,15 +74,16 @@ export class UsuarioAddComponent implements OnInit {
         this.nuevoUsuario.rol = data;
       });
   }
+
+  //metodo para crear al usuario
   addUsuario() {
-    this.obtenerDireccion()
-      .then(() => this.obtenerSuscripcion())
-      .then(() => this.obtenerTaquilla())
+    this.obtenerLocalidad()
       .then(() => this.obtenerRol())
       .then(() => {
-        this._service.createUsuario(this.nuevoUsuario).subscribe(
+        this.nuevoUsuario.direccion = this.direccion;
+        this._service.altaUser(this.nuevoUsuario).subscribe(
           (data) => {
-            alert("Usuario creado");
+            alert("usuario registrado");
             window.location.reload();
           },
           (err) => {

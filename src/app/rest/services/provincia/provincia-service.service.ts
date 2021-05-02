@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Provincia } from '@modelsRest/Provincia';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,11 +8,15 @@ import { Observable } from 'rxjs';
 })
 export class ProvinciaServiceService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private _http: HttpClient) {}
 
   url = 'http://localhost:8080/webservice/provincia';
 
   getProvincias(): Observable<any> {
-    return this.http.get(this.url);
+    return this._http.get<Provincia>(this.url);
+  }
+
+  getProvincia(provincia:number):Observable<any>{
+    return this._http.get<Provincia>(this.url+"/"+provincia);
   }
 }

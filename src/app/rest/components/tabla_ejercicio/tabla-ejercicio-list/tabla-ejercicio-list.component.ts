@@ -7,6 +7,7 @@ import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.ser
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Usuario } from "@modelsRest/Usuario";
 import { EjercicioSerie } from "@modelsRest/EjercicioSerie";
+import { EjercicioServiceService } from "@servicesRest/ejercicio/ejercicio-service.service";
 
 @Component({
   selector: "app-tabla-ejercicio-list",
@@ -25,13 +26,28 @@ export class TablaEjercicioListComponent implements OnInit {
   closeResult = "";
   inicio = new Date();
 
+  //parte Detalle tabla
+  tablaDetalle : any;
+  ejerciciosSerieTablaDetalle:EjercicioSerie[];
+
+      //abrir añadir ejercicioSerieModal
+      modalAniadir = false;
+      ejerciciosSerie:EjercicioSerie[];
+      nuevoEjercicioSerie:any;
+      ejercicioId:number;
+      ejerSelect="";
+
   constructor(
     private _service: TablaEjercicioServiceService,
+    private _serviceEjercicio: EjercicioServiceService,
+    private _serviceEjerciciosSerie : EjercicioSerieServiceService,
     private _serviceUsuario:UsuarioServiceService,
     private _router: Router,
     private modalService: NgbModal
   ) {
     this.tablaUpdate = {};
+    this.tablaDetalle = {};
+    this.nuevoEjercicioSerie={};
   }
 
   ngOnInit(): void {
@@ -75,32 +91,78 @@ export class TablaEjercicioListComponent implements OnInit {
     document.getElementById("minus").hidden = true;
   }
 
-  open(content, tabla: TablaEjercicio) {
-    this._service.getTablaEjercicio(tabla.id).subscribe((data) => {
-      this.tablaUpdate = data;
-      this.inicio = this.tablaUpdate.fechaInicio;
-      console.log(this.inicio);
+  //abrir añadir ejercicios en modal
+  abrirAniadirModal(){
+    this. modalAniadir = true;
+  }
+
+  obtenerEjercicioParaCreacionPorModal(){
+    return this._serviceEjercicio.getEjercicio(this.ejercicioId).toPromise()
+    .then((data)=>{
+      this.nuevoEjercicioSerie.ejercicio = data;
+    })
+  }
+
+  //añadir ejercicio serie desde modal
+  aniadirEjercicioSerie(detalle,tablaDetalle){
+
+    this.obtenerEjercicioParaCreacionPorModal()
+    .then(()=>{
+      this.nuevoEjercicioSerie.tablaEjercicio = tablaDetalle;
+      console.log(this.nuevoEjercicioSerie);
+      this._serviceEjerciciosSerie.createEjercicioSerie(this.nuevoEjercicioSerie).subscribe(data=>{
+        this.modalService.dismissAll();
+        this.modalAniadir = false;
+        this.openDetalleTabla(detalle, tablaDetalle);
+        this.nuevoEjercicioSerie={};
+        this.ejerSelect = "";
+      },err=>{
+        alert("error");
+      });
+    });
+  }
+
+
+  //modal detalle tabla
+  openDetalleTabla(detalle, tabla: TablaEjercicio) {
+    this.tablaDetalle = tabla;
+    this._serviceEjercicio.getEjercicios().subscribe(data=>{
+      this.ejerciciosSerie = data;
+    });
+
+    this._serviceEjerciciosSerie.getEjerciciosPorTablaId(tabla.id).subscribe((data) => {
+      this.ejerciciosSerieTablaDetalle = data;
+      console.log(this.ejerciciosSerieTablaDetalle);
       
     });
     this.modalService
-      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
+      .open(detalle, { ariaLabelledBy: "modal-basic-title", centered: true, size : "xl" })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
+
+
+//modal update tabla
+  open(content, tabla: TablaEjercicio) {
+    this._service.getTablaEjercicio(tabla.id).subscribe((data) => {
+      this.tablaUpdate = data;
+      this.inicio = this.tablaUpdate.fechaInicio;
+    });
+    this.modalService
+      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true,size:"xl",scrollable:true })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+        }
+      );
   }
+
 }
