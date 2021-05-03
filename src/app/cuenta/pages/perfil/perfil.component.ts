@@ -8,7 +8,7 @@ import { HelperService } from '@core/services/helper.service';
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
-export class PagePerfilComponent implements OnInit {
+export class PageCuentaPerfilComponent implements OnInit {
 
   public pageTitle: string;
   public pageDesc: string;
@@ -24,13 +24,13 @@ export class PagePerfilComponent implements OnInit {
     this.pageTitle = 'Mi Cuenta';
     this.pageDesc = 'Todo lo que necesitas de tu perfil';
     this.pageImg = 'login.jpg';
-    this.title = 'Mis Datos';
-    this.menuActive = 'datos';
+    this.title = 'Mi Cuenta';
+    this.menuActive = 'perfil';
   }
 
   ngOnInit(): void {
     //window.location.reload();
-    //this._helperService.checkIsLoginAndRedirectToLogin();
+    this._helperService.checkIsLoginAndRedirectToLogin();
     //this.sessionUser = this._helperService.getSessionUser();
     //console.log(this.sessionUser);
   }

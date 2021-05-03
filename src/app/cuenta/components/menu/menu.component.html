@@ -2,8 +2,9 @@
     <div class="container">
       <nav>
         <ul>
-          <li [class.active]="active == 'datos'"><a href="#">Datos</a></li>
-          <li [class.active]="active == 'horario'"><a href="#">Horario</a></li>
+          <li [class.active]="active == 'perfil'"><a href="/cuenta/inicio">Mi Cuenta</a></li>
+          <li [class.active]="active == 'datos'"><a href="/cuenta/mis/datos">Mis Datos</a></li>
+          <li [class.active]="active == 'horario'"><a href="/cuenta/mi/horario">Mi Horario</a></li>
           <!-- <li [class.active]="active == 'factura'"><a href="/cuenta/factura/list">Facturas</a> -->
           <li class="dropdown" [class.active]="active == 'web'" *ngIf="sessionUser.isAdmin" >
             <a href="javascript:;">Web</a>

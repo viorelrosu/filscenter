@@ -16,14 +16,13 @@ export class MenuComponent implements OnInit {
     private _tokenStorage: TokenStorageService
   ) { 
     this.active = 'datos';
-    if(this.menuActive) {
-      this.active = this.menuActive;
-    }
-
     this.sessionUser = this._tokenStorage.getUser();
   }
 
   ngOnInit(): void {
+    if(this.menuActive) {
+      this.active = this.menuActive;
+    }
   }
 
 }

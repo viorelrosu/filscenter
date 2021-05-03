@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 import { TipoActividadListComponent } from "../rest/components/tipo_actividad/tipo-actividad-list/tipo-actividad-list.component";
-import { PagePerfilComponent } from "./pages/perfil/perfil.component";
+import { PageCuentaPerfilComponent } from "./pages/perfil/perfil.component";
 import { ActividadListComponent } from "@componentsRest/actividad/actividad-list/actividad-list.component";
 import { DireccionListComponent } from "@componentsRest/direccion/direccion-list/direccion-list.component";
 import { SlotListComponent } from "@componentsRest/slot/slot-list/slot-list.component";
@@ -20,7 +20,7 @@ import { FacturaListComponent } from "@componentsRest/factura/factura-list/factu
 const routes: Routes = [
   {
     path: "",
-    component: PagePerfilComponent,
+    component: PageCuentaPerfilComponent,
     children: [
       // config usuarios
       {

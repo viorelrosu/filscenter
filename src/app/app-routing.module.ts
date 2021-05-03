@@ -12,7 +12,14 @@ import { PageContactoComponent } from "./pages/contacto/pages/contacto/contacto.
 import { PageLoginComponent } from "./pages/login/pages/login/login.component";
 import { PageSignupComponent } from "./pages/signup/pages/signup/signup.component";
 import { PageRecoverComponent } from "./pages/recover/pages/recover/recover.component";
-import { PagePerfilComponent } from "./cuenta/pages/perfil/perfil.component";
+import { PagePoliticaComponent } from "./pages/privacidad/pages/politica/politica.component";
+import { PageCookiesComponent } from "./pages/privacidad/pages/cookies/cookies.component";
+import { PageLegalComponent } from "./pages/privacidad/pages/legal/legal.component";
+
+import { PageCuentaPerfilComponent } from "./cuenta/pages/perfil/perfil.component";
+import { PageCuentaInicioComponent } from "./cuenta/components/inicio/inicio.component";
+import { PageCuentaDatosComponent } from "./cuenta/components/datos/datos.component";
+import { PageCuentaHorarioComponent } from "./cuenta/components/horario/horario.component";
 
 import { TipoActividadListComponent } from "./rest/components/tipo_actividad/tipo-actividad-list/tipo-actividad-list.component";
 import { ActividadListComponent } from "@componentsRest/actividad/actividad-list/actividad-list.component";
@@ -40,10 +47,25 @@ const routes: Routes = [
   { path: "iniciar-sesion", component: PageLoginComponent },
   { path: "registro", component: PageSignupComponent },
   { path: "recuperar-pass", component: PageRecoverComponent },
+  { path: "politica-privacidad", component: PagePoliticaComponent },
+  { path: "cookies", component: PageCookiesComponent },
+  { path: "aviso-legal", component: PageLegalComponent },
   {
     path: "cuenta",
-    component: PagePerfilComponent,
+    component: PageCuentaPerfilComponent,
     children: [
+      {
+        path: "inicio",
+        component: PageCuentaInicioComponent,
+      },
+      {
+        path: "mis/datos",
+        component: PageCuentaDatosComponent,
+      },
+      {
+        path: "mi/horario",
+        component: PageCuentaHorarioComponent,
+      },
       // config usuarios
       {
         path: "usuario/list",

@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
-import { PagePerfilComponent } from './pages/perfil/perfil.component';
+import { PageCuentaPerfilComponent } from './pages/perfil/perfil.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { CuentaRoutingModule } from './cuenta-routing.module';
-
-
+import { PageCuentaDatosComponent } from './components/datos/datos.component';
+import { PageCuentaHorarioComponent } from './components/horario/horario.component';
+import { PageCuentaInicioComponent } from './components/inicio/inicio.component';
 
 
 @NgModule({
-  declarations: [PagePerfilComponent, MenuComponent],
+  declarations: [PageCuentaPerfilComponent, MenuComponent, PageCuentaDatosComponent, PageCuentaHorarioComponent, PageCuentaInicioComponent],
   imports: [
     SharedModule,
     CuentaRoutingModule,
   ],
-  exports: [PagePerfilComponent,CuentaRoutingModule]
+  exports: [PageCuentaPerfilComponent, CuentaRoutingModule, PageCuentaDatosComponent, PageCuentaHorarioComponent, PageCuentaInicioComponent]
 })
 export class CuentaModule { }
