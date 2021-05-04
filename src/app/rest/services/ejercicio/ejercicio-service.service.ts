@@ -11,6 +11,7 @@ export class EjercicioServiceService {
   constructor(private _http: HttpClient) {}
 
   url = 'http://localhost:8080/webservice/ejercicio';
+  url2 = 'http://localhost:8080/webservice/ejercicios';
 
   getEjercicios(): Observable<any> {
     return this._http.get(this.url);
@@ -18,6 +19,10 @@ export class EjercicioServiceService {
 
   getEjercicio(ejercicio:number):Observable<any>{
     return this._http.get<Ejercicio>(this.url+"/"+ejercicio)
+  }
+
+  getEjerciciosPorTipoEjercicioId(tipoEjercicio:number):Observable<any>{
+    return this._http.get<Ejercicio>(this.url2+"/"+tipoEjercicio);
   }
 
   deleteEjercicio(ejercicio:Ejercicio){

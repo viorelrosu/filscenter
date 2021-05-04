@@ -8,6 +8,8 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Usuario } from "@modelsRest/Usuario";
 import { EjercicioSerie } from "@modelsRest/EjercicioSerie";
 import { EjercicioServiceService } from "@servicesRest/ejercicio/ejercicio-service.service";
+import { TipoEjercicio } from "@modelsRest/TipoEjercicio";
+import { TipoEjercicioServiceService } from "@servicesRest/tipo_ejercicio/tipo-ejercicio-service.service";
 
 @Component({
   selector: "app-tabla-ejercicio-list",
@@ -19,7 +21,7 @@ export class TablaEjercicioListComponent implements OnInit {
   mostrarTablaEjercicioAdd: boolean = false;
   tablasEjercicio: TablaEjercicio[];
 
-  //parte update
+  //parte update tablaEjercicio
   tablaUpdate: any;
   monitores:Usuario[];
   suscriptores:Usuario[];
@@ -32,14 +34,22 @@ export class TablaEjercicioListComponent implements OnInit {
 
       //abrir añadir ejercicioSerieModal
       modalAniadir = false;
+      tiposEjercicio : TipoEjercicio[];
       ejerciciosSerie:EjercicioSerie[];
       nuevoEjercicioSerie:any;
       ejercicioId:number;
+      tipoEjerSelect="";
       ejerSelect="";
+      content : any;
+      tipoEjercicioId:number;
+
+      //parte update EjercicioSerie
+      ejercicioSerieUpdate:any;
 
   constructor(
     private _service: TablaEjercicioServiceService,
     private _serviceEjercicio: EjercicioServiceService,
+    private _serviceTipoEjercicio: TipoEjercicioServiceService,
     private _serviceEjerciciosSerie : EjercicioSerieServiceService,
     private _serviceUsuario:UsuarioServiceService,
     private _router: Router,
@@ -48,6 +58,7 @@ export class TablaEjercicioListComponent implements OnInit {
     this.tablaUpdate = {};
     this.tablaDetalle = {};
     this.nuevoEjercicioSerie={};
+    this.ejercicioSerieUpdate={};
   }
 
   ngOnInit(): void {
@@ -92,25 +103,36 @@ export class TablaEjercicioListComponent implements OnInit {
   }
 
   //abrir añadir ejercicios en modal
-  abrirAniadirModal(){
-    this. modalAniadir = true;
+  abrirAniadirModal(info){
+    this.modalAniadir = info;
   }
 
+
+  //cargar ejercicios para añadir desde modal
+  cargarEjercicios(id,param){
+    this._serviceEjercicio.getEjerciciosPorTipoEjercicioId(id).subscribe(data=>{
+      this.ejerciciosSerie = data;
+      this.ejerSelect="";
+      if(param == "si"){
+        this.ejercicioSerieUpdate.ejercicio.id="";
+      }
+      
+    })
+  }
+  //id para obtener el ejercicio seleccionado
   obtenerEjercicioParaCreacionPorModal(){
     return this._serviceEjercicio.getEjercicio(this.ejercicioId).toPromise()
     .then((data)=>{
       this.nuevoEjercicioSerie.ejercicio = data;
     })
   }
-
   //añadir ejercicio serie desde modal
   aniadirEjercicioSerie(detalle,tablaDetalle){
-
     this.obtenerEjercicioParaCreacionPorModal()
     .then(()=>{
       this.nuevoEjercicioSerie.tablaEjercicio = tablaDetalle;
-      console.log(this.nuevoEjercicioSerie);
       this._serviceEjerciciosSerie.createEjercicioSerie(this.nuevoEjercicioSerie).subscribe(data=>{
+        alert("ejercicio creado");
         this.modalService.dismissAll();
         this.modalAniadir = false;
         this.openDetalleTabla(detalle, tablaDetalle);
@@ -122,18 +144,53 @@ export class TablaEjercicioListComponent implements OnInit {
     });
   }
 
+  modalUpdateEjercicioSerie(updateES,ejercicioSerie){
+    this.ejercicioSerieUpdate = ejercicioSerie;
+    this.cargarEjercicios(this.ejercicioSerieUpdate.ejercicio.tipoEjercicio.id,"no");
+
+    this.modalService
+      .open(updateES, { ariaLabelledBy: "modal-basic-title", centered: true, size : "lg" })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+        }
+      );
+  }
+
+  deleteEjercicioSerie(ejercicioSerie){
+    this._serviceEjerciciosSerie.deleteEjercicioSerie(ejercicioSerie).subscribe(data=>{
+      alert("Ejercicio serie borrado");
+      this.modalService.dismissAll();
+      this.openDetalleTabla(this.content, this.tablaDetalle);
+    });
+  }
+
+
+  updateEjercicio(){
+    this._serviceEjerciciosSerie.updateEjercicioSerie(this.ejercicioSerieUpdate).subscribe((data) => {
+      alert("Ejercicio Serie Actualizado!");
+      this.modalService.dismissAll();
+      this.openDetalleTabla(this.content, this.tablaDetalle);
+    });
+  }
+
 
   //modal detalle tabla
   openDetalleTabla(detalle, tabla: TablaEjercicio) {
+    this.content = detalle;
     this.tablaDetalle = tabla;
     this._serviceEjercicio.getEjercicios().subscribe(data=>{
-      this.ejerciciosSerie = data;
+      this.tiposEjercicio = data;
     });
 
+    this._serviceTipoEjercicio.getTipoEjercicios().subscribe(data=>{
+      this.tiposEjercicio = data;
+    })
+
     this._serviceEjerciciosSerie.getEjerciciosPorTablaId(tabla.id).subscribe((data) => {
-      this.ejerciciosSerieTablaDetalle = data;
-      console.log(this.ejerciciosSerieTablaDetalle);
-      
+      this.ejerciciosSerieTablaDetalle = data; 
     });
     this.modalService
       .open(detalle, { ariaLabelledBy: "modal-basic-title", centered: true, size : "xl" })
@@ -155,7 +212,7 @@ export class TablaEjercicioListComponent implements OnInit {
       this.inicio = this.tablaUpdate.fechaInicio;
     });
     this.modalService
-      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true,size:"xl",scrollable:true })
+      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true,size:"xl"})
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;

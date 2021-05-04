@@ -83,33 +83,19 @@ export class UsuarioListComponent implements OnInit {
   }
 
   update(){
-    console.log(this.usuarioUpdate);
-
     this.obtenerProvincia()
     .then(()=>this.obtenerLocalidad())
     .then(()=>this.obtenerTaquilla())
     .then(()=>{
-      console.log(this.usuarioUpdate);
       this._service.updateUsuario(this.usuarioUpdate).subscribe(data=>{
         alert("Usuario Actualizado!");
         this.modalService.dismissAll();
+        window.location.reload();
       },(err)=>{
         alert("ERROR"+err);
       });
-      //window.location.reload();
     })
-/*
-    this.usuarioUpdate.direccion = this.direccionUpdateToUsuarioUpdate;
-    this.usuarioUpdate.direccion.localidad = this.localidadUpdateToDireccionUpdate;
-    this.usuarioUpdate.direccion.localidad.provincia = this.provinciaUpdateToLocalidadUpdate;
-    
-    this._service.updateUsuario(this.usuarioUpdate).subscribe(data=>{
-      alert("Usuario Actualizado!");
-      this.modalService.dismissAll();
-    },(err)=>{
-      alert("ERROR"+err);
-    });
-    window.location.reload();*/
+
   }
 
   //habilitar o deshabilitar parte creación de usuario
@@ -131,16 +117,6 @@ export class UsuarioListComponent implements OnInit {
     }); 
   }
 
-
-  /*obtenerDireccion(){
-    return this._serviceDireccion
-    .getDireccion(this.usuarioUpdate.direccion.id)
-    .toPromise()
-    .then((data) => {
-      this.direccionUpdateToUsuarioUpdate = data;
-    });
-  }
-*/
   obtenerTaquilla(){
     return this._serviceTaquilla.getTaquilla(1)
     .toPromise()
@@ -148,6 +124,7 @@ export class UsuarioListComponent implements OnInit {
       this.usuarioUpdate.taquilla = data;
     });
   }
+
   obtenerLocalidad(){
     console.log(this.localidadId+"localidad");
     console.log(this.usuarioUpdate.direccion.localidad.id+"localidad");
@@ -168,7 +145,6 @@ export class UsuarioListComponent implements OnInit {
     })
   }
 
-
   obtenerUsuarioUpdate(usuario:Usuario){
      return this._service.getUsuario(usuario.id).toPromise()
      .then((data) => {
@@ -182,6 +158,8 @@ export class UsuarioListComponent implements OnInit {
       this.localidades = data;
     }); 
   }
+
+
 
   // abre ventana modal
   open(content, usuario:Usuario) {
