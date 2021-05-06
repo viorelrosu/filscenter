@@ -1,15 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Direccion } from "@modelsRest/Direccion";
 import { Localidad } from "@modelsRest/Localidad";
 import { Provincia } from "@modelsRest/Provincia";
-import { Suscripcion } from "@modelsRest/Suscripcion";
-import { Taquilla } from "@modelsRest/Taquilla";
-import { DireccionServiceService } from "@servicesRest/direccion/direccion-service.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { LocalidadServiceService } from "@servicesRest/localidad/localidad-service.service";
 import { ProvinciaServiceService } from "@servicesRest/provincia/provincia-service.service";
 import { RolServiceService } from "@servicesRest/rol/rol-service.service";
-import { SuscripcionServiceService } from "@servicesRest/suscripcion/suscripcion-service.service";
-import { TaquillaServiceService } from "@servicesRest/taquilla/taquilla-service.service";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
 
 @Component({
@@ -18,24 +13,30 @@ import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.ser
   styleUrls: ["./usuario-add.component.css"],
 })
 export class UsuarioAddComponent implements OnInit {
+  //establecer beans a crear
   nuevoUsuario: any;
   direccion: any;
 
+  //cargar selects
   localidades: Localidad[];
   provincias: Provincia[];
 
   rolId: number = 1;
+
   localidadId: number;
   provinciaId: number = 0;
 
+  //establecer value selects
   localidadSelect = "";
   provinciaSelect = "";
+  rolSelect = "";
 
   constructor(
     private _service: UsuarioServiceService,
     private _serviceLocalidad: LocalidadServiceService,
     private _serviceProvincia: ProvinciaServiceService,
-    private _serviceRol: RolServiceService
+    private _serviceRol: RolServiceService,
+    private modalService: NgbModal
   ) {
     this.nuevoUsuario = {};
     this.direccion = {};
@@ -50,9 +51,11 @@ export class UsuarioAddComponent implements OnInit {
   // metodo para cargar los localidades de la provincia
   cargarLocalidades(provinciaId) {
     this.localidadSelect = "";
-    this._serviceLocalidad.getLocalidadesByProvinciaID(provinciaId).subscribe((data) => {
-      this.localidades = data;
-    }); 
+    this._serviceLocalidad
+      .getLocalidadesByProvinciaID(provinciaId)
+      .subscribe((data) => {
+        this.localidades = data;
+      });
   }
 
   // metodo para obtener y enlazar la localidad con la direccion que se va a crear
@@ -76,15 +79,22 @@ export class UsuarioAddComponent implements OnInit {
   }
 
   //metodo para crear al usuario
-  addUsuario() {
+  addUsuario(create) {
     this.obtenerLocalidad()
       .then(() => this.obtenerRol())
       .then(() => {
         this.nuevoUsuario.direccion = this.direccion;
         this._service.altaUser(this.nuevoUsuario).subscribe(
           (data) => {
-            alert("usuario registrado");
-            window.location.reload();
+            //alert("usuario registrado");
+            this.modalService.open(create, {
+              ariaLabelledBy: "modal-basic-title",
+              centered: true,
+              size: "md",
+            });
+            setTimeout(function () {
+              window.location.reload(), console.log("funciona");
+            }, 3000);
           },
           (err) => {
             alert(err);
@@ -92,4 +102,9 @@ export class UsuarioAddComponent implements OnInit {
         );
       });
   }
+
+  /* refresh(){
+    window.location.reload();
+  }
+*/
 }

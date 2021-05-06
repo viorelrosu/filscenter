@@ -41,7 +41,7 @@ export class TablaEjercicioListComponent implements OnInit {
       tipoEjerSelect="";
       ejerSelect="";
       content : any;
-      tipoEjercicioId:number;
+      tipoEjercicioId:any;
 
       //parte update EjercicioSerie
       ejercicioSerieUpdate:any;
@@ -102,7 +102,7 @@ export class TablaEjercicioListComponent implements OnInit {
     document.getElementById("minus").hidden = true;
   }
 
-  //abrir añadir ejercicios en modal
+  //desplegar añadir ejercicios en modal
   abrirAniadirModal(info){
     this.modalAniadir = info;
   }
@@ -179,6 +179,7 @@ export class TablaEjercicioListComponent implements OnInit {
 
   //modal detalle tabla
   openDetalleTabla(detalle, tabla: TablaEjercicio) {
+    this.tipoEjercicioId = "";
     this.content = detalle;
     this.tablaDetalle = tabla;
     this._serviceEjercicio.getEjercicios().subscribe(data=>{
@@ -202,8 +203,6 @@ export class TablaEjercicioListComponent implements OnInit {
         }
       );
   }
-
-
 
 //modal update tabla
   open(content, tabla: TablaEjercicio) {

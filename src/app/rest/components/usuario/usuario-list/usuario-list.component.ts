@@ -30,9 +30,6 @@ export class UsuarioListComponent implements OnInit {
 
   //PARTE UPDATE
   usuarioUpdate: any;
-  /*direccionUpdateToUsuarioUpdate:any;
-  localidadUpdateToDireccionUpdate:any;
-  provinciaUpdateToLocalidadUpdate:any;*/
   suscripciones: Suscripcion[];
   direcciones: Direccion[];
   provincias: Provincia[];
@@ -41,6 +38,9 @@ export class UsuarioListComponent implements OnInit {
   closeResult = "";
   ProvinciaId:number;
   localidadId:number;
+
+  //parte confirm delete
+    usuarioAux:any;
 
   constructor(
     private _service: UsuarioServiceService,
@@ -53,6 +53,7 @@ export class UsuarioListComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.usuarioUpdate={};
+    this.usuarioAux={};
   }
 
   ngOnInit(): void {
@@ -76,9 +77,10 @@ export class UsuarioListComponent implements OnInit {
 
   }
 
-  delete(usuario: Usuario) {
-    this._service.deleteUsuario(usuario).subscribe((data) => {
-      this.usuarios = this.usuarios.filter((p) => p != usuario);
+  delete() {
+    this._service.deleteUsuario(this.usuarioAux).subscribe((data) => {
+      window.location.reload();
+      //this.usuarios = this.usuarios.filter((p) => p != usuario);
     });
   }
 
@@ -177,22 +179,27 @@ export class UsuarioListComponent implements OnInit {
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true, size : "xl", scrollable:true})
       .result.then(
         (result) => {
-          this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
+  //abre modal confirm delete
+
+  openModalDelete(confirmDelete, usuario:Usuario){
+    this.usuarioAux = usuario;
+    this.modalService
+    .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
+    .result.then(
+      (result) => {
+      },
+      (reason) => {
+      }
+    );
   }
+
+
+
 
 }
