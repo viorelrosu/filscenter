@@ -1,5 +1,5 @@
 import { Actividad } from "./Actividad";
-import { Sala } from "./sala";
+import { Sala } from "./Sala";
 import { Usuario } from "./Usuario";
 
 export class Slot {
@@ -17,4 +17,5 @@ export class Slot {
     ){
 
     }
+
 }

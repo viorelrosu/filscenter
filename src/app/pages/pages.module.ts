@@ -12,6 +12,8 @@ import { LoginModule } from './login/login.module';
 import { SignupModule } from './signup/signup.module';
 import { RecoverModule } from './recover/recover.module';
 
+import { FormatoHoraPipe } from "../rest/pipes/formatoHora.pipe";
+
 @NgModule({
   declarations: [],
   imports: [

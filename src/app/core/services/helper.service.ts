@@ -11,6 +11,13 @@ export class HelperService {
     private _router: Router
   ) { }
 
+  checkIsLogin(){
+    if (!this._tokenStorageService.getToken()) {
+      return false;
+    }
+    return true;
+  }
+
   checkIsLoginAndRedirectToLogin(){
     if (!this._tokenStorageService.getToken()) {
       this._router.navigate(['/login']);

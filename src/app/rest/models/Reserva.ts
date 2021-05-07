@@ -3,9 +3,8 @@ import { Usuario } from "./Usuario";
 
 export class Reserva {
 
-    id:number;
+    public id:number;
 
-    
     constructor(
         id:number,
         recurrente:boolean,

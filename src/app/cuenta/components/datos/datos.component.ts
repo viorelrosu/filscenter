@@ -64,11 +64,11 @@ export class PageCuentaDatosComponent implements OnInit {
           type: 'success'
         });
       },(err)=>{
-        console.log(err);
+        //console.log(err);
         $.notify({
           // options
           icon: 'fas fa-close',
-          title: 'Ha habido un error!',
+          title: 'Lo sentimos, ha habido un error!',
           message: err.error.message,
         },{
           // settings

@@ -68,7 +68,7 @@
                     <div class="col-md-12">
                         <div class="monitor">
                             <img src="assets/fitness/images/trainers/3.png" alt="Alan Monroe" class="rounded-circle"/>
-                            <span>Alan Monre</span>
+                            <span class="nombre">Alan Monre</span>
                             <span>Monitor</span>
                         </div>
                     </div>
@@ -76,21 +76,33 @@
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Hora
-                                <span class="font-weight-bold">10:00 - 11:00</span>
+                                <span class="font-weight-bold dataHora">10:00 - 11:00</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Fecha
-                                <span class="font-weight-bold">31 de marzo de 2021</span>
+                                Día
+                                <span class="font-weight-bold dataDia">31 de marzo de 2021</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Aforo
-                                <span class="font-weight-bold">5</span>
+                                <span class="font-weight-bold dataAforo">5</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Sala
-                                <span class="font-weight-bold">Sala Principal</span>
+                                <span class="font-weight-bold dataSala">Sala Principal</span>
                             </li>
                         </ul>
+                    </div>
+                    <div class="col-md-12 my-4" *ngIf="isLoggedIn">
+                        <h4 class="text-center mb-3">Reserva tu plaza en la clase</h4>
+                        <div class="row">
+                            <div class="col-4 offset-4 text-right">
+                                <input type="hidden" name="slotID" [(ngModel)]="slotID" value="" id="slotID" />
+                                <input type="checkbox" name="recurrente" class="form-control" [(ngModel)]="isRecurrente" /> <label>¿Es recurrente?</label>
+                            </div>
+                            <div class="col-md-8 offset-md-2 text-center">
+                                <button type="button" class="btn btn-xs btn-success" (click)="doReserva()">Reservar clase</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,5 +111,5 @@
             </div>
         </div>
     </div>
-  </div>
-  <!-- end: Modal -->
+</div>
+<!-- end: Modal -->

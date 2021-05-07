@@ -8,10 +8,10 @@ import {Observable} from "rxjs";
 })
 export class ReservaServiceService {
 
-    
   constructor(private _http:HttpClient) { }
 
   url="http://localhost:8080/webservice/reserva";
+  
 
   getreservas():Observable<any>{
     return this._http.get(this.url);
@@ -19,6 +19,14 @@ export class ReservaServiceService {
 
   getReserva(reserva:number):Observable<any>{
     return this._http.get<Reserva>(this.url+"/"+reserva);
+  }
+
+  getReservaBySlotIdAndUsuarioId(slotID:number, userID:number):Observable<any>{
+    return this._http.get<Reserva>(this.url+"/slot/"+slotID+'/usuario/'+userID);
+  }
+
+  getReservasBySlotId(slotID:number):Observable<any>{
+    return this._http.get<Reserva>(this.url+"/slot/"+slotID);
   }
 
   deleteReserva(reserva:Reserva){

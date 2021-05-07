@@ -11,6 +11,8 @@ import { PlanesSuscripcionComponent } from './components/planes-suscripcion/plan
 import { ActividadComponent } from './components/actividad/actividad.component';
 import { ServicioComponent } from './components/servicio/servicio.component';
 
+//imports pipes
+import { FormatoHoraPipe } from "../rest/pipes/formatoHora.pipe";
 
 @NgModule({
   declarations: [
