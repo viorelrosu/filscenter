@@ -131,7 +131,7 @@ export class TablaComponent implements OnInit {
             var dateString = reserva.fechaInicio.substring(0,10);
             var today = new Date();
             var fechaInicio = new Date(dateString.substring(0,4), dateString.substring(5,7)-1, dateString.substring(8,10));
-            if(fechaInicio.getTime() > today.getTime()) {
+            if(fechaInicio.getTime() >= today.getTime()) {
               ++this.aforoActual;
             }
           }
@@ -177,7 +177,7 @@ export class TablaComponent implements OnInit {
   }
 
   doReserva(id:number){
-    this.reserva.reserva = this.isRecurrente ? 'true' : 'false';
+    this.reserva.recurrente = this.isRecurrente ? 'true' : 'false';
     this.reserva.fechaInicio = new Date().toISOString();
     
     return this._serviceSlot.getSlot(id).toPromise()
