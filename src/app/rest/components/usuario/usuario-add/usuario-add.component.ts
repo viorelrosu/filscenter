@@ -103,8 +103,8 @@ export class UsuarioAddComponent implements OnInit {
       });
   }
 
-  /* refresh(){
+   refresh(){
     window.location.reload();
   }
-*/
+
 }

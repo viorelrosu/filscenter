@@ -12,11 +12,13 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class TipoActividadListComponent implements OnInit {
 
   mostrarTipoActividadAdd: boolean = false;
-  private closeResult:string = '';
 
   tipoActividades: TipoActividad[];
-
+  //update
   tipoActividadUpdate:any;
+
+  //confirm delete
+  tipoActividadAux:any;
 
   constructor(
     private _service: TipoActividadServiceService,
@@ -48,13 +50,9 @@ export class TipoActividadListComponent implements OnInit {
   }
 
 
-  delete(tipoActividad: TipoActividad) {
-    this._service.deleteTipoActividad(tipoActividad).subscribe((data) => {
-      this.tipoActividades = this.tipoActividades.filter(
-        (p) => p != tipoActividad
-      );
+  delete() {
+    this._service.deleteTipoActividad(this.tipoActividadAux).subscribe((data) => {
       window.location.reload();
-      alert("Tipo de Actividad eliminado");
     });
   }
 
@@ -70,20 +68,21 @@ export class TipoActividadListComponent implements OnInit {
     this._service.getTipoActividad(tipoActividad.id).subscribe(data=>{
       this.tipoActividadUpdate = data;
     })
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title',centered:true}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title',centered:true,size:"md"}).result.then((result) => {
     }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+  openModalDelete(confirmDelete, tipoActividad:TipoActividad){
+    this.tipoActividadAux = tipoActividad;
+    this.modalService
+    .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
+    .result.then(
+      (result) => {
+      },
+      (reason) => {
+      }
+    );
   }
+
 }

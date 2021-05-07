@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { Actividad } from "@modelsRest/Actividad";
 import { Sala } from "@modelsRest/Sala";
 import { Usuario } from "@modelsRest/Usuario";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ActividadServiceService } from "@servicesRest/actividad/actividad-service.service";
 import { SalaServiceService } from "@servicesRest/sala/sala-service.service";
 import { SlotServiceService } from "@servicesRest/slot/slot-service.service";
@@ -23,6 +24,7 @@ export class SlotAddComponent implements OnInit {
   slotActividadSelect = "";
   slotSalaSelect = "";
   slotMonitorSelect = "";
+  slotDiaId="";
 
   monitores: Usuario[];
   salas: Sala[];
@@ -33,13 +35,15 @@ export class SlotAddComponent implements OnInit {
     private _serviceSala: SalaServiceService,
     private _serviceUsuario: UsuarioServiceService,
     private _serviceActividad: ActividadServiceService,
-    private _router: Router
+    private _router: Router,
+    private modalService: NgbModal
   ) {
     this.nuevoSlot = {};
   }
 
   ngOnInit(): void {
-    this._serviceUsuario.getUsuarios().subscribe((data) => {
+    //este número de rolId irá en función de el script definitivo de roles en la bbdd
+    this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
       this.monitores = data;
     });
 
@@ -79,15 +83,33 @@ export class SlotAddComponent implements OnInit {
       });
   }
 
-  addSlot() {
+  addSlot(create, errorModal) {
     this.obtenerActividad()
       .then(() => this.obtenerUsuario())
       .then(() => this.obtenerSala())
       .then(() => {
-        this._service.createSlot(this.nuevoSlot).subscribe((data) => {
-          alert("Slot Agregado!");
-          window.location.reload();
-        });
+        this._service.createSlot(this.nuevoSlot).subscribe(
+          (data) => {
+            this.modalService.open(create, {
+              ariaLabelledBy: "modal-basic-title",
+              centered: true,
+              size: "md",
+            });
+            setTimeout(function () {
+              window.location.reload();
+            }, 3000);
+          },
+          (err) => {
+            this.modalService.open(errorModal, {
+              ariaLabelledBy: "modal-basic-title",
+              centered: true,
+              size: "md",
+            });
+          }
+        );
       });
+  }
+  refresh() {
+    window.location.reload();
   }
 }

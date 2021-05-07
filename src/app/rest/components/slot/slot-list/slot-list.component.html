@@ -21,7 +21,7 @@
   <app-slot-add></app-slot-add>
 </div>
 
-<h3 class="text-center">Slots</h3>
+<h3 class="text-left">Slots</h3>
 
 <div class="card-text">
   <div class="card-text">
@@ -134,11 +134,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let slot of slots" class="text-center">
-          <td>{{ slot.actividad.nombre }}</td>
-          <td>{{ slot.actividad.tipoActividad.nombre }}</td>
-          <td>{{slot.monitor.nombre}}</td>
+          <td class="text-left">{{ slot.actividad.nombre }}</td>
+          <td class="text-left">{{ slot.actividad.tipoActividad.nombre }}</td>
+          <td class="text-left">{{slot.monitor.nombre}}</td>
           <td>{{ slot.sala.numero == null ? "-" : slot.sala.numero }}</td>
-          <td>{{ slot.diaSemana }}</td>
+          <td class="text-left">{{ slot.diaSemana }}</td>
           <td>{{ slot.horaInicio | formatoHora }}</td>
           <td>{{ slot.aforoActual }}</td>
           <td>
@@ -150,11 +150,8 @@
               class="ml-2"
               data-toggle="tooltip"
               data-original-title="Delete"
-              (click)="delete(sala)"
+              (click)="openModalDelete(confirmDelete,this.slot)"
               ><i class="icon-trash-2"></i
-            ></a>
-            <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
-              ><i class="icon-settings"></i
             ></a>
           </td>
         </tr>
@@ -174,6 +171,28 @@
     </table>
   </div>
 </div>
+
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar el slot <span class="text-danger">{{slotAux.actividad.nombre}}-{{slotAux.actividad.tipoActividad.nombre}} ({{slotAux.horaInicio | formatoHora}})?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete()" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
 
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -321,7 +340,7 @@
               class="invalid-feedback"
             >
               <div *ngIf="slotMonitor.errors.required || slotMonitor.invalid">
-                * Usuario no válida
+                * Monitor no válida
               </div>
             </div>
           </div>

@@ -19,7 +19,7 @@
 <div *ngIf="mostrarReservaAdd == true">
   <app-reserva-add></app-reserva-add>
 </div>
-<h3 class="text-center">Reserva</h3>
+<h3 class="text-left">Reserva</h3>
 
 <div class="card-text">
   <table
@@ -99,10 +99,10 @@
     </thead>
     <tbody>
       <tr *ngFor="let reserva of reservas" class="text-center">
-        <td>{{ reserva.recurrente == true ? "Sí" : "No" }}</td>
-        <td>{{ reserva.slot.diaSemana }}</td>
+        <td class="text-left" >{{ reserva.recurrente == true ? "Sí" : "No" }}</td>
+        <td class="text-left">{{ reserva.slot.diaSemana }}</td>
         <td>{{ reserva.slot.horaInicio | formatoHora }}</td>
-        <td>{{ reserva.usuario.nombre }}</td>
+        <td class="text-left">{{ reserva.usuario.nombre }}</td>
         <td>
           <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
           (click)="open(content,reserva)"
@@ -112,12 +112,10 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="delete(reserva)"
+            (click)="openModalDelete(confirmDelete,this.reserva)"
             ><i class="icon-trash-2"></i
           ></a>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
-            ><i class="icon-settings"></i
-          ></a>
+
         </td>
       </tr>
     </tbody>
@@ -132,6 +130,30 @@
     </tfoot>
   </table>
 </div>
+
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar la reserva <span class="text-danger">{{reservaAux.slot.diaSemana}} ({{reservaAux.slot.horaInicio|formatoHora}})?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete()" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
+
+
 
 <ng-template #content let-modal>
   <div class="modal-header">

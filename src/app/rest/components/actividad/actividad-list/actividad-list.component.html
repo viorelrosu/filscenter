@@ -20,20 +20,20 @@
 <div *ngIf="mostrarActividadAdd == true">
   <app-actividad-add></app-actividad-add>
 </div>
-<h3 class="card-title text-center">Actividad</h3>
-<div class="card-text">
+<h3 class="card-title text-left">Actividad</h3>
+<div class="card-text text-center ">
   <table
     id="datatable"
-    class="table table-bordered table-hover dataTable text-center"
+    class="table table-bordered table-hover dataTable "
     style="width: 100%"
     role="grid"
     aria-describedby="datatable_info"
   >
-    <thead>
+    <thead class="align-middle">
       <tr role="row">
         <th
           id=""
-          class="sorting_asc"
+          class="sorting_asc align-middle"
           tabindex="0"
           aria-controls="datatable"
           rowspan="1"
@@ -46,7 +46,7 @@
         </th>
         <th
           id=""
-          class="sorting_asc"
+          class="sorting_asc align-middle"
           tabindex="0"
           aria-controls="datatable"
           rowspan="1"
@@ -59,7 +59,7 @@
         </th>
         <th
           id=""
-          class="noExport sorting"
+          class="noExport sorting align-middle"
           tabindex="0"
           aria-controls="datatable"
           rowspan="1"
@@ -71,7 +71,7 @@
         </th>
         <th
           id=""
-          class="noExport sorting"
+          class="noExport sorting align-middle"
           tabindex="0"
           aria-controls="datatable"
           rowspan="1"
@@ -83,7 +83,7 @@
         </th>
         <th
           id=""
-          class="noExport sorting"
+          class="noExport sorting align-middle"
           tabindex="0"
           aria-controls="datatable"
           rowspan="1"
@@ -96,12 +96,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let actividad of actividades" class="text-center">
-        <td>{{ actividad.nombre }}</td>
-        <td>{{ actividad.dificultad }}</td>
-        <td>{{ actividad.tipoActividad.nombre }}</td>
-        <td>{{ actividad.descripcion }}</td>
-        <td>
+      <tr *ngFor="let actividad of actividades">
+        <td class="text-left align-middle">{{ actividad.nombre }}</td>
+        <td class="text-center align-middle">{{ actividad.dificultad }}</td>
+        <td class="text-left align-middle">{{ actividad.tipoActividad.nombre }}</td>
+        <td class="text-left align-middle">{{ actividad.descripcion }}</td>
+        <td class="text-center align-middle">
           <a
             class="ml-2"
             data-toggle="tooltip"
@@ -113,26 +113,45 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="delete(actividad)"
+            (click)="openModalDelete(confirmDelete,this.actividad)"
             ><i class="icon-trash-2"></i
-          ></a>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
-            ><i class="icon-settings"></i
           ></a>
         </td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
-        <th id="" rowspan="1" colspan="1">Nombre</th>
-        <th id="" rowspan="1" colspan="1">Dificultad</th>
-        <th id="" rowspan="1" colspan="1">Tipo De Actividad</th>
-        <th id="" rowspan="1" colspan="1">Descripción</th>
-        <th id="" rowspan="1" colspan="1">Acciones</th>
+        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Nombre</th>
+        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Dificultad</th>
+        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Tipo De Actividad</th>
+        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Descripción</th>
+        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Acciones</th>
       </tr>
     </tfoot>
   </table>
 </div>
+
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar la actividad <span class="text-danger">{{actividadAux.nombre}} ({{actividadAux.id}})?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete(actividad)" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
 
 <hr />
 
@@ -140,7 +159,7 @@
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Update Actividad</h4>
   </div>
-  <div class="modal-body" *ngIf="actividadUpdate.id != null">
+  <div class="modal-body text-left" *ngIf="actividadUpdate.id != null">
     <div class="card-body">
       <form
         class="form-validate"
@@ -150,16 +169,17 @@
       >
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="username">(*) Nombre</label>
+            <label for="nombre">(*) Nombre</label>
             <input
               type="text"
+              id="nombre"
               class="form-control"
               name="nombre"
               #actividadNombre="ngModel"
               [(ngModel)]="actividadUpdate.nombre"
               placeholder="Nombre Tipo Actividad"
               required=""
-              pattern="[a-zA-Z ]{2,50}"
+              pattern="^([a-zA-ZáéíóúÁÉÍÓÚÜ]){1}[a-zA-Z áéíóúÁÉÍÓÚÜ]{2,50}"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && actividadNombre.invalid) ||
@@ -230,8 +250,8 @@
               rows="4"
               #actividadDescripcion="ngModel"
               [(ngModel)]="actividadUpdate.descripcion"
-              placeholder="255 caracteres Máx."
-              pattern="([a-zA-Z áéíóúüÁÉÍÓÚÜ]){0,255}"
+              placeholder="Descripción."
+              pattern="([a-zA-Z áéíóúüÁÉÍÓÚÜ0-9.,]){0,}"
             ></textarea>
 
             <span

@@ -11,7 +11,7 @@ export class UsuarioServiceService {
 
   url = "http://localhost:8080/webservice/usuario";
   urlAlta = "http://localhost:8080/webservice/altaUsuario";
-  
+
   getUsuarios(): Observable<any> {
     return this._http.get(this.url);
   }
@@ -20,6 +20,9 @@ export class UsuarioServiceService {
     return this._http.get<Usuario>(this.url + "/" + usuario);
   }
 
+  getUsuariosByRol(rolId: number): Observable<any> {
+    return this._http.get<Usuario>(this.url + "/rol/" + rolId);
+  }
   getUsuarioByEmail(email: string): Observable<any> {
     return this._http.get<Usuario>(this.url + "/email/" + email);
   }
@@ -32,7 +35,7 @@ export class UsuarioServiceService {
     return this._http.post<Usuario>(this.url, usuario);
   }
 
-  altaUser(usuario:Usuario) : Observable<any>{
+  altaUser(usuario: Usuario): Observable<any> {
     return this._http.post<Usuario>(this.urlAlta, usuario);
   }
 

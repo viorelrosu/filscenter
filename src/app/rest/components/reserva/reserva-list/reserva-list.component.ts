@@ -23,6 +23,9 @@ export class ReservaListComponent implements OnInit {
   slots: Slot[];
   closeResult = "";
 
+  //confirm delete
+  reservaAux:any;
+
   constructor(
     private _service: ReservaServiceService,
     private _serviceSlot: SlotServiceService,
@@ -43,15 +46,14 @@ export class ReservaListComponent implements OnInit {
       this.slots = data;
     });
 
-    this._serviceUsuario.getUsuarios().subscribe((data) => {
+    this._serviceUsuario.getUsuariosByRol(1).subscribe((data) => {
       this.usuarios = data;
     });
   }
 
-  delete(reserva: Reserva) {
-    this._service.deleteReserva(reserva).subscribe((data) => {
-      this.reservas = this.reservas.filter((p) => p != reserva);
-      alert("Reserva eliminada");
+  delete() {
+    this._service.deleteReserva(this.reservaAux).subscribe((data) => {
+   window.location.reload();
     });
   }
 
@@ -82,21 +84,22 @@ export class ReservaListComponent implements OnInit {
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
         (result) => {
-          this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
+  openModalDelete(confirmDelete, reserva:Reserva){
+    this.reservaAux = reserva;
+    this.modalService
+    .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
+    .result.then(
+      (result) => {
+      },
+      (reason) => {
+      }
+    );
   }
+
 }

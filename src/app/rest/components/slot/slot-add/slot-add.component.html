@@ -3,29 +3,36 @@
   <form
     class="form-validate"
     name="form"
-    (ngSubmit)="f.form.valid && addSlot()"
+    (ngSubmit)="f.form.valid && addSlot(create,errorModal)"
     #f="ngForm"
   >
     <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="dia">(*) Dia Semana</label>
-        <input
-        type="text"
+      <div class="form-group col-md-4">
+        <label for="dia">(*) Día Semana</label>
+        <select
           class="form-control"
           name="dia"
           id="dia"
           #slotDia="ngModel"
           [(ngModel)]="nuevoSlot.diaSemana"
           required
-          placeholder="Ej: Lunes, Martes, ..."
-          pattern="^([a-zA-Z]){1}([a-zA-ZáéíóúÁÉÍÓÚ]){1,}"
           [ngClass]="{
             'is-invalid':
               (f.submitted && slotDia.invalid) ||
               (slotDia.touched && !slotDia.valid)
           }"
-
-        />
+          [(ngModel)]="slotDiaId"
+        >
+          <option value="" selected >- Elige una opción - </option>
+          <option value="Lunes" selected >Lunes </option>
+          <option value="Martes" selected >Martes </option>
+          <option value="Miercoles" selected >Miercoles </option>
+          <option value="Jueves" selected >Jueves </option>
+          <option value="Viernes" selected >Viernes </option>
+          <option value="Sabado" selected >Sábado </option>
+          <option value="Domingo" selected >Domingo </option>
+    
+        </select>
         <div
           *ngIf="
             (f.submitted && slotDia.invalid) ||
@@ -38,7 +45,7 @@
               slotDia.errors.required || slotDia.invalid
             "
           >
-            * opción no válida
+            * Día no válido
           </div>
         </div>
       </div>
@@ -151,7 +158,7 @@
               slotMonitor.errors.required || slotMonitor.invalid
             "
           >
-            * Usuario no válida
+            * Monitor no válido
           </div>
         </div>
       </div>
@@ -200,3 +207,45 @@
     <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
   </form>
 </div>
+
+<ng-template #create let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¡Sala <span class="text-danger">{{nuevoSlot.actividad.nombre}}-{{nuevoSlot.actividad.tipoActividad.nombre}} ({{nuevoSlot.horaInicio | formatoHora}})</span> registrada!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            aria-label="Close"
+            (click)="modal.dismiss();refresh()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>
+
+<ng-template #errorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¡Hubo un error!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>

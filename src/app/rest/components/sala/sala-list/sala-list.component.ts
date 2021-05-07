@@ -17,6 +17,8 @@ export class SalaListComponent implements OnInit {
   //update
   salaUpdate: any;
   closeResult = "";
+  //confirm delete
+  salaAux:any;
 
   constructor(
     private _service: SalaServiceService,
@@ -31,9 +33,8 @@ export class SalaListComponent implements OnInit {
     });
   }
 
-  delete(sala: Sala) {
-    this._service.deleteSalas(sala).subscribe((data) => {
-      this.salas = this.salas.filter((p) => p != sala);
+  delete() {
+    this._service.deleteSalas(this.salaAux).subscribe((data) => {
       window.location.reload();
     });
   }
@@ -65,21 +66,21 @@ export class SalaListComponent implements OnInit {
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
         (result) => {
-          this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
+  openModalDelete(confirmDelete, sala:Sala){
+    this.salaAux = sala;
+    this.modalService
+    .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
+    .result.then(
+      (result) => {
+      },
+      (reason) => {
+      }
+    );
   }
 }

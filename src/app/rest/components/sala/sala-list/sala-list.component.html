@@ -21,7 +21,7 @@
   <app-sala-add></app-sala-add>
 </div>
 
-<h3 class="card-title text-center">Salas</h3>
+<h3 class="card-title text-left">Salas</h3>
 <div class="card-text">
   <table
     id="datatable"
@@ -85,11 +85,8 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="delete(sala)"
+            (click)="openModalDelete(confirmDelete,this.sala)"
             ><i class="icon-trash-2"></i
-          ></a>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
-            ><i class="icon-settings"></i
           ></a>
         </td>
       </tr>
@@ -103,6 +100,29 @@
     </tfoot>
   </table>
 </div>
+
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar la sala <span class="text-danger">{{salaAux.numero}} ({{salaAux.id}})?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete()" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
+
 
 <ng-template #content let-modal>
   <div class="modal-header">

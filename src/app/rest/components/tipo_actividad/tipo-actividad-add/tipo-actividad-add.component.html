@@ -1,6 +1,6 @@
 <h3>Nuevo Tipo de Actividad</h3>
 <div class="card-body">
-  <form class="form-validate" name="form" (ngSubmit)="f.form.valid && addTipoActividad(f.value)" #f="ngForm">
+  <form class="form-validate" name="form" (ngSubmit)="f.form.valid && addTipoActividad(create,errorModal)" #f="ngForm">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="username">Nombre</label>
@@ -9,7 +9,7 @@
           class="form-control"
           name="nombre"
           #tipoActividadAdd="ngModel"
-          [(ngModel)]="tipoActividadAdd.nombre"
+          [(ngModel)]="nuevoTipoActividad.nombre"
           placeholder="Nombre Tipo Actividad"
           required=""
           pattern="[a-zA-Z ]{2,50}"[ngClass]="{
@@ -42,3 +42,44 @@
   </form>
 </div>
 
+<ng-template #create let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¡Tipo de actividad <span class="text-danger">{{nuevoTipoActividad.nombre}}</span> registrada!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            aria-label="Close"
+            (click)="modal.dismiss();refresh()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>
+
+<ng-template #errorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¡Hubo un error!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>

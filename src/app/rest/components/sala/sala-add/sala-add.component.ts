@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Sala } from "@modelsRest/Sala";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { SalaServiceService } from "@servicesRest/sala/sala-service.service";
 
 @Component({
@@ -11,7 +12,11 @@ import { SalaServiceService } from "@servicesRest/sala/sala-service.service";
 export class SalaAddComponent implements OnInit {
   nuevaSala: any;
 
-  constructor(private _service: SalaServiceService, private _router: Router) {
+  constructor(
+    private _service: SalaServiceService,
+    private _router: Router,
+    private modalService: NgbModal
+  ) {
     this.nuevaSala = {
       aforoMax: "",
       numero: "",
@@ -20,10 +25,29 @@ export class SalaAddComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  addSala() {
-    this._service.createSala(this.nuevaSala).subscribe((data) => {
-      alert("agregado con éxito");
-      window.location.reload();
-    });
+  addSala(create, errorModal) {
+    this._service.createSala(this.nuevaSala).subscribe(
+      (data) => {
+        this.modalService.open(create, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
+      },
+      (err) => {
+        this.modalService.open(errorModal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
+  }
+
+  refresh() {
+    window.location.reload();
   }
 }

@@ -27,6 +27,9 @@ export class SlotListComponent implements OnInit {
   salas: Sala[];
   closeResult = "";
 
+  //confirm delete
+  slotAux:any;
+
   constructor(
     private _service: SlotServiceService,
     private _serviceActividad: ActividadServiceService,
@@ -47,8 +50,8 @@ export class SlotListComponent implements OnInit {
     this._serviceActividad.getActividades().subscribe((data) => {
       this.actividades = data;
     });
-
-    this._serviceMonitor.getUsuarios().subscribe((data) => {
+  //este número de rolId irá en función de el script definitivo de roles en la bbdd
+    this._serviceMonitor.getUsuariosByRol(3).subscribe((data) => {
       this.monitores = data;
     });
 
@@ -57,10 +60,9 @@ export class SlotListComponent implements OnInit {
     });
   }
 
-  delete(slot: Slot) {
-    this._service.deleteSlot(slot).subscribe((data) => {
-      this.slots = this.slots.filter((p) => p != slot);
-      alert("Slot Eliminado");
+  delete() {
+    this._service.deleteSlot(this.slotAux).subscribe((data) => {
+      window.location.reload();
     });
   }
 
@@ -92,21 +94,21 @@ export class SlotListComponent implements OnInit {
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
         (result) => {
-          this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
   }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
+  openModalDelete(confirmDelete, slot){
+    this.slotAux = slot;
+    this.modalService
+    .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
+    .result.then(
+      (result) => {
+      },
+      (reason) => {
+      }
+    );
   }
+
 }

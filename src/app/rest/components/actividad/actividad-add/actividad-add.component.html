@@ -1,9 +1,9 @@
 <h3>Nueva Actividad</h3>
-<div class="card-body">
+<div class="card-body text-left">
   <form
     class="form-validate"
     name="form"
-    (ngSubmit)="f.form.valid && addActividad()"
+    (ngSubmit)="f.form.valid && addActividad(create,errorModal)"
     #f="ngForm"
   >
     <div class="form-row">
@@ -70,7 +70,7 @@
               actividadDificultad.errors.required || actividadDificultad.invalid
             "
           >
-            * Actividad no válida
+            * Dificultad no válida
           </div>
         </div>
       </div>
@@ -85,8 +85,8 @@
           rows="4"
           #actividadDescripcion="ngModel"
           [(ngModel)]="nuevaActividad.descripcion"
-          placeholder="255 caracteres Máx."
-          pattern="([a-zA-Z áéíóúüÁÉÍÓÚÜ]){0,255}"
+          placeholder="Descripción"
+          pattern="([a-zA-Z áéíóúüÁÉÍÓÚÜ0-9.,]){0,}"
         ></textarea>
 
         <span
@@ -143,3 +143,45 @@
     <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
   </form>
 </div>
+
+<ng-template #create let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¡Actividad <span class="text-danger">{{nuevaActividad.nombre}}</span> registrada!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            aria-label="Close"
+            (click)="modal.dismiss();refresh()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>
+
+<ng-template #errorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¡Hubo un error!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>

@@ -80,7 +80,7 @@ export class UsuarioListComponent implements OnInit {
   delete() {
     this._service.deleteUsuario(this.usuarioAux).subscribe((data) => {
       window.location.reload();
-      //this.usuarios = this.usuarios.filter((p) => p != usuario);
+ 
     });
   }
 
@@ -186,7 +186,6 @@ export class UsuarioListComponent implements OnInit {
   }
 
   //abre modal confirm delete
-
   openModalDelete(confirmDelete, usuario:Usuario){
     this.usuarioAux = usuario;
     this.modalService
@@ -198,8 +197,4 @@ export class UsuarioListComponent implements OnInit {
       }
     );
   }
-
-
-
-
 }

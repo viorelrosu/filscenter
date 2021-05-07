@@ -18,6 +18,9 @@ export class ActividadListComponent implements OnInit {
   actividades: Actividad[];
   tiposActividades: TipoActividad[];
 
+    //parte confirm delete
+    actividadAux:any;
+
   constructor(
     private _service: ActividadServiceService,
     private _serviceTipoActividad:TipoActividadServiceService,
@@ -41,10 +44,8 @@ export class ActividadListComponent implements OnInit {
     });
   }
 
-  delete(actividad: Actividad) {
-    this._service.deleteActividad(actividad).subscribe((data) => {
-      this.actividades = this.actividades.filter((p) => p != actividad);
-      alert("Actividad eliminado");
+  delete() {
+    this._service.deleteActividad(this.actividadAux).subscribe((data) => {
       window.location.reload();
     });
   }
@@ -69,29 +70,33 @@ export class ActividadListComponent implements OnInit {
     document.getElementById("minusActividad").hidden = true;
   }
 
+    //abre modal confirm delete
+    openModalDelete(confirmDelete, actividad){
+      this.actividadAux = actividad;
+      this.modalService
+      .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
+      .result.then(
+        (result) => {
+        },
+        (reason) => {
+        }
+      );
+    }
+
+  //modal ventada update
   open(content, actividad: Actividad) {
     this._service.getActividad(actividad.id).subscribe((data) => {
       this.actividadUpdate = data;
     });
     this.modalService
-      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
+      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true,size:"lg" })
       .result.then(
         (result) => {
-          this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
-  }
+
 }
