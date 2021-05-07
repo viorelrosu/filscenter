@@ -5,6 +5,10 @@ import { Usuario } from "./Usuario";
 export class Slot {
 
     id:number;
+    horaInicio:number;
+    diaSemana:string;
+    monitor:Usuario;
+    actividad:Actividad;
 
     constructor(
         id: number,
