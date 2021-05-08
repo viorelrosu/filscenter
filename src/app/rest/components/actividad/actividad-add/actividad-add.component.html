@@ -7,7 +7,7 @@
     #f="ngForm"
   >
     <div class="form-row">
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
         <label for="username">(*) Nombre</label>
         <input
           type="text"
@@ -39,7 +39,7 @@
         </div>
       </div>
 
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
         <label for="username">(*) Dificultad</label>
         <input
           type="number"
@@ -71,6 +71,52 @@
             "
           >
             * Dificultad no válida
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="color">(*) Color Tipo</label>
+        <select
+          class="form-control"
+          name="color"
+          id="color"
+          #colorTipoActividad="ngModel"
+          [(ngModel)]="nuevaActividad.color"
+          required
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && colorTipoActividad.invalid) ||
+              (colorTipoActividad.touched && !colorTipoActividad.valid)
+          }"
+          [(ngModel)]="colorTipoActiSelect"
+        >
+          <option value="" selected>-- Elige una opción --</option>
+          <option value="red">Rojo</option>
+          <option value="blue">Azul</option>
+          <option value="green">Verde</option>
+          <option value="orange">Naranja</option>
+          <option value="black">Negro</option>
+          <option value="gray">Gris</option>
+          <option value="brown">Marrón</option>
+          <option value="yellow">Amarillo</option>
+          <option value="purple">Morado</option>
+        </select>
+
+        <div
+          *ngIf="
+            (f.submitted && colorTipoActividad.invalid) ||
+            (colorTipoActividad.touched && !colorTipoActividad.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="
+              colorTipoActividad.errors.required ||
+              colorTipoActividad.invalid
+            "
+          >
+            * Seleccione un color tipo de actividad
           </div>
         </div>
       </div>

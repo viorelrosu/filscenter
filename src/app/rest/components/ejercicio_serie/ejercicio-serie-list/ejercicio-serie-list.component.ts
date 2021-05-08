@@ -14,15 +14,21 @@ import { TablaEjercicioServiceService } from "@servicesRest/tabla_ejercicio/tabl
   styleUrls: ["./ejercicio-serie-list.component.css"],
 })
 export class EjercicioSerieListComponent implements OnInit {
+  //mostrar add
   mostrarEjercicioSerieAdd: boolean = false;
 
+  //list
   ejercicioSeries: EjercicioSerie[];
 
+  //update
   ejercicioSerieUpdate: any;
   tablasEjercicio: TablaEjercicio[];
   ejercicios: Ejercicio[];
-  tablaId:number;
-  ejercicioid:number;
+  tablaId: number;
+  ejercicioid: number;
+
+  //confirm delete
+  ejercicioSerieAux: any;
 
   private closeResult: string = "";
   constructor(
@@ -50,18 +56,20 @@ export class EjercicioSerieListComponent implements OnInit {
     });
   }
 
-  delete(ejercicioSerie: EjercicioSerie) {
-    this._service.deleteEjercicioSerie(ejercicioSerie).subscribe((data) => {
-      this.ejercicioSeries = this.ejercicioSeries.filter(
-        (p) => p != ejercicioSerie
-      );
-    });
+  delete() {
+    this._service
+      .deleteEjercicioSerie(this.ejercicioSerieAux)
+      .subscribe((data) => {
+        window.location.reload();
+      });
   }
   update() {
-    this._service.updateEjercicioSerie(this.ejercicioSerieUpdate).subscribe((data) => {
-      alert("Ejercicio Serie Actualizado!");
-      this.modalService.dismissAll();
-    });
+    this._service
+      .updateEjercicioSerie(this.ejercicioSerieUpdate)
+      .subscribe((data) => {
+        alert("Ejercicio Serie Actualizado!");
+        this.modalService.dismissAll();
+      });
     window.location.reload();
   }
 
@@ -84,22 +92,23 @@ export class EjercicioSerieListComponent implements OnInit {
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
+        (result) => {},
+        (reason) => {}
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
+  //modal coinfirm delete
+  openModalDelete(confirmDelete, ejercicioSerie: EjercicioSerie) {
+    this.ejercicioSerieAux = ejercicioSerie;
+    this.modalService
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
+      .result.then(
+        (result) => {},
+        (reason) => {}
+      );
   }
 }

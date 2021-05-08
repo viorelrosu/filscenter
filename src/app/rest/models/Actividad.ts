@@ -5,6 +5,7 @@ export class Actividad {
   descripcion: string;
   dificultad: number;
   nombre: string;
+  color: string;
   tipoActividad: TipoActividad;
 
   constructor() {

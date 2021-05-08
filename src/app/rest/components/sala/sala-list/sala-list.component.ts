@@ -72,6 +72,7 @@ export class SalaListComponent implements OnInit {
       );
   }
 
+  //modal coinfirm delete
   openModalDelete(confirmDelete, sala:Sala){
     this.salaAux = sala;
     this.modalService

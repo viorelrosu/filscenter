@@ -22,7 +22,7 @@
   <app-ejercicio-add></app-ejercicio-add>
 </div>
 
-<h3 class="card-title text-center">Ejercicio</h3>
+<h3 class="card-title">Ejercicio</h3>
 <div class="card-text">
   <table
     id="datatable"
@@ -75,8 +75,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let ejercicio of ejercicios" class="text-center">
-        <td>{{ ejercicio.nombre }}</td>
-        <td>{{ ejercicio.tipoEjercicio.nombre }}</td>
+        <td class="text-left">{{ ejercicio.nombre }}</td>
+        <td class="text-left">{{ ejercicio.tipoEjercicio.nombre }}</td>
         <td>
           <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
           (click)="open(content,ejercicio)"
@@ -86,11 +86,8 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="delete(ejercicio)"
+            (click)="openModalDelete(confirmDelete,this.ejercicio)"
             ><i class="icon-trash-2"></i
-          ></a>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
-            ><i class="icon-settings"></i
           ></a>
         </td>
       </tr>
@@ -104,6 +101,28 @@
     </tfoot>
   </table>
 </div>
+
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar el ejercicio <span class="text-danger">{{ejercicioAux.nombre}} ({{ejercicioAux.id}})?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete()" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
 
 <ng-template #content let-modal>
   <div class="modal-header">

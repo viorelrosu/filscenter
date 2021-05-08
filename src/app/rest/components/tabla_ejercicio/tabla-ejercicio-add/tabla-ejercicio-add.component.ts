@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Usuario } from "@modelsRest/Usuario";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TablaEjercicioServiceService } from "@servicesRest/tabla_ejercicio/tabla-ejercicio-service.service";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
 
@@ -22,16 +23,18 @@ export class TablaEjercicioAddComponent implements OnInit {
   constructor(
     private _serviceUsuario: UsuarioServiceService,
     private _service: TablaEjercicioServiceService,
-    private _router: Router
+    private _router: Router,
+    private modalService: NgbModal
   ) {
     this.nuevaTablaEjercicio = {};
   }
 
   ngOnInit(): void {
-    this._serviceUsuario.getUsuarios().subscribe((data) => {
-      // esto se podria resumir en uno
-      this.monitores = data;
-      this.suscriptores = data;
+    this._serviceUsuario.getUsuariosByRol(1).subscribe(data=>{
+      this.suscriptores=data;
+    });
+    this._serviceUsuario.getUsuariosByRol(3).subscribe(data=>{
+      this.monitores=data;
     });
   }
 
@@ -53,14 +56,32 @@ export class TablaEjercicioAddComponent implements OnInit {
       });
   }
 
-  addTablaEjercicio() {
+  addTablaEjercicio(create,errorModal) {
     this.obtenerSuscriptor()
     .then(()=>this.obtenerMonitor())
     .then(()=>{
       this._service.createTablaEjercicio(this.nuevaTablaEjercicio).subscribe(data=>{
-        alert("Tabla creada");
-        window.location.reload();
-      })
-    })
+        this.modalService.open(create, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
+      },
+      (err) => {
+        this.modalService.open(errorModal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
+    });
+  }
+
+  refresh() {
+    window.location.reload();
   }
 }

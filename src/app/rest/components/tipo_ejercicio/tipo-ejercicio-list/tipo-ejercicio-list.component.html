@@ -21,11 +21,11 @@
   <app-tipo-ejercicio-add></app-tipo-ejercicio-add>
 </div>
 
-<h3 class="card-title text-center">Tipos De Ejercicio</h3>
+<h3 class="card-title">Tipos De Ejercicio</h3>
 <div class="card-text">
   <table
     id="datatable"
-    class="table table-bordered table-hover dataTable text-center"
+    class="table table-bordered table-hover dataTable text-center "
     style="width: 100%"
     role="grid"
     aria-describedby="datatable_info"
@@ -62,7 +62,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let tipoEjercicio of tiposEjercicio" class="text-center">
-        <td>{{ tipoEjercicio.nombre }}</td>
+        <td class="text-left">{{ tipoEjercicio.nombre }}</td>
         <td>
           <a
             class="ml-2"
@@ -75,11 +75,8 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="delete(tipoEjercicio)"
+            (click)="openModalDelete(confirmDelete,this.tipoEjercicio)"
             ><i class="icon-trash-2"></i
-          ></a>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
-            ><i class="icon-settings"></i
           ></a>
         </td>
       </tr>
@@ -92,6 +89,28 @@
     </tfoot>
   </table>
 </div>
+
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar el tipo de ejercicio <span class="text-danger">{{tipoEjercicioAux.nombre}} ({{tipoEjercicioAux.id}})?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete()" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
 
 <ng-template #content let-modal>
   <div class="modal-header">

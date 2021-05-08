@@ -20,7 +20,7 @@
   <app-ejercicio-serie-add></app-ejercicio-serie-add>
 </div>
 
-<h3 class="text-center">Ejercicios Series</h3>
+<h3 class="">Ejercicios Series</h3>
 
 <div class="card-text">
   <div class="card-text">
@@ -115,7 +115,7 @@
       <tbody>
         <tr *ngFor="let ejercicioSerie of ejercicioSeries" class="text-center">
           <td>{{ ejercicioSerie.tablaEjercicio.id }}</td>
-          <td>{{ ejercicioSerie.ejercicio.nombre }}</td>
+          <td class="text-left">{{ ejercicioSerie.ejercicio.nombre }}</td>
           <td>{{ ejercicioSerie.series }}</td>
           <td>{{ ejercicioSerie.repeticiones }}</td>
           <td>{{ ejercicioSerie.porSemana }}</td>
@@ -128,11 +128,8 @@
               class="ml-2"
               data-toggle="tooltip"
               data-original-title="Delete"
-              (click)="delete(ejercicioSerie)"
+              (click)="openModalDelete(confirmDelete,this.ejercicioSerie)"
               ><i class="icon-trash-2"></i
-            ></a>
-            <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
-              ><i class="icon-settings"></i
             ></a>
           </td>
         </tr>
@@ -150,6 +147,28 @@
     </table>
   </div>
 </div>
+
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar el ejercicio serie <span class="text-danger">{{ejercicioSerieAux.ejercicio.nombre}}-{{ejercicioSerieAux.series}}x{{ejercicioSerieAux.repeticiones}} ({{ejercicioSerieAux.id}})?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete()" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
 
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -365,7 +384,7 @@
                   ejercicioSerieTabla.invalid
                 "
               >
-                * Seleccione un ejercicio
+                * Seleccione una tabla
               </div>
             </div>
           </div>

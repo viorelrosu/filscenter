@@ -12,14 +12,18 @@ import { TipoEjercicioServiceService } from "@servicesRest/tipo_ejercicio/tipo-e
   styleUrls: ["./ejercicio-list.component.css"],
 })
 export class EjercicioListComponent implements OnInit {
+  //mostrar ejercicio add
   mostrarEjercicioAdd: boolean = false;
 
   ejercicios: Ejercicio[];
-
   tiposEjercicio: TipoEjercicio[];
+
+  //update
   ejercicioUpdate: any;
 
-  private closeResult: string = "";
+  //confirm delete
+  ejercicioAux:any;
+
   constructor(
     private _service: EjercicioServiceService,
     private _serviceTipoEjercicio: TipoEjercicioServiceService,
@@ -41,9 +45,9 @@ export class EjercicioListComponent implements OnInit {
     });
   }
 
-  delete(ejercicio: Ejercicio) {
-    this._service.deleteEjercicio(ejercicio).subscribe((data) => {
-      this.ejercicios = this.ejercicios.filter((p) => p != ejercicio);
+  delete() {
+    this._service.deleteEjercicio(this.ejercicioAux).subscribe((data) => {
+      window.location.reload();
     });
   }
 
@@ -75,21 +79,25 @@ export class EjercicioListComponent implements OnInit {
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
         (result) => {
-          this.closeResult = `Closed with: ${result}`;
+          
         },
         (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+         
         }
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
+    //modal coinfirm delete
+    openModalDelete(confirmDelete, ejercicio:Ejercicio){
+      this.ejercicioAux = ejercicio;
+      this.modalService
+      .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
+      .result.then(
+        (result) => {
+        },
+        (reason) => {
+        }
+      );
     }
-  }
+
 }

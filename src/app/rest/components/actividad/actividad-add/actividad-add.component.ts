@@ -15,6 +15,7 @@ export class ActividadAddComponent implements OnInit {
   tipoActividadId: number; //poner en number para coger del rest ????
   tiposActividades: TipoActividad[];
   tipoActiSelect = "";
+  colorTipoActiSelect="";
 
   constructor(
     private service: ActividadServiceService,
@@ -26,6 +27,7 @@ export class ActividadAddComponent implements OnInit {
       descripcion: "",
       dificultad: "",
       nombre: "",
+      color:"",
       tipoActividad: {
         id: "",
         nombre: "",

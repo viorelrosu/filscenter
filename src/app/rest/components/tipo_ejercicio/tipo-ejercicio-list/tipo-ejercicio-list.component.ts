@@ -10,11 +10,16 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ["./tipo-ejercicio-list.component.css"],
 })
 export class TipoEjercicioListComponent implements OnInit {
+  //open parte add
   mostrarTipoEjercicioAdd: boolean = false;
-  private closeResult: string = "";
 
+  //parte update
   tiposEjercicio: TipoEjercicio[];
   tipoEjercicioUpdate: any;
+
+  //confirm delete
+  tipoEjercicioAux:any;
+
   constructor(
     private _service: TipoEjercicioServiceService,
     private router: Router,
@@ -39,11 +44,9 @@ export class TipoEjercicioListComponent implements OnInit {
       });
     window.location.reload();
   }
-  delete(tipoEjercicio: TipoEjercicio) {
-    this._service.deleteTipoEjercicio(tipoEjercicio).subscribe((data) => {
-      this.tiposEjercicio = this.tiposEjercicio.filter(
-        (p) => p != tipoEjercicio
-      );
+  delete() {
+    this._service.deleteTipoEjercicio(this.tipoEjercicioAux).subscribe((data) => {
+      window.location.reload();
     });
   }
 
@@ -67,21 +70,23 @@ export class TipoEjercicioListComponent implements OnInit {
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
         (result) => {
-          this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
-  }
+      //modal coinfirm delete
+      openModalDelete(confirmDelete, tipoEjercicio:TipoEjercicio){
+        this.tipoEjercicioAux = tipoEjercicio;
+        this.modalService
+        .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
+        .result.then(
+          (result) => {
+          },
+          (reason) => {
+          }
+        );
+      }
+
 }

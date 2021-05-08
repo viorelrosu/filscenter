@@ -21,7 +21,7 @@
   <app-tabla-ejercicio-add></app-tabla-ejercicio-add>
 </div>
 
-<h3 class="text-center">Tablas Ejercicio</h3>
+<h3 class="text-left">Tablas Ejercicio</h3>
 
 <div class="card-text">
   <table
@@ -114,11 +114,11 @@
     </thead>
     <tbody>
       <tr *ngFor="let tablaEjercicio of tablasEjercicio" class="text-center">
-        <td>{{ tablaEjercicio.monitor.nombre }}</td>
-        <td>{{ tablaEjercicio.suscriptor.nombre }}</td>
+        <td class="text-left">{{ tablaEjercicio.monitor.nombre }}</td>
+        <td class="text-left">{{ tablaEjercicio.suscriptor.nombre }}</td>
         <td>{{ tablaEjercicio.fechaInicio | date: "d/M/YYYY" }}</td>
         <td>{{ tablaEjercicio.fechaFin | date: "d/M/YYYY" }}</td>
-        <td>{{ tablaEjercicio.activa == true ? "Activa" : "Inactiva" }}</td>
+        <td class="text-left">{{ tablaEjercicio.activa == true ? "Activa" : "Inactiva" }}</td>
         <td>
           <a
             class="ml-2"
@@ -131,7 +131,7 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="delete(tablaEjercicio)"
+            (click)="openModalDelete(confirmDelete,this.tablaEjercicio)"
             ><i class="icon-trash-2"></i
           ></a>
           <a
@@ -156,6 +156,35 @@
     </tfoot>
   </table>
 </div>
+<!-- ======================================= MODAL CONFIRM DELETE==============================  -->
+<!-- ======================================= MODAL CONFIRM DELETE==============================  -->
+<!-- ======================================= MODAL CONFIRM DELETE==============================  -->
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar la tabla del usuario <span class="text-danger">{{tablaAux.suscriptor.nombre}} ({{tablaAux.suscriptor.id}})?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete()" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
+
+<!-- ======================================= MODAL UPDATE TABLA==============================  -->
+<!-- ======================================= MODAL UPDATE TABLA==============================  -->
+<!-- ======================================= MODAL UPDATE TABLA==============================  -->
+
 
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -377,7 +406,9 @@
   </div>
 </ng-template>
 
-
+<!-- ======================================= MODAL DETALLE TABLA==============================  -->
+<!-- ======================================= MODAL DETALLE TABLA==============================  -->
+<!-- ======================================= MODAL DETALLE TABLA==============================  -->
 
 <ng-template #detalle let-modal>
   <div class="container">
@@ -391,12 +422,13 @@
       <button (click)="abrirAniadirModal(true)" class="btn btn-light"><i class="icon-plus"></i> Añadir Ejercicio Serie</button>
     </div>
 
+    <!--parte formulario add ejercicioSerie-->
     <div *ngIf="modalAniadir==true">
       <div class="card-body">
         <form
           class="form-validate"
           name="form"
-          (ngSubmit)="f.form.valid && aniadirEjercicioSerie(detalle,this.tablaDetalle)"
+          (ngSubmit)="f.form.valid && aniadirEjercicioSerie(detalle,this.tablaDetalle,createEjer,errorModalEjer)"
           #f="ngForm"
         >
           <div class="form-row">
@@ -600,7 +632,7 @@
       </div>
     </div>
 
-
+    <!-- parte listado ejercicios-->
     <div class="card-text">
       <div class="card-text">
         <table
@@ -715,7 +747,7 @@
                 class="ml-2"
                 data-toggle="tooltip"
                 data-original-title="Delete"
-                (click)="deleteEjercicioSerie(this.ejercicio)"
+                (click)="openModalDeleteEjerSerie(confirmDeleteEjerSerie,this.ejercicio)"
                 ><i class="icon-trash-2"></i
               ></a>
             </td>
@@ -737,20 +769,79 @@
   </div>
 </div>
 </ng-template>
+<!-- ======================================= MODAL DELETE EJERCICIO SERIE==============================  -->
+<!-- ======================================= MODAL DELETE EJERCICIO SERIE==============================  -->
+<!-- ======================================= MODAL DELETE EJERCICIO SERIE==============================  -->
+<ng-template #confirmDeleteEjerSerie let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar la serie ejercicio <span class="text-danger">{{ejercicioAux.ejercicio.nombre}} ({{ejercicioAux.id}})?</span></h3>    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="deleteEjercicioSerie()" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
+
+<!-- ======================================= MODAL ADD EJERCICIO==============================  -->
+<!-- ======================================= MODAL ADD EJERCICIO==============================  -->
+<!-- ======================================= MODAL ADD EJERCICIO==============================  -->
+<ng-template #createEjer let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¡Ejercicio <span class="text-danger">{{nuevoEjercicioSerie.nombre}}</span> registrado!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            aria-label="Close"
+            (click)="modal.dismiss();prueba()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>
+
+<ng-template #errorModalEjer let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>{{textoModal}}</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- ======================================= MODAL UPDATE EJERCICIO==============================  -->
+<!-- ======================================= MODAL UPDATE EJERCICIO==============================  -->
+<!-- ======================================= MODAL UPDATE EJERCICIO==============================  -->
 <ng-template #updateES let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Update Ejercicio</h4>
