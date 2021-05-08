@@ -838,6 +838,27 @@
         </div>
 </ng-template>
 
+<ng-template #updateModalEjer let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>{{textoModal}}</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="prueba()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>
+
 
 <!-- ======================================= MODAL UPDATE EJERCICIO==============================  -->
 <!-- ======================================= MODAL UPDATE EJERCICIO==============================  -->
@@ -851,7 +872,7 @@
       <form
         class="form-validate"
         name="form"
-        (ngSubmit)="f.form.valid && updateEjercicio()"
+        (ngSubmit)="f.form.valid && updateEjercicio(updateModalEjer)"
         #f="ngForm"
       >
         <div class="form-row">
@@ -978,7 +999,6 @@
               name="tipoEjercicio"
               id="tipoEjercicio"
               #tipoEjercicioSerieEjercicio="ngModel"
-              [(ngModel)]="tipoEjercicioId"
               required
               [ngClass]="{
                 'is-invalid':
@@ -987,7 +1007,7 @@
                     !tipoEjercicioSerieEjercicio.valid)
               }"
               [(ngModel)]="ejercicioSerieUpdate.ejercicio.tipoEjercicio.id"
-              (ngModelChange)="cargarEjercicios(this.tipoEjercicioId,'si')"
+              (ngModelChange)="cargarEjercicios(this.ejercicioSerieUpdate.ejercicio.tipoEjercicio.id,'si')"
             >
               <option value="" selected>-- Elige una opción --</option>
               <option
@@ -1016,14 +1036,13 @@
             </div>
           </div>
     
-          <div *ngIf="tipoEjercicioId != '' " class="form-group col-md-6">
+          <div *ngIf="ejercicioSerieUpdate.ejercicio.tipoEjercicio.id != '' " class="form-group col-md-6">
             <label for="ejercicio">(*) Ejercicio</label>
             <select
               class="form-control"
               name="ejercicio"
               id="ejercicio"
               #ejercicioSerieEjercicio="ngModel"
-              [(ngModel)]="ejercicioId"
               required
               [ngClass]="{
                 'is-invalid':

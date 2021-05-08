@@ -37,7 +37,7 @@ export class TablaEjercicioListComponent implements OnInit {
   tiposEjercicio: TipoEjercicio[];
   ejerciciosSerie: EjercicioSerie[];
   nuevoEjercicioSerie: any;
-  ejercicioId: number;
+  ejercicioId: any;
   tipoEjerSelect = "";
   ejerSelect = "";
   content: any;
@@ -203,12 +203,16 @@ export class TablaEjercicioListComponent implements OnInit {
       });
   }
 
-  updateEjercicio() {
+  updateEjercicio(modal) {
     this._serviceEjerciciosSerie
       .updateEjercicioSerie(this.ejercicioSerieUpdate)
       .subscribe((data) => {
-        this.modalService.dismissAll();
-        this.openDetalleTabla(this.content, this.tablaDetalle);
+        this.textoModal = "¡Ejercicio actualizado!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
       });
   }
 
