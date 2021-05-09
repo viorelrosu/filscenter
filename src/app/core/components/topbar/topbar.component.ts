@@ -13,10 +13,13 @@ export class TopbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.sessionUser = this._helperService.getSessionUser();
-    if(this.sessionUser && this.sessionUser.id) {
-      this.isLoginIn = true;
-    }
+    this._helperService.getSessionUser()
+    .then((user:any)=>{
+      this.sessionUser = user;
+    })
+    .then(()=>{
+      this.isLoginIn = this._helperService.checkIsLogin();
+    });
   }
 
   logout(){

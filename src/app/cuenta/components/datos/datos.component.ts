@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 
 import { Usuario } from "@modelsRest/Usuario";
 import { Provincia } from "@modelsRest/Provincia";
 import { Localidad } from "@modelsRest/Localidad";
+import { TipoSuscripcion } from "@modelsRest/TipoSuscripcion";
 
 import { HelperService } from '@core/services/helper.service';
 
@@ -11,6 +13,10 @@ import { DireccionServiceService as DireccionService } from "@servicesRest/direc
 import { LocalidadServiceService as LocalidadService } from "@servicesRest/localidad/localidad-service.service";
 import { ProvinciaServiceService as ProvinciaService } from "@servicesRest/provincia/provincia-service.service";
 import { TaquillaServiceService as TaquillaService } from "@servicesRest/taquilla/taquilla-service.service";
+import { TipoSuscripcionServiceService as TipoSuscripcionService } from "@servicesRest/tipo_suscripcion/tipo-suscripcion-service.service";
+import { SuscripcionServiceService as SuscripcionService } from "@servicesRest/suscripcion/suscripcion-service.service";
+import { Suscripcion } from '@modelsRest/suscripcion';
+
 declare var $:any;
 @Component({
   selector: 'app-datos',
@@ -19,6 +25,7 @@ declare var $:any;
 })
 export class PageCuentaDatosComponent implements OnInit {
   public menuActive: string = 'datos';
+  public title: string = 'Mis Datos';
 
   public usuarioUpdate: any;
   public provinciaId:number;
@@ -30,29 +37,42 @@ export class PageCuentaDatosComponent implements OnInit {
 
   public sessionUser: any;
 
+  public suscripcionTipos: TipoSuscripcion[];
+  public suscripcionTipoID: number;
+  public nuevaSuscripcion: any = {};
+
   constructor(
     private _serviceRestUser: UsuarioService,
     private _serviceDireccion: DireccionService,
     private _serviceLocalidad: LocalidadService,
     private _serviceProvincia: ProvinciaService,
     private _serviceTaquilla: TaquillaService,
+    private _serviceTipoSuscripcion: TipoSuscripcionService,
+    private _serviceSuscripcion: SuscripcionService,
     private _helperService: HelperService,
+    private _modalService: NgbModal,
   ) { 
     this.usuarioUpdate={};
   }
 
   ngOnInit(): void {
     this._helperService.checkIsLoginAndRedirectToLogin();
-    this.sessionUser = this._helperService.getSessionUser();
-    this.obtenerUsuarioUpdate();
+    this._helperService.getSessionUser()
+    .then((user:any)=>{
+      this.sessionUser = user;
+    })
+    .then(()=>{
+      this.getUsuarioUpdate();
+    });
+    //console.log(this.sessionUser);
   }
 
   update(){
-    this.obtenerProvincia()
-    .then(()=>this.obtenerLocalidad())
-    .then(()=>this.obtenerTaquilla())
+    this.getProvincia()
+    .then(()=>this.getLocalidad())
+    .then(()=>this.getTaquilla())
     .then(()=>{
-      console.log(this.usuarioUpdate);
+      //console.log(this.usuarioUpdate);
       this._serviceRestUser.updateUsuario(this.usuarioUpdate).subscribe(data=>{
         $.notify({
           // options
@@ -85,13 +105,13 @@ export class PageCuentaDatosComponent implements OnInit {
     }); 
   }
 
-  cargarProvincias(){
+  loadProvincias(){
     this._serviceProvincia.getProvincias().subscribe(data=>{
       this.provincias = data;
     });
   }
 
-  obtenerTaquilla(){
+  getTaquilla(){
     return this._serviceTaquilla.getTaquilla(1)
     .toPromise()
     .then(data=>{
@@ -99,7 +119,7 @@ export class PageCuentaDatosComponent implements OnInit {
     });
   }
 
-  obtenerLocalidad(){
+  getLocalidad(){
     return this._serviceLocalidad.getLocalidad(this.usuarioUpdate.direccion.localidad.id)
     .toPromise()
     .then(data=>{
@@ -107,7 +127,7 @@ export class PageCuentaDatosComponent implements OnInit {
     });
   }
 
-  obtenerProvincia(){
+  getProvincia(){
     return this._serviceProvincia.getProvincia(this.usuarioUpdate.direccion.localidad.provincia.id)
     .toPromise()
     .then(data=>{
@@ -115,11 +135,11 @@ export class PageCuentaDatosComponent implements OnInit {
     })
   }
 
-  obtenerUsuarioUpdate(){
+  getUsuarioUpdate(){
      return this._serviceRestUser.getUsuario(this.sessionUser.id).toPromise()
      .then((data) => {
       this.usuarioUpdate = data;
-      console.log(this.usuarioUpdate);
+      //console.log(this.usuarioUpdate);
     })
     .then(()=>{
       return this._serviceProvincia.getProvincias().toPromise()
@@ -136,6 +156,106 @@ export class PageCuentaDatosComponent implements OnInit {
     .then(()=>{
       this.isDataLoaded = true;
     });
+  }
+
+  open(content:any) {
+    this._serviceTipoSuscripcion.getTiposSuscripcion().toPromise()
+    .then((data) => {
+      this.suscripcionTipos = data;
+    })
+    .then(()=>{
+      this._modalService.open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
+      .result.then(
+        (result) => {
+          //this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          //this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+    });
+  }
+
+  addSuscripcion() {
+    var fechaAlta = new Date();
+    this.nuevaSuscripcion.fechaAlta = fechaAlta.toISOString();
+
+    this.getTipoSuscripcion()
+      .then(()=>{
+        if(this.nuevaSuscripcion.recurrente) {
+          this.nuevaSuscripcion.fechaBaja = null;
+        } else {
+          //calculamos la fecha de baja
+          var fechaBaja = new Date();
+          fechaBaja.setDate(fechaAlta.getDate() + this.nuevaSuscripcion.tipoSuscripcion.duracion);
+          this.nuevaSuscripcion.fechaBaja = fechaBaja.toISOString();
+        }
+      })
+      .then(() => this.getUsuario())
+      .then(() => {
+        
+        this._serviceSuscripcion.createSuscripcion(this.nuevaSuscripcion).subscribe(
+          (data) => {
+            this._helperService.checkAndSaveSessionSubscription()
+            .then(()=>{
+              return this._helperService.getSessionUser();
+            })
+            .then((user:any)=>{
+              this.sessionUser = user;
+              //console.log(this.sessionUser);
+            })
+            .then(()=>{
+
+              this.closeModal();
+              $.notify({
+                // options
+                icon: 'fas fa-check',
+                title: '¡Muy bien!',
+                message: 'Tienes una nueva suscripción.',
+              },{
+                // settings
+                type: 'success'
+              });
+
+            });
+          },
+          (err) => {
+
+            $.notify({
+              // options
+              icon: 'fas fa-close',
+              title: 'Lo sentimos, ha habido un error!',
+              message: err.error.message,
+            },{
+              // settings
+              type: 'danger'
+            });
+
+          }
+        );
+      });
+  }
+
+  getTipoSuscripcion() {
+    return this._serviceTipoSuscripcion
+      .getTipoSuscripcion(this.suscripcionTipoID)
+      .toPromise()
+      .then((data) => {
+        this.nuevaSuscripcion.tipoSuscripcion = data;
+      });
+  }
+
+  getUsuario() {
+    return this._serviceRestUser
+      .getUsuario(this.sessionUser.id)
+      .toPromise()
+      .then((data) => {
+        this.nuevaSuscripcion.usuario = data;
+      });
+  }
+
+  closeModal(){
+    this._modalService.dismissAll();
   }
 
 }

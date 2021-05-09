@@ -29,6 +29,10 @@ export class ReservaServiceService {
     return this._http.get<Reserva>(this.url+"/slot/"+slotID);
   }
 
+  getReservasByUsuarioId(userID:number):Observable<any>{
+    return this._http.get<Reserva>(this.url+"/usuario/"+userID);
+  }
+
   deleteReserva(reserva:Reserva){
     return this._http.delete<Reserva>(this.url+"/"+reserva.id);
   }

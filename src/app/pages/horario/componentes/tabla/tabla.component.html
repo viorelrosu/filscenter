@@ -1,11 +1,11 @@
 <div *ngIf="!isDataLoaded" class="d-flex justify-content-center">
   <div class="spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
+    <span class="sr-only">Cargando...</span>
   </div>
 </div>
 
 <div *ngIf="isDataLoaded">
-  <table class="table table-striped horario">
+  <table class="table table-striped horario table-responsive">
     <thead>
       <tr>
         <th scope="col" class="text-center">Hora</th>
@@ -26,6 +26,7 @@
             <button
               class="btn btn-xs btn-rounded horarioClase" [ngStyle]="{'border-color':hora[dia].color, 'background-color': hora[dia].color }"
               (click)="open(content,hora[dia].slot)"
+              [class.disabled]="hora[dia].isDisabled"
             >
               <img
                 src="{{ hora[dia].imagen }}"
@@ -37,7 +38,7 @@
             </button>
           </div>
           <div *ngIf="!hora[dia]">
-            <span class="text-danger"><i class="fa fa-window-close"></i></span>
+            <h3><span class="text-danger"><i class="icon-x"></i></span></h3>
           </div>
         </td>
       </tr>
@@ -48,14 +49,14 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-label"><span class="badge badge-pill badge-primary claseTitle text-uppercase">{{slotSeleccionado.actividad.nombre}}</span></h4>
+    <h4 class="modal-title" id="modal-label"><span class="badge badge-pill claseTitle text-uppercase font-size-14 text-white" [style.backgroundColor]="slotSeleccionado.actividad.color" [style.borderColor]="slotSeleccionado.actividad.color">{{slotSeleccionado.actividad.nombre}}</span></h4>
     <button type="button" class="close" (click)="modal.dismiss()"><i class="icon-x"></i></button>
   </div>
   <div class="modal-body">
       <div class="row">
         <div class="col-md-12">
             <div class="monitor">
-                <img src="assets/fitness/images/trainers/3.png" alt="Alan Monroe" class="rounded-circle"/>
+                <img src="{{'assets/fitness/images/trainers/'+slotSeleccionado.monitor.imagen}}" alt="Alan Monroe" class="rounded-circle"/>
                 <span class="nombre">{{ slotSeleccionado.monitor.nombre + ' '+ slotSeleccionado.monitor.apellidos }}</span>
                 <span>Monitor</span>
             </div>
@@ -64,7 +65,7 @@
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     Hora
-                    <span class="font-weight-bold dataHora">{{ slotSeleccionado.horaInicio }}</span>
+                    <span class="font-weight-bold dataHora">{{ slotSeleccionado.horaInicio | formatoStringToHora }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     Día
@@ -81,24 +82,34 @@
             </ul>
         </div>
         <div class="col-md-12 my-4" *ngIf="isLoggedIn">
-            <h4 class="text-center mb-3">Reserva tu plaza en la clase</h4>
-            <div class="row" *ngIf="!hasReserva">
-                <div class="col-4 offset-4 text-right">
-                    <input type="checkbox" name="recurrente" class="form-control" [(ngModel)]="isRecurrente" /> <label>¿Es recurrente?</label>
+            <div class="" *ngIf="isSuscribed">
+              <h4 class="text-center mb-3">Reserva tu plaza en la clase</h4>
+              <div class="row" *ngIf="!hasReserva">
+                  <div class="col-4 offset-4 text-right">
+                      <input type="checkbox" name="recurrente" class="form-control" [(ngModel)]="isRecurrente" /> <label>¿Es recurrente?</label>
+                  </div>
+                  <div class="col-md-8 offset-md-2 text-center">
+                      <button type="button" class="btn btn-xs btn-success" (click)="doReserva(slotSeleccionado.id)">Reservar clase</button>
+                  </div>
+              </div>
+              <div class="row" *ngIf="hasReserva">
+                <div class="col-md-12 text-center">
+                  <span class="badge badge-pill badge-success font-size-14">Ya tienes una plaza reservada para esta clase</span>
                 </div>
-                <div class="col-md-8 offset-md-2 text-center">
-                    <button type="button" class="btn btn-xs btn-success" (click)="doReserva(slotSeleccionado.id)">Reservar clase</button>
-                </div>
+              </div>
             </div>
-            <div class="row" *ngIf="hasReserva">
+            <div class="row" *ngIf="!isSuscribed">
+              <div class="col-md-12 text-center mb-2">
+                <span class="badge badge-pill badge-info font-size-14">Para reservar plazas, suscríbete</span>
+              </div>
               <div class="col-md-12 text-center">
-                <span class="badge badge-pill badge-success">Ya tienes una plaza reservada para esta clase</span>
+                <a href="/cuenta/mis/datos" class="btn btn-primary btn-sm" >Suscríbete</a>
               </div>
             </div>
         </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-b btn-sm" (click)="modal.dismiss()">Cerrar</button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="modal.dismiss()">Cerrar</button>
 </div>
 </ng-template>

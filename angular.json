@@ -5,6 +5,9 @@
   "projects": {
     "filscenter": {
       "projectType": "application",
+      "i18n": {
+        "sourceLocale": "es"
+      },
       "schematics": {},
       "root": "",
       "sourceRoot": "src",

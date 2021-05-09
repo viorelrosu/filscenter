@@ -11,8 +11,7 @@ import { PlanesSuscripcionComponent } from './components/planes-suscripcion/plan
 import { ActividadComponent } from './components/actividad/actividad.component';
 import { ServicioComponent } from './components/servicio/servicio.component';
 
-//imports pipes
-import { FormatoHoraPipe } from "../rest/pipes/formatoHora.pipe";
+import { FormatoStringToHoraPipe } from "./pipes/formatoStringToHora.pipe";
 
 @NgModule({
   declarations: [
@@ -23,7 +22,8 @@ import { FormatoHoraPipe } from "../rest/pipes/formatoHora.pipe";
     CallToActionComponent,
     PlanesSuscripcionComponent,
     ActividadComponent,
-    ServicioComponent
+    ServicioComponent,
+    FormatoStringToHoraPipe
   ],
   imports: [
     CommonModule,
@@ -38,7 +38,8 @@ import { FormatoHoraPipe } from "../rest/pipes/formatoHora.pipe";
     TeamMemberComponent,
     CallToActionComponent,
     PlanesSuscripcionComponent,
-    ServicioComponent
+    ServicioComponent,
+    FormatoStringToHoraPipe
   ]
 })
 export class SharedModule { }

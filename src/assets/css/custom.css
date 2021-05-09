@@ -8,8 +8,78 @@
 */
 
 .line {
-    border-color: #111;
+    /* border-color: #111; */
 }
+
+.font-size-12 {
+    font-size: 12px;
+}
+
+.font-size-14 {
+    font-size: 14px;
+}
+
+.font-size-16 {
+    font-size: 16px;
+}
+
+.font-size-18 {
+    font-size: 18px;
+}
+
+.font-size-20 {
+    font-size: 20px;
+}
+
+.font-size-22 {
+    font-size: 22px;
+}
+
+.opacity-50 {
+    opacity: 0.50;
+}
+
+.opacity-55 {
+    opacity: 0.55;
+}
+
+.opacity-60 {
+    opacity: 0.60;
+}
+
+.opacity-65 {
+    opacity: 0.65;
+}
+
+.opacity-70 {
+    opacity: 0.70;
+}
+
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.opacity-80 {
+    opacity: 0.80;
+}
+
+.opacity-85 {
+    opacity: 0.85;
+}
+
+.line-height-12 {
+    line-height: 12px;
+}
+
+.line-height-14 {
+    line-height: 14px;
+}
+
+.heading-text.heading-gradient h4 > * {
+    -webkit-text-fill-color: transparent !important;
+    -webkit-background-clip: text !important;
+    background: radial-gradient(circle at left top, #4b72ff 9%, #2250fc 48%, #6442ff 91%);
+  }
 
 #slider {
     top: -130px;

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HorarioComponent } from './horario.component';
+import { CuentaInicioHorarioComponent } from './inicio-horario.component';
 
-describe('HorarioComponent', () => {
-  let component: HorarioComponent;
-  let fixture: ComponentFixture<HorarioComponent>;
+describe('CuentaInicioHorarioComponent', () => {
+  let component: CuentaInicioHorarioComponent;
+  let fixture: ComponentFixture<CuentaInicioHorarioComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HorarioComponent ]
+      declarations: [ CuentaInicioHorarioComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HorarioComponent);
+    fixture = TestBed.createComponent(CuentaInicioHorarioComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,4 +1,8 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, DoCheck } from '@angular/core';
+
+import { Slot } from "@modelsRest/Slot";
+import { Reserva } from "@modelsRest/Reserva";
+
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 
 import { SlotServiceService as SlotService } from '@servicesRest/slot/slot-service.service';
@@ -7,16 +11,16 @@ import { UsuarioServiceService as UsuarioService } from "@servicesRest/usuario/u
 import { ReservaServiceService as ReservaService } from "@servicesRest/reserva/reserva-service.service";
 import { HelperService } from '@core/services/helper.service';
 
-import { Slot } from "@modelsRest/Slot";
-
 declare var $:any;
 @Component({
-  selector: 'horario-tabla',
-  templateUrl: './tabla.component.html',
-  styleUrls: ['./tabla.component.css'],
+  selector: 'cuenta-inicio-horario',
+  templateUrl: './inicio-horario.component.html',
+  styleUrls: ['./inicio-horario.component.css']
 })
-export class TablaComponent implements OnInit, OnChanges {
+export class CuentaInicioHorarioComponent implements OnInit {
+
   public slots: Slot[];
+  public reservasUser: Reserva[];
   public horas: Object[]=[];
   public diasSemana: String[] = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
   public isDataLoaded: boolean = false;
@@ -24,13 +28,17 @@ export class TablaComponent implements OnInit, OnChanges {
   public slotSeleccionado: any;
   public isRecurrente:boolean = false;
   public aforoActual:number = 0;
-  public isLoggedIn: boolean = false;
-  public isSuscribed:boolean = false;
   public hasReserva: boolean = false;
   public closeResult:string = '';
-  public sessionUser: any;
 
-  @Input() searchResults: Slot[];
+  public searchResults: Slot[] = [];
+  public searchByActividadID: number = 0;
+  public searchByMonitorID: number = 0;
+  public actividades:any = [ {id:0,nombre:'Todas las actividades'} ];
+  public monitores:any = [ {id:0, nombre:'Todos los monitores'}];
+  public isSearch:boolean = false;
+
+  public sessionUser: any;
 
   constructor(
     private modalService: NgbModal,
@@ -40,7 +48,7 @@ export class TablaComponent implements OnInit, OnChanges {
     private _serviceReserva: ReservaService,
     private _serviceUsuario: UsuarioService,
   ) { 
-
+    
     for(var i=7; i<23; i++){
       var hora:String;
       var index:number;
@@ -66,33 +74,38 @@ export class TablaComponent implements OnInit, OnChanges {
         Domingo: null,
       });
     } 
-  
+
   }
 
   ngOnInit(): void {
-    this._helperService.checkIsLoginAndRedirectToLogin();
+
     this._helperService.getSessionUser()
     .then((user:any)=>{
       this.sessionUser = user;
     })
     .then(()=>{
-      this.isLoggedIn = this._helperService.checkIsLogin();
-      this.isSuscribed = this.sessionUser.suscripcion.isSuscribed;
-
       this.loadSlots();
     });
-    
-  }
 
-  ngOnChanges(){
-    this.loadSlots();
   }
 
   loadSlots(){
-    this._serviceSlot.getSlots().toPromise()
-    .then((data)=>{
+    this._serviceReserva.getReservasByUsuarioId(this.sessionUser.id).toPromise()
+    .then((reservas)=>{
+      this.reservasUser = reservas;
+      //console.log(this.reservasUser);
+    })
+    .then(()=>{
+      return this._serviceSlot.getSlots().toPromise();
+    })
+    .then((slots)=>{
       //console.log(data);
-      this.slots = data;
+      this.slots = slots;
+    })
+    .then(()=>{
+      if(!this.isSearch) {
+        this.searchSlots();
+      }
     })
     .then(()=>{
       //console.log(this.horas);
@@ -100,9 +113,11 @@ export class TablaComponent implements OnInit, OnChanges {
         var index = slot.horaInicio;
         var diaSemana = slot.diaSemana;
         var indexArray = this.getIndexOfK(this.horas, index);
+        var isReserved = this.checkIsReserved(slot);
         var isDisabled = this.checkIsDisabled(slot);
         this.horas[indexArray][diaSemana] = {
           id: slot.id,
+          isReserved: isReserved,
           isDisabled: isDisabled,
           imagen: 'assets/fitness/images/trainers/'+slot.monitor.imagen,
           monitor: slot.monitor.nombre,
@@ -110,6 +125,14 @@ export class TablaComponent implements OnInit, OnChanges {
           color: slot.actividad.color,
           slot: slot
         }
+
+          if(!this.getIndexOfID(this.actividades, slot.actividad.id)) {
+            this.actividades.push({id: slot.actividad.id, nombre: slot.actividad.nombre });
+          }
+        
+          if(!this.getIndexOfID(this.monitores, slot.monitor.id)) {
+            this.monitores.push({id: slot.monitor.id, nombre: slot.monitor.nombre + ' ' + slot.monitor.apellidos });
+          }
       }
     })
     .then(()=>{
@@ -118,8 +141,22 @@ export class TablaComponent implements OnInit, OnChanges {
 
   }
 
+  getIndexOfID(arr:any, id:number) {
+    var exist = false;
+    for (var i = 0; i < arr.length; i++) {
+      if(arr[i].id == id) {
+        exist = true;
+      }
+    }
+    return exist;
+  }
+
   checkIsDisabled(slot:Slot) {
     return !this.searchResults.some(elem => elem.id === slot.id);
+  }
+
+  checkIsReserved(slot:Slot) {
+    return this.reservasUser.some(elem => elem.slot.id === slot.id);
   }
 
   getIndexOfK(arr:any, value:number) {
@@ -157,15 +194,12 @@ export class TablaComponent implements OnInit, OnChanges {
       })
     })
     .then(()=>{
-      //comprobamos si tiene ya una reserva
-      if(this.isLoggedIn && this.isSuscribed) {
-        return this._serviceReserva.getReservaBySlotIdAndUsuarioId(this.slotSeleccionado.id, this.sessionUser.id).toPromise()
-      }
-      return false;
+        //comprobamos si tiene ya una reserva
+        return this._serviceReserva.getReservaBySlotIdAndUsuarioId(this.slotSeleccionado.id, this.sessionUser.id).toPromise();
     })
     .then((data)=>{
-      //console.log(data);
-      this.hasReserva = (data.length) ? true : false;
+      console.log(data);
+      this.hasReserva = (data) ? data[0] : false;
     })
     .then(()=>{
       this.modalService.open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
@@ -212,6 +246,7 @@ export class TablaComponent implements OnInit, OnChanges {
     .then(()=>{
       //console.log(this.reserva);
       this._serviceReserva.createReserva(this.reserva).subscribe((data)=>{
+        this.loadSlots();
         this.closeModal();
         $.notify({
           // options
@@ -235,6 +270,92 @@ export class TablaComponent implements OnInit, OnChanges {
         });
       });
     });
+
+  }
+
+  delReserva(reserva:Reserva) {
+    this._serviceReserva.deleteReserva(reserva).subscribe(
+      (data) => {
+        this.closeModal();
+        $.notify({
+            // options
+            icon: 'fas fa-check',
+            title: '¡Muy bien!',
+            message: 'La reserva se ha eliminado correctamente.',
+          },{
+          // settings
+          type: 'success'
+        });
+      },
+      (err) => {
+
+        $.notify({
+          // options
+          icon: 'fas fa-close',
+          title: 'Lo sentimos, ha habido un error!',
+          message: err.error.message,
+        },{
+          // settings
+          type: 'danger'
+        });
+
+      }
+    );
+  }
+
+  searchByActividad(value:any){
+    this.searchByActividadID = value;
+    this.isSearch = true;
+    this.searchSlots();
+  }
+
+  searchByMonitor(value:any){
+    this.searchByMonitorID = value;
+    this.isSearch = true;
+    this.searchSlots();
+  }
+
+  searchSlots() {
+    this.searchResults = [];
+
+    //search by actividad
+    if( (this.searchByActividadID != 0) && (this.searchByMonitorID == 0) ) {
+      for(let slot of this.slots) {
+        if(slot.actividad.id == this.searchByActividadID) {
+          this.searchResults.push(slot);
+        }
+      }
+    }
+
+    //search by monitor
+    if( (this.searchByActividadID == 0) && (this.searchByMonitorID != 0) ) {
+      for(let slot of this.slots) {
+        if(slot.monitor.id == this.searchByMonitorID) {
+          this.searchResults.push(slot);
+        }
+      }
+    }
+
+    //search by actividad y monitor
+    if( (this.searchByActividadID != 0) && (this.searchByMonitorID != 0) ) {
+      for(let slot of this.slots) {
+        if((slot.actividad.id == this.searchByActividadID) && (slot.monitor.id == this.searchByMonitorID)) {
+          this.searchResults.push(slot);
+        }
+      }
+    }
+
+    //all the slots
+    if( (this.searchByActividadID == 0) && (this.searchByMonitorID == 0) ) {
+      for(let slot of this.slots) {
+          this.searchResults.push(slot);
+      }
+    }
+    //console.log(this.searchResultSlots);
+
+    if(this.isSearch) {
+      this.loadSlots();
+    }
 
   }
 

@@ -21,6 +21,7 @@ export class Usuario {
   rol: Rol;
   suscripcion: Suscripcion;
   taquilla: Taquilla;
+  imagen: string;
   
   constructor(
     id: number,
@@ -38,6 +39,7 @@ export class Usuario {
     direccion: Direccion,
     rol: Rol,
     suscripcion: Suscripcion,
-    taquilla: Taquilla
+    taquilla: Taquilla,
+    imagen:string
   ) {}
 }

@@ -15,6 +15,9 @@ export class SuscripcionServiceService {
   getSuscripciones():Observable<any>{
     return this._http.get(this.url);
   }
+  getSuscripcionesByUsuarioId(userID:number):Observable<any>{
+    return this._http.get(this.url + '/usuario/'+ userID);
+  }
   getSuscripcion(suscripcion:number):Observable<any>{
     return this._http.get<Suscripcion>(this.url+"/"+suscripcion);
   }

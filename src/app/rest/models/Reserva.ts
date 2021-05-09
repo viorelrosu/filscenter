@@ -4,6 +4,7 @@ import { Usuario } from "./Usuario";
 export class Reserva {
 
     public id:number;
+    public slot: Slot;
 
     constructor(
         id:number,

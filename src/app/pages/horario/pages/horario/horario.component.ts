@@ -24,6 +24,13 @@ export class PageHorarioComponent implements OnInit, DoCheck {
   public sessionUser: any;
   public filters: any;
   public isLoggedIn: boolean = false;
+  public slots: Slot[];
+  public searchResultSlots: Slot[];
+  public searchByActividadID: number = 0;
+  public searchByMonitorID: number = 0;
+  public actividades:any = [ {id:0,nombre:'Todas las actividades'} ];
+  public monitores:any = [ {id:0, nombre:'Todos los monitores'}];
+  public isDataLoaded:boolean = false;
 
   constructor(
     private _helperService: HelperService,
@@ -43,16 +50,102 @@ export class PageHorarioComponent implements OnInit, DoCheck {
   }
 
   ngOnInit(): void {
+
     this._helperService.checkIsLoginAndRedirectToLogin();
-    this.sessionUser = this._helperService.getSessionUser();
-    this.isLoggedIn = this._helperService.checkIsLogin();
-    // this.reserva.recurrente = false;
-    //console.log(this.sessionUser);
+    this._helperService.getSessionUser()
+    .then((user:any)=>{
+      this.sessionUser = user;
+    })
+    .then(()=>{
+      this.isLoggedIn = this._helperService.checkIsLogin();
+    });
+    
+    
+    this._serviceSlot.getSlots().toPromise()
+    .then((slots)=>{
+      this.slots = slots;
+      for(var slot of slots) {
+        if(!this.getIndexOfID(this.actividades, slot.actividad.id)) {
+          this.actividades.push({id: slot.actividad.id, nombre: slot.actividad.nombre });
+        }
+
+        if(!this.getIndexOfID(this.monitores, slot.monitor.id)) {
+          this.monitores.push({id: slot.monitor.id, nombre: slot.monitor.nombre + ' ' + slot.monitor.apellidos });
+        }
+      }
+    })
+    .then(()=>{
+      this.searchSlots();
+    })
+    .then(()=>{
+      this.isDataLoaded=true;
+      //console.log(this.actividades);
+    });
+    
+  }
+
+
+  getIndexOfID(arr:any, id:number) {
+    var exist = false;
+    for (var i = 0; i < arr.length; i++) {
+      if(arr[i].id == id) {
+        exist = true;
+      }
+    }
+    return exist;
   }
 
   ngDoCheck() {
     //console.log(this.filters.type);
   }
 
+  searchByActividad(value:any){
+    this.searchByActividadID = value;
+    this.searchSlots();
+  }
 
+  searchByMonitor(value:any){
+    this.searchByMonitorID = value;
+    this.searchSlots();
+  }
+
+  searchSlots() {
+    this.searchResultSlots = [];
+
+    //search by actividad
+    if( (this.searchByActividadID != 0) && (this.searchByMonitorID == 0) ) {
+      for(let slot of this.slots) {
+        if(slot.actividad.id == this.searchByActividadID) {
+          this.searchResultSlots.push(slot);
+        }
+      }
+    }
+
+    //search by monitor
+    if( (this.searchByActividadID == 0) && (this.searchByMonitorID != 0) ) {
+      for(let slot of this.slots) {
+        if(slot.monitor.id == this.searchByMonitorID) {
+          this.searchResultSlots.push(slot);
+        }
+      }
+    }
+
+    //search by actividad y monitor
+    if( (this.searchByActividadID != 0) && (this.searchByMonitorID != 0) ) {
+      for(let slot of this.slots) {
+        if((slot.actividad.id == this.searchByActividadID) && (slot.monitor.id == this.searchByMonitorID)) {
+          this.searchResultSlots.push(slot);
+        }
+      }
+    }
+
+    //all the slots
+    if( (this.searchByActividadID == 0) && (this.searchByMonitorID == 0) ) {
+      for(let slot of this.slots) {
+          this.searchResultSlots.push(slot);
+      }
+    }
+    //console.log(this.searchResultSlots);
+  }
+  
 }

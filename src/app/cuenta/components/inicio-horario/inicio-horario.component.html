@@ -1,0 +1,137 @@
+
+<div *ngIf="!isDataLoaded" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+  
+<div *ngIf="isDataLoaded">
+    <div class="mb-2">
+        <div class="row" >
+            <div class="col-md-12" >
+                <form #formSearchHorario="ngForm" >
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="filter_actividad">Actividad</label>
+                            <select class="form-control" name="filter_actividad" (change)="searchByActividad($event.target.value)">
+                                <option *ngFor="let actividad of actividades" [value]="actividad.id">{{actividad.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="filter_monitor">Monitor</label>
+                            <select class="form-control" name="filter_monitor" (change)="searchByMonitor($event.target.value)">
+                                <option *ngFor="let monitor of monitores" [value]="monitor.id">{{monitor.nombre}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped horario table-responsive">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">Hora</th>
+          <th scope="col" class="text-center">Lunes</th>
+          <th scope="col" class="text-center">Martes</th>
+          <th scope="col" class="text-center">Miercoles</th>
+          <th scope="col" class="text-center">Jueves</th>
+          <th scope="col" class="text-center">Viernes</th>
+          <th scope="col" class="text-center">Sabado</th>
+          <th scope="col" class="text-center">Domingo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hora of horas" class="text-center">
+          <th scope="row" class="text-center">{{ hora.hora }}</th>
+          <td *ngFor="let dia of diasSemana"  class="text-center">
+            <div *ngIf="hora[dia]">
+                <button
+                    class="btn btn-xs btn-rounded horarioClase d-flex align-items-center" [ngStyle]="{'border-color':hora[dia].color, 'background-color': hora[dia].color }"
+                    (click)="open(content,hora[dia].slot)"
+                    [class.opacity-85]="!hora[dia].isReserved"
+                    [class.disabled]="hora[dia].isDisabled"
+                >
+                <div class="">
+                    <img
+                    src="{{ hora[dia].imagen }}"
+                    alt="{{ hora[dia].monitor }}"
+                    class="rounded-circle m-r-5"
+                    width="26"
+                    />
+                </div>
+                <div class="line-height-12 m-r-5">
+                {{ hora[dia].actividad}}
+                </div>
+                <div class="" *ngIf="hora[dia].isReserved"><span><i class="fa fa-check"></i></span></div>
+              </button>
+            </div>
+            <div *ngIf="!hora[dia]">
+              <h3><span class="text-danger"><i class="icon-x"></i></span></h3>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-label"><span class="badge badge-pill claseTitle text-uppercase font-size-14 text-white" [style.backgroundColor]="slotSeleccionado.actividad.color" [style.borderColor]="slotSeleccionado.actividad.color">{{slotSeleccionado.actividad.nombre}}</span></h4>
+      <button type="button" class="close" (click)="modal.dismiss()"><i class="icon-x"></i></button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+              <div class="monitor">
+                  <img src="{{'assets/fitness/images/trainers/'+slotSeleccionado.monitor.imagen}}" alt="Alan Monroe" class="rounded-circle"/>
+                  <span class="nombre">{{ slotSeleccionado.monitor.nombre + ' '+ slotSeleccionado.monitor.apellidos }}</span>
+                  <span>Monitor</span>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <ul class="list-group">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Hora
+                      <span class="font-weight-bold dataHora">{{ slotSeleccionado.horaInicio | formatoStringToHora }}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Día
+                      <span class="font-weight-bold dataDia">{{ slotSeleccionado.diaSemana }}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Aforo
+                      <span class="font-weight-bold dataAforo">{{ aforoActual }} (max {{ slotSeleccionado.sala.aforoMax }})</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Sala
+                      <span class="font-weight-bold dataSala">{{ slotSeleccionado.sala.numero }}</span>
+                  </li>
+              </ul>
+          </div>
+          <div class="col-md-12 my-4">
+                <h4 class="text-center mb-3">Reserva tu plaza en la clase</h4>
+                <div class="row" *ngIf="!hasReserva">
+                    <div class="col-4 offset-4 text-right">
+                        <input type="checkbox" name="recurrente" class="form-control" [(ngModel)]="isRecurrente" /> <label>¿Es recurrente?</label>
+                    </div>
+                    <div class="col-md-8 offset-md-2 text-center">
+                        <button type="button" class="btn btn-xs btn-success" (click)="doReserva(slotSeleccionado.id)">Reservar clase</button>
+                    </div>
+                </div>
+                <div class="row" *ngIf="hasReserva">
+                  <div class="col-md-12 text-center mb-2">
+                    <span class="badge badge-pill badge-success font-size-14">Ya tienes una plaza reservada para esta clase</span>
+                  </div>
+                  <div class="col-md-12 text-center">
+                      <button class="btn btn-danger btn-sm" (click)="delReserva(hasReserva)">Eliminar reserva</button>
+                  </div>
+                </div>
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger btn-sm" (click)="modal.dismiss()">Cerrar</button>
+  </div>
+  </ng-template>

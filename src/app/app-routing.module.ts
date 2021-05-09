@@ -19,7 +19,6 @@ import { PageLegalComponent } from "./pages/privacidad/pages/legal/legal.compone
 import { PageCuentaPerfilComponent } from "./cuenta/pages/perfil/perfil.component";
 import { PageCuentaInicioComponent } from "./cuenta/components/inicio/inicio.component";
 import { PageCuentaDatosComponent } from "./cuenta/components/datos/datos.component";
-import { PageCuentaHorarioComponent } from "./cuenta/components/horario/horario.component";
 
 import { TipoActividadListComponent } from "./rest/components/tipo_actividad/tipo-actividad-list/tipo-actividad-list.component";
 import { ActividadListComponent } from "@componentsRest/actividad/actividad-list/actividad-list.component";
@@ -61,10 +60,6 @@ const routes: Routes = [
       {
         path: "mis/datos",
         component: PageCuentaDatosComponent,
-      },
-      {
-        path: "mi/horario",
-        component: PageCuentaHorarioComponent,
       },
       // config usuarios
       {

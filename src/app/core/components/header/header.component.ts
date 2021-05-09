@@ -15,10 +15,14 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.sessionUser = this._helperService.getSessionUser();
-    if(this.sessionUser && this.sessionUser.id) {
-      this.isLoggedIn = true;
-    }
+    this._helperService.getSessionUser()
+    .then((user:any)=>{
+      this.sessionUser = user;
+    })
+    .then(()=>{
+      this.isLoggedIn = this._helperService.checkIsLogin();
+    });
+    
   }
 
   logout(){
