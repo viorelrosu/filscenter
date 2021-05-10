@@ -3,14 +3,42 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <h2 class="text-center">¿Has olvidado tu contraseña?</h2>
-                <form #formRecover="ngForm" (ngSubmit)="onSubmit(this.formRecover)" class="form-validation needs-validation">
+                <div class="heading-text heading-gradient heading-line text-center">
+                    <h4 class="text-center"><span>¿Has olvidado tu contraseña?</span></h4>
+                </div>
+                <form #f="ngForm" (ngSubmit)="f.form.valid && onSubmit(f)" class="form-validate">
                     <div class="form-group">
-                        <p class="center">Para recibir una nueva contraseña, introduce tu dirección de correo electrónico.</p>
-                        <input type="email" name="email" class="form-control form-white placeholder required" placeholder="Introduce tu email..." required [(ngModel)]="email">
+                        <p class="text-center">Para recibir una nueva contraseña, introduce tu dirección de correo electrónico.</p>
+                        <label for="email">Email <span class="text-danger">*</span></label>
+                        <input 
+                            type="email"
+                            name="email"
+                            class="form-control form-white placeholder required"
+                            placeholder="Introduce tu email..."
+                            required
+                            [(ngModel)]="email"
+                            #usuarioEmail="ngModel"
+                            pattern="^([a-z0-9]{1})((\.|\-)?([a-z0-9])){0,}@([a-z0-9]){1}((\.|\-)?([a-z0-9]))*\.([a-z]){2,4}$"
+                            [ngClass]="{
+                                'is-invalid':
+                                (f.submitted && usuarioEmail.invalid) ||
+                                (usuarioEmail.touched && !usuarioEmail.valid)
+                            }"
+                            >
+                            <div
+                                *ngIf="
+                                (f.submitted && usuarioEmail.invalid) ||
+                                (usuarioEmail.touched && !usuarioEmail.valid)
+                                "
+                                class="invalid-feedback"
+                                >
+                                <div *ngIf="usuarioEmail.errors.required || usuarioEmail.invalid">
+                                    Email no válido
+                                </div>
+                            </div>
                     </div>
                     <div class="text-center">
-                        <button type="button" class="btn">Recuperar tu Contraseña</button>
+                        <button type="submit" class="btn">Reset Contraseña</button>
                     </div>
                 </form>
             </div>

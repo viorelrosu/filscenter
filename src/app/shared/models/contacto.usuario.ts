@@ -3,9 +3,9 @@ export class ContactoUsuario {
     constructor(
         public nombre: string,
         public apellidos: string,
-        public email: string,
-        public asunto: string,
-        public mensaje: string
+        public from: string,
+        public subject: string,
+        public text: string
     ) {}
 
     public getNombre() {
@@ -16,16 +16,16 @@ export class ContactoUsuario {
         return this.apellidos;
     }
 
-    public getEmail() {
-        return this.email;
+    public getFrom() {
+        return this.from;
     }
 
-    public getAsunto() {
-        return this.asunto;
+    public getSubject() {
+        return this.subject;
     }
 
-    public getMensaje() {
-        return this.mensaje;
+    public getText() {
+        return this.text;
     }
 
     /*== setters */
@@ -37,15 +37,15 @@ export class ContactoUsuario {
         this.apellidos = valor; 
     }
 
-    public setEmail(valor: string){
-        this.email = valor; 
+    public setFrom(valor: string){
+        this.from = valor; 
     }
 
-    public setAsunto(valor: string){
-        this.asunto = valor; 
+    public setSubject(valor: string){
+        this.subject = valor; 
     }
 
-    public setMensaje(valor: string){
-        this.mensaje = valor; 
+    public setText(valor: string){
+        this.text = valor; 
     }
 }

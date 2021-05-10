@@ -3,40 +3,157 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <h3 class="text-uppercase">Contacta con nosotros</h3>
+                <div class="heading-text heading-gradient heading-line">
+                    <h4><span>Contacta con nosotros</span></h4>
+                </div>
                 <p>Cualquier pregunta, no dudes en contactar con nosotros.</p>
                 <div class="m-t-30">
-                    <form class="widget-contact-form" novalidate action="include/contact-form.php" role="form" method="post">
+                    <form class="form-validate" name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit(f)">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="name">Nombre</label>
-                                <input type="text" aria-required="true" name="nombre" required class="form-control required name" placeholder="Introduce tu nombre" [(ngModel)]="mensajeUsuario.nombre" >
+                                <label for="name">Nombre <span class="text-danger">*</span></label>
+                                <input 
+                                    type="text" 
+                                    name="nombre" 
+                                    #usuarioNombre="ngModel"
+                                    required
+                                    class="form-control required name"
+                                    placeholder="Introduce tu nombre"
+                                    [(ngModel)]="mensajeUsuario.nombre"
+                                    pattern="^([a-zA-Za´´eíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,50}"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                        (f.submitted && usuarioNombre.invalid) ||
+                                        (usuarioNombre.touched && !usuarioNombre.valid)
+                                    }" >
+                                <div
+                                    *ngIf="
+                                      (f.submitted && usuarioNombre.invalid) ||
+                                      (usuarioNombre.touched && !usuarioNombre.valid)
+                                    "
+                                    class="invalid-feedback"
+                                  >
+                                    <div *ngIf="usuarioNombre.errors.required || usuarioNombre.invalid">
+                                      Nombre no válido
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="email">Email</label>
-                                <input type="email" aria-required="true" name="email" required class="form-control required email" placeholder="Introduce tu email" [(ngModel)]="mensajeUsuario.apellidos">
+                                <label for="email">Email <span class="text-danger">*</span></label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    required
+                                    class="form-control required email"
+                                    placeholder="Introduce tu email"
+                                    [(ngModel)]="mensajeUsuario.from"
+                                    #usuarioEmail="ngModel"
+                                    pattern="^([a-z0-9]{1})((\.|\-)?([a-z0-9])){0,}@([a-z0-9]){1}((\.|\-)?([a-z0-9]))*\.([a-z]){2,4}$"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                        (f.submitted && usuarioEmail.invalid) ||
+                                        (usuarioEmail.touched && !usuarioEmail.valid)
+                                    }"
+                                >
+                                <div
+                                    *ngIf="
+                                        (f.submitted && usuarioEmail.invalid) ||
+                                        (usuarioEmail.touched && !usuarioEmail.valid)
+                                    "
+                                    class="invalid-feedback"
+                                >
+                                    <div *ngIf="usuarioEmail.errors.required || usuarioEmail.invalid">
+                                        Email no válido
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="subject">Asunto</label>
-                                <input type="text" name="asunto" required class="form-control required" placeholder="Asunto..." [(ngModel)]="mensajeUsuario.asunto">
+                                <label for="subject">Asunto <span class="text-danger">*</span></label>
+                                <input
+                                    type="text"
+                                    name="subject"
+                                    required
+                                    class="form-control required"
+                                    placeholder="Asunto..."
+                                    [(ngModel)]="mensajeUsuario.subject"
+                                    #usuarioSubject="ngModel"
+                                    pattern="^([a-zA-Za´´eíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,50}"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                        (f.submitted && usuarioSubject.invalid) ||
+                                        (usuarioSubject.touched && !usuarioSubject.valid)
+                                    }"
+                                >
+                                <div
+                                    *ngIf="
+                                        (f.submitted && usuarioSubject.invalid) ||
+                                        (usuarioSubject.touched && !usuarioSubject.valid)
+                                    "
+                                    class="invalid-feedback"
+                                >
+                                    <div *ngIf="usuarioSubject.errors.required || usuarioSubject.invalid">
+                                        Asunto no válido
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="message">Mensaje</label>
-                            <textarea type="text" name="mensaje" required rows="5" class="form-control required" placeholder="Introduce tu mensaje" [(ngModel)]="mensajeUsuario.mensaje"></textarea>
+                            <label for="message">Mensaje <span class="text-danger">*</span></label>
+                            <textarea
+                                type="text"
+                                name="mensaje"
+                                required
+                                rows="5"
+                                class="form-control required"
+                                placeholder="Introduce tu mensaje"
+                                [(ngModel)]="mensajeUsuario.text"
+                                #usuarioText="ngModel"
+                                pattern="^([a-zA-Za´´eíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,50}"
+                                [ngClass]="{
+                                    'is-invalid':
+                                    (f.submitted && usuarioText.invalid) ||
+                                    (usuarioText.touched && !usuarioText.valid)
+                                }"
+                                ></textarea>
+                                <div
+                                    *ngIf="
+                                        (f.submitted && usuarioText.invalid) ||
+                                        (usuarioText.touched && !usuarioText.valid)
+                                    "
+                                    class="invalid-feedback"
+                                >
+                                    <div *ngIf="usuarioText.errors.required || usuarioText.invalid">
+                                        Mensaje no válido
+                                    </div>
+                                </div>
                         </div>
                         <!--  <div class="form-group">
                             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                             <div class="g-recaptcha" data-sitekey="6LddCxAUAAAAAKOg0-U6IprqOZ7vTfiMNSyQT2-M"></div>
                         </div>  -->
-                        <button class="btn" type="submit" id="form-submit"><i class="fa fa-paper-plane"></i>&nbsp;Enviar mensaje</button>
+                        <div class="row" *ngIf="enviando">
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Cargando...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="!enviando">
+                            <div class="col-md-12">
+                                <button class="btn" type="submit" id="form-submit"><i class="fa fa-paper-plane"></i>&nbsp;Enviar mensaje</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
             <div class="col-lg-6">
-                <h3 class="text-uppercase">Dirección y Mapa</h3>
+                <div class="heading-text heading-gradient heading-line">
+                    <h4><span>Dirección y Mapa</span></h4>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <address>
