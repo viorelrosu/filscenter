@@ -40,7 +40,8 @@
             "scripts": [
               "src/assets/js/jquery.js",
               "src/assets/js/plugins.js",
-              "src/assets/js/plugins/bootstrap-switch/bootstrap-switch.min.js"
+              "src/assets/js/plugins/bootstrap-switch/bootstrap-switch.min.js",
+              "node_modules/crypto-js/crypto-js.js"
             ]
           },
           "configurations": {

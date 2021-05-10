@@ -7,7 +7,7 @@
                     {{ errorMessage }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
-                <form  class="form-transparent-grey needs-validation form-validate"
+                <form  class="form-validate"
                     name="form"
                     (ngSubmit)="f.form.valid && addUsuario()"
                     #f="ngForm"
@@ -261,7 +261,7 @@
                                 id="password"
                                 name="password"
                                 #usuarioPassword="ngModel"
-                                [(ngModel)]="nuevoUsuario.password"
+                                [(ngModel)]="password"
                                 placeholder="6 caract. min"
                                 required
                                 pattern="\w{6,}"
@@ -291,7 +291,7 @@
                                 id="password_confirm"
                                 name="password_confirm"
                                 #usuarioPasswordConfirm="ngModel"
-                                [(ngModel)]="nuevoUsuario.password_confirm"
+                                [(ngModel)]="passwordConfirm"
                                 placeholder="Confirmar contraseña"
                                 required
                                 pattern="\w{6,}"

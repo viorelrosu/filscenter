@@ -16,8 +16,8 @@ export class PageCuentaPerfilComponent implements OnInit {
   public title: string;
   public menuActive: string;
 
-  public sessionUser: any;
-  public isSuscribed: boolean = false;
+  // public sessionUser: any;
+  // public isSuscribed: boolean = false;
 
   constructor(
     private _helperService: HelperService,
@@ -32,14 +32,14 @@ export class PageCuentaPerfilComponent implements OnInit {
   ngOnInit(): void {
     //window.location.reload();
     this._helperService.checkIsLoginAndRedirectToLogin();
-    this._helperService.getSessionUser()
-    .then((user:any)=>{
-      this.sessionUser = user;
-    })
-    .then(()=>{
-      this.isSuscribed = this.sessionUser.suscripcion.isSubscribed;
-      //console.log(this.sessionUser);
-    });
+    // this._helperService.getSessionUser()
+    // .then((user:any)=>{
+    //   this.sessionUser = user;
+    // })
+    // .then(()=>{
+    //   this.isSuscribed = this.sessionUser.suscripcion.isSubscribed;
+    //   //console.log(this.sessionUser);
+    // });
 
     
   }

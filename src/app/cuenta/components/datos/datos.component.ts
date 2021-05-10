@@ -7,7 +7,7 @@ import { Localidad } from "@modelsRest/Localidad";
 import { TipoSuscripcion } from "@modelsRest/TipoSuscripcion";
 
 import { HelperService } from '@core/services/helper.service';
-
+import { CryptoService } from '@core/services/crypto.service';
 import { UsuarioServiceService as UsuarioService } from "@servicesRest/usuario/usuario-service.service";
 import { DireccionServiceService as DireccionService } from "@servicesRest/direccion/direccion-service.service";
 import { LocalidadServiceService as LocalidadService } from "@servicesRest/localidad/localidad-service.service";
@@ -32,6 +32,7 @@ export class PageCuentaDatosComponent implements OnInit {
   public localidadId:number;
   public provincias: Provincia[];
   public localidades: Localidad[];
+  public password:string;
 
   public isDataLoaded:boolean = false;
 
@@ -50,6 +51,7 @@ export class PageCuentaDatosComponent implements OnInit {
     private _serviceTipoSuscripcion: TipoSuscripcionService,
     private _serviceSuscripcion: SuscripcionService,
     private _helperService: HelperService,
+    private _cryptoService: CryptoService,
     private _modalService: NgbModal,
   ) { 
     this.usuarioUpdate={};
@@ -73,6 +75,7 @@ export class PageCuentaDatosComponent implements OnInit {
     .then(()=>this.getTaquilla())
     .then(()=>{
       //console.log(this.usuarioUpdate);
+      this.usuarioUpdate.password = this._cryptoService.set(this.password);
       this._serviceRestUser.updateUsuario(this.usuarioUpdate).subscribe(data=>{
         $.notify({
           // options

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
 import { TokenStorageService } from '@core/services/token-storage.service';
 import { HelperService } from '@core/services/helper.service';
+import { CryptoService } from '@core/services/crypto.service';
 import { UsuarioServiceService } from '@servicesRest/usuario/usuario-service.service';
 
 import { Router } from '@angular/router';
@@ -23,6 +24,7 @@ export class FormularioComponent implements OnInit {
 
   constructor(
     private _authService: AuthService,
+    private _cryptoService: CryptoService,
     private _helperService: HelperService,
     private _tokenStorage: TokenStorageService,
     private _restUserService: UsuarioServiceService,
@@ -37,8 +39,9 @@ export class FormularioComponent implements OnInit {
     // console.log(this.form.username);
     // console.log(this.form.password);
     const { username, password } = this.form;
+    const passEncrypted = this._cryptoService.set(password);
 
-    this._authService.login(username, password).subscribe(
+    this._authService.login(username, passEncrypted).subscribe(
       result => {
         //console.log(result);
         this._restUserService.getUsuarioByEmail(result.username).toPromise()

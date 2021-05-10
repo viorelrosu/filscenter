@@ -33,6 +33,7 @@ export class PageCuentaInicioComponent implements OnInit {
     this._helperService.getSessionUser()
     .then((user:any)=>{
       this.sessionUser = user;
+      console.log(this.sessionUser);
     })
     .then(()=>{
       this.isSuscribed = this.sessionUser.suscripcion.isSubscribed;
