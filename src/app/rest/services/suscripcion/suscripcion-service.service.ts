@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Suscripcion } from '@modelsRest/suscripcion';
 import { Observable } from 'rxjs';
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class SuscripcionServiceService {
 
   constructor(private _http:HttpClient) { }
 
-  url="http://localhost:8080/webservice/suscripcion";
+  url= appSettings.apiUrl + "suscripcion";
 
   getSuscripciones():Observable<any>{
     return this._http.get(this.url);

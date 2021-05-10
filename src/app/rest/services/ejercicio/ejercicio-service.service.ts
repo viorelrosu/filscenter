@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Ejercicio } from '@modelsRest/Ejercicio';
 import { Observable } from 'rxjs';
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class EjercicioServiceService {
 
   constructor(private _http: HttpClient) {}
 
-  url = 'http://localhost:8080/webservice/ejercicio';
-  url2 = 'http://localhost:8080/webservice/ejercicios';
+  url = appSettings.apiUrl+'ejercicio';
+  url2 = appSettings.apiUrl+'ejercicios';
 
   getEjercicios(): Observable<any> {
     return this._http.get(this.url);

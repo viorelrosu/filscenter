@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Direccion } from "@modelsRest/Direccion";
 import { Observable } from "rxjs";
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: "root",
@@ -9,7 +10,7 @@ import { Observable } from "rxjs";
 export class DireccionServiceService {
   constructor(private _http: HttpClient) {}
 
-  url = "http://localhost:8080/webservice/direccion";
+  url = appSettings.apiUrl + 'direccion';
 
   getDirecciones(): Observable<any> {
     return this._http.get(this.url);

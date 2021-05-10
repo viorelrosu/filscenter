@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Taquilla } from '@modelsRest/Taquilla';
 import {Observable} from "rxjs";
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class TaquillaServiceService {
 
   constructor(private _http:HttpClient) { }
 
-  url="http://localhost:8080/webservice/taquilla";
+  url= appSettings.apiUrl + "taquilla";
 
   getTaquillas():Observable<any>{
     return this._http.get(this.url);

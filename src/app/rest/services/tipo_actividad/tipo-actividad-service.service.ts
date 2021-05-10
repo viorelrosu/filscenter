@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { TipoActividad } from '../../models/TipoActividad';
-
+import { appSettings } from '@core/helpers/appSettings';
 
 
 @Injectable({
@@ -12,7 +12,7 @@ export class TipoActividadServiceService {
 
   constructor(private _http:HttpClient) { }
 
-  url="http://localhost:8080/webservice/tipoActividad";
+  url= appSettings.apiUrl + "tipoActividad";
   //coger todas las actividades
   getTipoActividades():Observable<any>{
     return this._http.get<TipoActividad>(this.url);

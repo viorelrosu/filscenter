@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Reserva } from '@modelsRest/Reserva';
 import {Observable} from "rxjs";
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class ReservaServiceService {
 
   constructor(private _http:HttpClient) { }
 
-  url="http://localhost:8080/webservice/reserva";
+  url = appSettings.apiUrl + "reserva";
   
 
   getreservas():Observable<any>{

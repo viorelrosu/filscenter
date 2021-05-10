@@ -2,9 +2,13 @@ import { Injectable } from '@angular/core';
 import { TokenStorageService } from './token-storage.service';
 import { Router } from '@angular/router';
 import { SuscripcionServiceService as SuscripcionService } from '@servicesRest/suscripcion/suscripcion-service.service';
+
+declare var $:any;
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class HelperService {
 
   constructor(
@@ -97,9 +101,22 @@ export class HelperService {
 
   public logout(): any {
     this._tokenStorageService.signOut();
-    this._router.navigate(['/inicio']).then(() => {
-      window.location.reload();
+    
+    $.notify({
+      // options
+      icon: 'fas fa-check',
+      title: '¡Adiós!',
+      message: 'Estamos cerrando tu sessión.',
+    },{
+      // settings
+      type: 'success'
     });
+
+    setTimeout(() => {
+      this._router.navigate(['/inicio']).then(() => {
+        window.location.reload();
+      });
+    }, 1000);
   }
 
 

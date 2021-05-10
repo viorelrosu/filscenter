@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
-import { settings } from '../helpers/appSettings';
+import { appSettings } from '../helpers/appSettings';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class CryptoService {
-  public keys:string = settings.salt;
+  public keys:string = appSettings.salt;
   constructor() { }
 
   //The set method is use for encrypt the value.

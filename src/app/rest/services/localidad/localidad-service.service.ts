@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Localidad } from '@modelsRest/Localidad';
 import { Observable } from 'rxjs';
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class LocalidadServiceService {
 
   constructor(private _http: HttpClient) {}
 
-  url = 'http://localhost:8080/webservice/localidad';
-  url2 = 'http://localhost:8080/webservice/localidades';
+  url = appSettings.apiUrl + 'localidad';
+  url2 = appSettings.apiUrl + 'localidades';
 
   getLocalidades(): Observable<any> {
     return this._http.get(this.url);

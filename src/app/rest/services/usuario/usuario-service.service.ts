@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Usuario } from "@modelsRest/Usuario";
 import { Observable } from "rxjs";
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: "root",
@@ -9,8 +10,8 @@ import { Observable } from "rxjs";
 export class UsuarioServiceService {
   constructor(private _http: HttpClient) {}
 
-  url = "http://localhost:8080/webservice/usuario";
-  urlAlta = "http://localhost:8080/webservice/altaUsuario";
+  url = appSettings.apiUrl + "usuario";
+  urlAlta = appSettings.apiUrl + "altaUsuario";
 
   getUsuarios(): Observable<any> {
     return this._http.get(this.url);

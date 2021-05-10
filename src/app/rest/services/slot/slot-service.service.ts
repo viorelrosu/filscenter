@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Slot } from '@modelsRest/Slot';
 import { Observable } from 'rxjs';
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class SlotServiceService {
 
   constructor(private _http: HttpClient) {}
 
-  url = 'http://localhost:8080/webservice/slot';
+  url = appSettings.apiUrl + 'slot';
 
   getSlots(): Observable<any> {
     return this._http.get(this.url);

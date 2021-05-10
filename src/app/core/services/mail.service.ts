@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ContactoUsuario } from '@shared/models/contacto.usuario';
+import { appSettings } from '@core/helpers/appSettings';
 
-const url = 'http://localhost:8080/webservice/';
+const url = appSettings.apiUrl;
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

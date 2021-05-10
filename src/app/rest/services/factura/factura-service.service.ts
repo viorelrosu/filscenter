@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Factura } from '@modelsRest/Factura';
 import { Observable } from 'rxjs';
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 export class FacturaServiceService {
   constructor(private _http: HttpClient) {}
 
-  url = 'http://localhost:8080/webservice/factura';
+  url = appSettings.apiUrl+ 'factura';
 
   getFacturas(): Observable<any> {
     return this._http.get(this.url);

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Sala } from '@modelsRest/sala';
 import { Observable } from 'rxjs';
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 export class SalaServiceService {
   constructor(private _http: HttpClient) {}
 
-  url = 'http://localhost:8080/webservice/sala';
+  url = appSettings.apiUrl + 'sala';
 
   getSalas(): Observable<any> {
     return this._http.get(this.url);

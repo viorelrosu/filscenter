@@ -8,7 +8,7 @@ export class FormatoStringToHoraPipe implements PipeTransform{
     transform(value:number){
         var cadena = value.toString();
         var resultado;
-        if(cadena.charAt(0) != '0') {
+        if(cadena.charAt(0) != '0' && cadena.charAt(0) != '1' && cadena.charAt(0) != '2') {
             resultado = '0'+cadena.charAt(0)+":"+cadena.charAt(1)+cadena.charAt(2);
         } else {
             resultado = cadena.charAt(0)+cadena.charAt(1)+":"+cadena.charAt(2)+cadena.charAt(3);

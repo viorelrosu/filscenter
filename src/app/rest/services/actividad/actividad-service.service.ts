@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Actividad } from "../../models/Actividad";
+import { appSettings } from '@core/helpers/appSettings';
 
 @Injectable({
   providedIn: "root",
@@ -9,7 +10,7 @@ import { Actividad } from "../../models/Actividad";
 export class ActividadServiceService {
   constructor(private _http: HttpClient) {}
 
-  url = "http://localhost:8080/webservice/actividad";
+  url = appSettings.apiUrl + 'actividad';
 
   getActividades(): Observable<any> {
     return this._http.get(this.url);

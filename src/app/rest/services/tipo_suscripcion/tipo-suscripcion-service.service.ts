@@ -2,13 +2,14 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { TipoSuscripcion } from "@modelsRest/TipoSuscripcion";
 import { Observable } from "rxjs";
+import { appSettings } from '@core/helpers/appSettings';
 @Injectable({
   providedIn: "root",
 })
 export class TipoSuscripcionServiceService {
   constructor(private _http: HttpClient) {}
 
-  url = "http://localhost:8080/webservice/tipoSuscripcion";
+  url = appSettings.apiUrl + "tipoSuscripcion";
 
   getTiposSuscripcion(): Observable<any> {
     return this._http.get(this.url);

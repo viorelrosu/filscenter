@@ -36,6 +36,11 @@ export class PageCuentaInicioComponent implements OnInit {
       console.log(this.sessionUser);
     })
     .then(()=>{
+      if(!this.sessionUser.suscripcion) {
+        this._helperService.checkAndSaveSessionSubscription();
+      }
+    })
+    .then(()=>{
       this.isSuscribed = this.sessionUser.suscripcion.isSubscribed;
       if(!this.isSuscribed) {
         this.title = 'Sin suscripción';
