@@ -168,14 +168,8 @@ export class FormularioComponent implements OnInit {
         //console.log(result);
         this._restUserService.getUsuarioByEmail(result.username).toPromise()
         .then(data => {
-            //console.log(data);
-            data.isAdmin = (data.rol.nombre  == 'admin') ? true : false;
-            data.isMonitor = (data.rol.nombre  == 'monitor') ? true : false;
             this._tokenStorage.saveUser(data);
             this._tokenStorage.saveToken(result.accessToken);
-        })
-        .then(()=>{
-          this._helperService.checkAndSaveSessionSubscription();
         })
         .then(()=>{
           this.isLoginFailed = false;
