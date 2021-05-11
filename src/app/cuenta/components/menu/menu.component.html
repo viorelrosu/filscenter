@@ -12,8 +12,7 @@
               <li><a href="#">Páginas</a></li>
             </ul>
           </li> -->
-          <li [class]="'dropdown'" *ngIf="sessionUser.rol.id == 1">
-            <!-- <li [class]="'dropdown'" [class.active]="active == 'actividad'" *ngIf="sessionUser.isAdmin"> -->
+          <li [class]="'dropdown'" *ngIf="sessionUser.isAdmin">
             <a href="javascript:;">Actividades</a>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="/cuenta/actividad/list">Actividades</a></li>
@@ -23,7 +22,7 @@
             </ul>
           </li>
           <!--li class="dropdown" -->
-          <li class="dropdown" [class.active]="active == 'ejercicio'"  *ngIf="sessionUser.rol.id == 1 || sessionUser.rol.id == 2">
+          <li class="dropdown" [class.active]="active == 'ejercicio'"  *ngIf="sessionUser.isAdmin || sessionUser.isMonitor">
             <a href="javascript:;">Ejercicios</a>
             <ul class="dropdown-menu menu-last">
                 <li><a class="dropdown-item" href="/cuenta/tablaEjercicio/list">Tablas</a></li>
@@ -32,7 +31,7 @@
             </ul>
           </li>
           <!--li class="dropdown" -->
-          <li class="dropdown" [class.active]="active == 'usuario'" *ngIf="sessionUser.rol.id == 1">
+          <li class="dropdown" [class.active]="active == 'usuario'" *ngIf="sessionUser.isAdmin">
             <a href="javascript:;">Usuarios</a>
             <ul class="dropdown-menu menu-last">
                 <li><a class="dropdown-item" href="/cuenta/usuario/list">Usuarios</a></li>
