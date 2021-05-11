@@ -34,7 +34,7 @@ export class ReservaAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._serviceUsuario.getUsuariosByRol(1).subscribe((data) => {
+    this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
       this.usuarios = data;
     });
     this._serviceSlot.getSlots().subscribe((data) => {

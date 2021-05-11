@@ -46,7 +46,7 @@ export class ReservaListComponent implements OnInit {
       this.slots = data;
     });
 
-    this._serviceUsuario.getUsuariosByRol(1).subscribe((data) => {
+    this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
       this.usuarios = data;
     });
   }

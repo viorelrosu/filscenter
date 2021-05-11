@@ -39,6 +39,7 @@ export class ActividadAddComponent implements OnInit {
     this.serviceTipoActividad.getTipoActividades().subscribe((data) => {
       this.tiposActividades = data;
     });
+    this.nuevaActividad.color="#ffffff";
   }
 
   obtenerUnTipoActividad() {

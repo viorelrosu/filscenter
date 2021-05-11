@@ -51,7 +51,7 @@ export class SlotListComponent implements OnInit {
       this.actividades = data;
     });
   //este número de rolId irá en función de el script definitivo de roles en la bbdd
-    this._serviceMonitor.getUsuariosByRol(3).subscribe((data) => {
+    this._serviceMonitor.getUsuariosByRol(2).subscribe((data) => {
       this.monitores = data;
     });
 

@@ -12,7 +12,7 @@ export class EjercicioServiceService {
   constructor(private _http: HttpClient) {}
 
   url = appSettings.apiUrl+'ejercicio';
-  url2 = appSettings.apiUrl+'ejercicios';
+  url2 = appSettings.apiUrl+'ejercicios/tipoEjercicio';
 
   getEjercicios(): Observable<any> {
     return this._http.get(this.url);

@@ -43,7 +43,7 @@ export class SlotAddComponent implements OnInit {
 
   ngOnInit(): void {
     //este número de rolId irá en función de el script definitivo de roles en la bbdd
-    this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
+    this._serviceUsuario.getUsuariosByRol(2).subscribe((data) => {
       this.monitores = data;
     });
 

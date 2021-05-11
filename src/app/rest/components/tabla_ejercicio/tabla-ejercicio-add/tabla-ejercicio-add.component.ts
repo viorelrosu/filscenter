@@ -30,10 +30,10 @@ export class TablaEjercicioAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._serviceUsuario.getUsuariosByRol(1).subscribe(data=>{
+    this._serviceUsuario.getUsuariosByRol(3).subscribe(data=>{
       this.suscriptores=data;
     });
-    this._serviceUsuario.getUsuariosByRol(3).subscribe(data=>{
+    this._serviceUsuario.getUsuariosByRol(2).subscribe(data=>{
       this.monitores=data;
     });
   }

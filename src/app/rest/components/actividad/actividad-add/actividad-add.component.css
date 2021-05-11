@@ -1,0 +1,8 @@
+input[type="color"]{
+    height: 50%!important;
+    width: 20%!important;
+}
+
+input[type="color"] .is-invalid{
+    margin-left: 20px;
+}
