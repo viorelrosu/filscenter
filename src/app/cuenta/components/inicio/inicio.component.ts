@@ -15,6 +15,8 @@ export class PageCuentaInicioComponent implements OnInit {
   public title: string;
   public menuActive: string;
   public isDataLoaded: boolean = false;
+  public showHorario: boolean = false;
+  public showTablas: boolean = true;
 
   public sessionUser: any;
   public isSuscribed: boolean = false;
@@ -37,7 +39,14 @@ export class PageCuentaInicioComponent implements OnInit {
     })
     .then(()=>{
       if(!this.sessionUser.suscripcion) {
-        this._helperService.checkAndSaveSessionSubscription();
+        return this._helperService.checkAndSaveSessionSubscription()
+        .then(()=>{
+          return this._helperService.getSessionUser();
+        })
+        .then((user:any)=>{
+          this.sessionUser = user;
+          //console.log(this.sessionUser);
+        });
       }
     })
     .then(()=>{
@@ -50,6 +59,22 @@ export class PageCuentaInicioComponent implements OnInit {
     .then(()=>{
       this.isDataLoaded=true;
     });
+  }
+
+  openHorario(){
+    this.showHorario=true;
+  }
+
+  closeHorario(){
+    this.showHorario=false;
+  }
+
+  openTablas(){
+    this.showTablas=true;
+  }
+
+  closeTablas(){
+    this.showTablas=false;
   }
 
 }

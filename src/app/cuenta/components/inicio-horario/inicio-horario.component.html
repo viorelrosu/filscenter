@@ -28,52 +28,53 @@
             </div>
         </div>
     </div>
-
-    <table class="table table-striped horario table-responsive">
-      <thead>
-        <tr>
-          <th scope="col" class="text-center">Hora</th>
-          <th scope="col" class="text-center">Lunes</th>
-          <th scope="col" class="text-center">Martes</th>
-          <th scope="col" class="text-center">Miercoles</th>
-          <th scope="col" class="text-center">Jueves</th>
-          <th scope="col" class="text-center">Viernes</th>
-          <th scope="col" class="text-center">Sabado</th>
-          <th scope="col" class="text-center">Domingo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let hora of horas" class="text-center">
-          <th scope="row" class="text-center">{{ hora.hora }}</th>
-          <td *ngFor="let dia of diasSemana"  class="text-center">
-            <div *ngIf="hora[dia]">
-                <button
-                    class="btn btn-xs btn-rounded horarioClase d-flex align-items-center" [ngStyle]="{'border-color':hora[dia].color, 'background-color': hora[dia].color }"
-                    (click)="open(content,hora[dia].slot)"
-                    [class.opacity-85]="!hora[dia].isReserved"
-                    [class.disabled]="hora[dia].isDisabled"
-                >
-                <div class="">
-                    <img
-                    src="{{ hora[dia].imagen }}"
-                    alt="{{ hora[dia].monitor }}"
-                    class="rounded-circle m-r-5"
-                    width="26"
-                    />
+    <div class="table-responsive">
+        <table class="table table-striped horario">
+        <thead>
+            <tr>
+            <th scope="col" class="text-center">Hora</th>
+            <th scope="col" class="text-center">Lunes</th>
+            <th scope="col" class="text-center">Martes</th>
+            <th scope="col" class="text-center">Miercoles</th>
+            <th scope="col" class="text-center">Jueves</th>
+            <th scope="col" class="text-center">Viernes</th>
+            <th scope="col" class="text-center">Sabado</th>
+            <th scope="col" class="text-center">Domingo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let hora of horas" class="text-center">
+            <th scope="row" class="text-center">{{ hora.hora }}</th>
+            <td *ngFor="let dia of diasSemana"  class="text-center">
+                <div *ngIf="hora[dia]">
+                    <button
+                        class="btn btn-xs btn-rounded horarioClase d-flex align-items-center" [ngStyle]="{'border-color':hora[dia].color, 'background-color': hora[dia].color }"
+                        (click)="open(content,hora[dia].slot)"
+                        [class.opacity-85]="!hora[dia].isReserved"
+                        [class.disabled]="hora[dia].isDisabled"
+                    >
+                    <div class="">
+                        <img
+                        src="{{ hora[dia].imagen }}"
+                        alt="{{ hora[dia].monitor }}"
+                        class="rounded-circle m-r-5"
+                        width="26"
+                        />
+                    </div>
+                    <div class="line-height-12 m-r-5">
+                    {{ hora[dia].actividad}}
+                    </div>
+                    <div class="" *ngIf="hora[dia].isReserved"><span><i class="fa fa-check"></i></span></div>
+                </button>
                 </div>
-                <div class="line-height-12 m-r-5">
-                {{ hora[dia].actividad}}
+                <div *ngIf="!hora[dia]">
+                <h3><span class="text-danger"><i class="icon-x"></i></span></h3>
                 </div>
-                <div class="" *ngIf="hora[dia].isReserved"><span><i class="fa fa-check"></i></span></div>
-              </button>
-            </div>
-            <div *ngIf="!hora[dia]">
-              <h3><span class="text-danger"><i class="icon-x"></i></span></h3>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
 </div>
 
 <ng-template #content let-modal>

@@ -6,7 +6,7 @@
                     <h4 class="mb-0 font-size-h2"><span>{{ title }}</span></h4>
                 </div>
             </div>
-            <div *ngIf="!isDataLoaded" class="col-lg-12">
+            <div *ngIf="!isDataLoaded" class="col-lg-12 my-5">
                 <div *ngIf="!isDataLoaded" class="d-flex justify-content-center">
                     <div class="spinner-border" role="status">
                       <span class="sr-only">Cargando...</span>
@@ -32,6 +32,19 @@
                     </div>
                 </div>
                 <div class="line"></div>
+
+                <!-- suscripcion -->
+                <div class="row my-4">
+                    <div class="col-md-12 mb-4">
+                        <h4 class="text-primary">Imagen perfil</h4>
+                    </div>
+                    <div class="col-md-12">
+                        <cuenta-upload-image [user]="sessionUser"></cuenta-upload-image>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+
                 <form
                     class="form-validate"
                     name="form"
@@ -154,6 +167,7 @@
                             class="form-control"
                             id="email"
                             name="email"
+                            autocomplete="username"
                             #usuarioEmail="ngModel"
                             [(ngModel)]="usuarioUpdate.email"
                             placeholder="Email usuario"
@@ -296,6 +310,7 @@
                             class="form-control"
                             id="password"
                             name="password"
+                            autocomplete="current-password"
                             #usuarioPassword="ngModel"
                             [(ngModel)]="password"
                             placeholder="6 caract. min (por ahora)"

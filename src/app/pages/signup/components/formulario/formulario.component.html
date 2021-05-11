@@ -7,22 +7,24 @@
                     {{ errorMessage }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="heading-text heading-gradient heading-line text-center">
+                            <h4 class="text-center"><span>Nueva Suscripción</span></h4>
+                        </div>
+                        <p class="text-center">Cree una cuenta introduciendo la información a continuación. <br /> Si ya tienes cuenta, <a href="/iniciar-sesion">inicia sesión</a>.</p>
+                    </div>
+                </div>
+
                 <form  class="form-validate"
                     name="form"
                     (ngSubmit)="f.form.valid && addUsuario()"
                     #f="ngForm"
                 >
+                    
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="heading-text heading-gradient heading-line text-center">
-                                <h4 class="text-center"><span>Nueva Suscripción</span></h4>
-                            </div>
-                            <p class="text-center">Cree una cuenta introduciendo la información a continuación. <br /> Si ya tienes cuenta, <a href="/iniciar-sesion">inicia sesión</a>.</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5>Datos usuario</h5>
+                            <h5 class="text-primary">Datos usuario</h5>
                         </div>
                     </div>
                     <div class="row">
@@ -316,7 +318,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 mt-3">
-                            <h5>Datos Dirección</h5>
+                            <h5 class="text-primary">Datos Dirección</h5>
                         </div>
                     </div>
                     <div class="row">
@@ -620,7 +622,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="enviando">
+                        <div class="col-md-12 mt-3">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="!enviando">
                         <div class="col-md-12 form-group">
                             <button type="submit" class="btn">Regístrate</button>
                             <button type="button" class="btn btn-danger m-l-10">Cancel</button>

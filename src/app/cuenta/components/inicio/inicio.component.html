@@ -18,13 +18,75 @@
                 </div>
             </div>
             <div class="col-lg-12 my-5" *ngIf="isSuscribed">
-                <div class="row my-4">
-                    <div class="col-md-12 mb-4">
-                        <h4 class="text-primary">Mi horario</h4>
+                <div *ngIf="showHorario">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="text-primary">Mi horario</h4>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
+                            <button class="btn btn-xs btn-slide" data-width="80" (click)="closeHorario()" style="width: 28px;">
+                                <i class="icon-chevron-up"></i>
+                                <span>Cerrar</span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        <cuenta-inicio-horario></cuenta-inicio-horario>
+                    <div class="line my-3"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <cuenta-inicio-horario></cuenta-inicio-horario>
+                        </div>
                     </div>
+                </div>
+                <div *ngIf="!showHorario">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="text-primary">Mi horario</h4>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
+                            <button class="btn btn-xs btn-slide" data-width="80" (click)="openHorario()" style="width: 28px;">
+                                <i class="icon-chevron-down"></i>
+                                <span>Abrir</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="line my-3"></div>
+                </div>
+
+                <div *ngIf="showTablas">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="text-primary">Mis tablas de ejercicios</h4>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
+                            <button class="btn btn-xs btn-slide" data-width="80" (click)="closeTablas()" style="width: 28px;">
+                                <i class="icon-chevron-up"></i>
+                                <span>Cerrar</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mb-3 mt-5">
+                        <div class="col-md-12">
+                            <cuenta-inicio-tablas></cuenta-inicio-tablas>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!showTablas">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="text-primary">Mis tablas de ejercicios</h4>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
+                            <button class="btn btn-xs btn-slide" data-width="80" (click)="openTablas()" style="width: 28px;">
+                                <i class="icon-chevron-down"></i>
+                                <span>Abrir</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="line my-3"></div>
                 </div>
             </div>
         </div>

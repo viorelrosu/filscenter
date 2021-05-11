@@ -6,6 +6,8 @@ import { CuentaRoutingModule } from './cuenta-routing.module';
 import { PageCuentaDatosComponent } from './components/datos/datos.component';
 import { PageCuentaInicioComponent } from './components/inicio/inicio.component';
 import { CuentaInicioHorarioComponent } from './components/inicio-horario/inicio-horario.component';
+import { CuentaInicioTablasComponent } from './components/inicio-tablas/inicio-tablas.component';
+import { CuentaUploadImageComponent } from './components/upload-image/upload-image.component';
 
 @NgModule({
   declarations: [
@@ -13,12 +15,14 @@ import { CuentaInicioHorarioComponent } from './components/inicio-horario/inicio
     MenuComponent,
     PageCuentaDatosComponent,
     PageCuentaInicioComponent,
-    CuentaInicioHorarioComponent
+    CuentaInicioHorarioComponent,
+    CuentaInicioTablasComponent,
+    CuentaUploadImageComponent
   ],
   imports: [
     SharedModule,
     CuentaRoutingModule,
   ],
-  exports: [PageCuentaPerfilComponent, CuentaRoutingModule, PageCuentaDatosComponent, PageCuentaInicioComponent]
+  exports: [PageCuentaPerfilComponent, CuentaRoutingModule, PageCuentaDatosComponent, PageCuentaInicioComponent],
 })
 export class CuentaModule { }

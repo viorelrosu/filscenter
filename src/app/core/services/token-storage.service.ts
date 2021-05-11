@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { SuscripcionServiceService as SuscripcionService } from '@servicesRest/suscripcion/suscripcion-service.service';
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
 
@@ -7,7 +7,9 @@ const USER_KEY = 'auth-user';
   providedIn: 'root'
 })
 export class TokenStorageService {
-  constructor() { }
+  constructor(
+    private _serviceRestSuscripcion: SuscripcionService,
+  ) { }
 
   signOut(): void {
     window.sessionStorage.clear();
@@ -22,9 +24,48 @@ export class TokenStorageService {
     return window.sessionStorage.getItem(TOKEN_KEY);
   }
 
-  public saveUser(user: any): void {
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+  public saveUser(user: any) {
+    return new Promise(resolve=>{
+      user.isAdmin = (user.rol.nombre  == 'admin') ? true : false;
+      user.isMonitor = (user.rol.nombre  == 'monitor') ? true : false;
+      var dataSuscripcion:any = { isSubscribed: false, suscripcion: {} }
+
+      this._serviceRestSuscripcion.getSuscripcionesByUsuarioId(user.id).toPromise()
+      .then((suscripciones)=>{
+        //console.log(suscripciones);
+        if(suscripciones != null) {
+          for(let item of suscripciones) {
+            if(item.fechaBaja == null) {
+              //no tiene fecha de baja por lo tanto esta suscrito.
+              dataSuscripcion.isSubscribed = true;
+              dataSuscripcion.suscripcion = item;
+
+            } else {
+
+              //tiene fecha de baja y comprobamos si es todavia es activa la suscripción
+              var dateBaja = item.fechaBaja.substring(0,10);
+              var today = new Date();
+              var fechaBaja = new Date(dateBaja.substring(0,4), dateBaja.substring(5,7)-1, dateBaja.substring(8,10));
+
+              if(fechaBaja.getTime() >= today.getTime()) {
+                dataSuscripcion.isSubscribed = true;
+                dataSuscripcion.suscripcion = item;
+              }
+            };
+          }
+        }
+      })
+      .then(()=>{
+        user.suscripcion = dataSuscripcion;
+      })
+      .then(()=>{
+        window.sessionStorage.removeItem(USER_KEY);
+        window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+      })
+      .then(()=>{
+        resolve(user);
+      });
+    });
   }
 
   public getUser(): any {
@@ -32,7 +73,6 @@ export class TokenStorageService {
     if (user) {
       return JSON.parse(user);
     }
-
     return {};
   }
 }

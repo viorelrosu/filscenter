@@ -1,0 +1,66 @@
+<div *ngIf="!isDataLoaded" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+<div *ngIf="isDataLoaded">
+    <div class="mb-2">
+        <div class="row" >
+            <div class="col-md-12">
+                <div class="pb-4" *ngFor="let item of tablas">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8">
+                            <h5 class="py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="mr-4">
+                                        {{ item.tabla.fechaInicio | date }}
+                                    </div>
+                                    <div class="mr-4">
+                                        {{ item.tabla.fechaFin | date }}
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        {{ item.tabla.monitor.nombre + ' ' + item.tabla.monitor.apellidos }}
+                                    </div>
+                                </div>
+                            </h5>
+                        </div>
+                        <div class="col-md-4 col-sm-4 text-right">
+                            <a class="btn btn-light btn-rounded btn-xs" data-toggle="collapse" href="#tabla-{{ item.tabla.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="icon-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row collapse" id="tabla-{{item.tabla.id}}">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-striped horario">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-left">Tipo</th>
+                                            <th scope="col" class="text-left">Ejercicio</th>
+                                            <th scope="col" class="text-center">Vez/semana</th>
+                                            <th scope="col" class="text-center">Repeticiones</th>
+                                            <th scope="col" class="text-center">Series</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ejercicio of item.ejercicios">
+                                            <td>{{ ejercicio.ejercicio.tipoEjercicio.nombre }}</td>
+                                            <td>{{ ejercicio.ejercicio.nombre }}</td>
+                                            <td class="text-center">{{ ejercicio.porSemana }}</td>
+                                            <td class="text-center">{{ ejercicio.repeticiones }}</td>
+                                            <td class="text-center">{{ ejercicio.series }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="line my-3"></div>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+</div>

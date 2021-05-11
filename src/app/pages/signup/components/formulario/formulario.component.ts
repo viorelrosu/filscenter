@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '@core/services/auth.service';
-import { CryptoService } from '@core/services/crypto.service';
 
 import { Localidad } from "@modelsRest/Localidad";
 import { Provincia } from "@modelsRest/Provincia";
@@ -13,6 +12,8 @@ import { TokenStorageService } from '@core/services/token-storage.service';
 import { HelperService } from '@core/services/helper.service';
 
 import { Router } from '@angular/router';
+import {md5} from 'pure-md5';
+
 declare var $:any;
 @Component({
   selector: 'registro-formulario',
@@ -32,6 +33,7 @@ export class FormularioComponent implements OnInit {
   public provinciaSelect:Number;
   public password:string = 'fils123';
   public passwordConfirm:string = 'fils123';
+  public enviando: boolean = false;
 
   public isSignUpFailed: boolean = false;
   public isLoggedIn: boolean = false;
@@ -41,7 +43,6 @@ export class FormularioComponent implements OnInit {
 
   constructor(
     private _authService: AuthService,
-    private _cryptoService: CryptoService,
     private _service: UsuarioService,
     private _serviceLocalidad: LocalidadService,
     private _serviceProvincia: ProvinciaService,
@@ -115,8 +116,9 @@ export class FormularioComponent implements OnInit {
 
   //metodo para crear al usuario
   addUsuario() {
-    this.nuevoUsuario.password = this._cryptoService.set(this.password);
-    this.nuevoUsuario.password_confirm = this._cryptoService.set(this.passwordConfirm);
+    this.enviando = true;
+    this.nuevoUsuario.password = md5(this.password);
+    this.nuevoUsuario.password_confirm = md5(this.passwordConfirm);
     console.log(this.nuevoUsuario);
     this.obtenerLocalidad()
       .then(() => this.obtenerRol())
@@ -127,20 +129,20 @@ export class FormularioComponent implements OnInit {
             //console.log(data);
             //alert("usuario registrado");
             this.isSignUpFailed = false;
-            this.loginUsuario();
-            // $.notify({
-            //   // options
-            //   icon: 'fas fa-check',
-            //   title: '¡Muy bien!',
-            //   message: 'Ya hemos realizado un registro con tus datos.',
-            // },{
-            //   // settings
-            //   type: 'success'
-            // });
+            //this.loginUsuario();
+            $.notify({
+              // options
+              icon: 'fas fa-check',
+              title: '¡Muy bien!',
+              message: 'Ya hemos realizado un registro con tus datos.',
+            },{
+              // settings
+              type: 'success'
+            });
     
-            // setTimeout(()=>{
-              
-            // },3000);
+            setTimeout(()=>{
+              this.loginUsuario();
+            },2000);
             //window.location.reload();
           },
           (err) => {

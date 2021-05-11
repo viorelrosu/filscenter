@@ -16,10 +16,13 @@ export class TablaEjercicioServiceService {
     return this._http.get(this.url);
   }
 
+  getTablasEjerciciosByUsuarioId(userID:number): Observable<any> {
+    return this._http.get(this.url+'/suscriptor/'+userID);
+  }
+
   getTablaEjercicio(tablaEjercicio:number):Observable<any>{
     return this._http.get<TablaEjercicio>(this.url+"/"+tablaEjercicio);
   }
-
 
   deleteTablaEjercicio(tablaEjercicio: TablaEjercicio) {
     return this._http.delete<TablaEjercicio>(this.url + "/" + tablaEjercicio.id);
