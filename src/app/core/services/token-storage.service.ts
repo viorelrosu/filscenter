@@ -28,6 +28,7 @@ export class TokenStorageService {
     return new Promise(resolve=>{
       user.isAdmin = (user.rol.nombre  == 'admin') ? true : false;
       user.isMonitor = (user.rol.nombre  == 'monitor') ? true : false;
+      user.isUser = (user.rol.nombre  == 'user') ? true : false;
       var dataSuscripcion:any = { isSubscribed: false, suscripcion: {} }
 
       this._serviceRestSuscripcion.getSuscripcionesByUsuarioId(user.id).toPromise()
