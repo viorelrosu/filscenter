@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { Rol } from "@modelsRest/Rol";
 import { RolServiceService } from "@servicesRest/rol/rol-service.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { HelperService } from '@core/services/helper.service';
 
 @Component({
   selector: "app-rol-list",
@@ -16,34 +17,55 @@ export class RolListComponent implements OnInit {
   //update
   rolUpdate: any;
   closeResult = "";
+  textoModal: string = "";
+
+  //confirm delete
+  rolAux:any;
 
   constructor(
     private _service: RolServiceService,
     private _router: Router,
     private modalService: NgbModal
+    ,private _helperService: HelperService
   ) {
     this.rolUpdate = {};
+    this.rolAux={};
   }
 
   ngOnInit(): void {
+    this._helperService.isRolOK("admin");
+
     document.getElementById("minus").hidden = true;
     this._service.getRoles().subscribe((data) => {
       this.roles = data;
     });
   }
 
-  delete(rol: Rol) {
-    this._service.deleteRol(rol).subscribe((data) => {
-      this.roles = this.roles.filter((p) => p != rol);
+  delete() {
+    this._service.deleteRol(this.rolAux).subscribe((data) => {
+      window.location.reload();
     });
   }
 
-  update() {
-    this._service.updateRol(this.rolUpdate).subscribe((dara) => {
-      alert("Rol Actualizado!");
-      this.modalService.dismissAll();
-    });
-    window.location.reload();
+  update(modal) {
+    this._service.updateRol(this.rolUpdate).subscribe(
+      (data) => {
+        this.textoModal = "¡Rol actualizado!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
 
   habilitarRol() {
@@ -65,21 +87,28 @@ export class RolListComponent implements OnInit {
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
         (result) => {
-          this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
+  //abre modal confirm delete
+  openModalDelete(confirmDelete, rol: Rol) {
+    this.rolAux = rol;
+    this.modalService
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
+      .result.then(
+        (result) => {},
+        (reason) => {}
+      );
+  }
+
+  refresh(){
+    window.location.reload();
   }
 }

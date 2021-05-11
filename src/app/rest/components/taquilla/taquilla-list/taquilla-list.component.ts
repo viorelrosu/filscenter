@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { Taquilla } from "@modelsRest/Taquilla";
 import { TaquillaServiceService } from "@servicesRest/taquilla/taquilla-service.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { HelperService } from "@core/services/helper.service";
 
 @Component({
   selector: "app-taquilla-list",
@@ -15,33 +16,54 @@ export class TaquillaListComponent implements OnInit {
 
   //update
   taquillaUpdate: any;
-  closeResult = "";
+  textoModal: string;
+
+  //confirm delete
+  taquillaAux: any;
 
   constructor(
     private _service: TaquillaServiceService,
     private _router: Router,
-    private modalService: NgbModal
-  ) {}
+    private modalService: NgbModal,
+    private _helperService: HelperService
+  ) {
+    this.taquillaAux = {};
+  }
 
   ngOnInit(): void {
+    this._helperService.isRolOK("admin");
+
     document.getElementById("minus").hidden = true;
     this._service.getTaquillas().subscribe((data) => {
       this.taquillas = data;
     });
   }
 
-  delete(taquilla: Taquilla) {
-    this._service.deleteTaquilla(taquilla).subscribe((data) => {
-      this.taquillas = this.taquillas.filter((p) => p != taquilla);
+  delete() {
+    this._service.deleteTaquilla(this.taquillaAux).subscribe((data) => {
+      window.location.reload();
     });
   }
 
-  update() {
-    this._service.updateTaquilla(this.taquillaUpdate).subscribe((data) => {
-      alert("Taquilla Actualizada!");
-      this.modalService.dismissAll();
-    });
-    window.location.reload();
+  update(modal) {
+    this._service.updateTaquilla(this.taquillaUpdate).subscribe(
+      (data) => {
+        this.textoModal = "¡Taquilla actualizada!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
 
   habilitarTaquilla() {
@@ -62,22 +84,26 @@ export class TaquillaListComponent implements OnInit {
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
+        (result) => {},
+        (reason) => {}
+      );
+  }
+  //abre modal confirm delete
+  openModalDelete(confirmDelete, taquilla: Taquilla) {
+    this.taquillaAux = taquilla;
+    this.modalService
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
+      .result.then(
+        (result) => {},
+        (reason) => {}
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
+  refresh() {
+    window.location.reload();
   }
 }

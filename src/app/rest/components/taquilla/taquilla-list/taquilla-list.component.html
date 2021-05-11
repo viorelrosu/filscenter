@@ -21,7 +21,7 @@
   <app-taquilla-add></app-taquilla-add>
 </div>
 
-<h3 class="card-title text-center">Taquillas</h3>
+<h3 class="card-title text-left">Taquillas</h3>
 <div class="card-text">
   <table
     id="datatable"
@@ -72,11 +72,8 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="delete(taquilla)"
+            (click)="openModalDelete(confirmDelete,this.taquilla)"
             ><i class="icon-trash-2"></i
-          ></a>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
-            ><i class="icon-settings"></i
           ></a>
         </td>
       </tr>
@@ -90,6 +87,31 @@
   </table>
 </div>
 
+<!-- modal delete -->
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar la taquilla <span class="text-danger">{{taquillaAux.numero}} ?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete(usuario)" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
+
+<!--modal update-->
+
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Update Taquilla</h4>
@@ -99,7 +121,7 @@
       <form
         class="form-validate"
         name="form"
-        (ngSubmit)="f.form.valid && update()"
+        (ngSubmit)="f.form.valid && update(updateModalRol)"
         #f="ngForm"
       >
         <div class="form-row">
@@ -151,4 +173,25 @@
       </form>
     </div>
   </div>
+</ng-template>
+
+<ng-template #updateModalRol let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Update</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>{{textoModal}}</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss();refresh()"
+          >
+            Cerrar
+          </button>
+        </div>
 </ng-template>

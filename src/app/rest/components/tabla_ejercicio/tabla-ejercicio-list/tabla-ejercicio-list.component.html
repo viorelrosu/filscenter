@@ -596,7 +596,7 @@
               >
                 <option value="" selected>-- Elige una opción --</option>
                 <option
-                  *ngFor="let ejercicio of ejerciciosSerie"
+                  *ngFor="let ejercicio of ejercicios"
                   value="{{ ejercicio.id }}"
                 >
                 {{ ejercicio.nombre }}
@@ -810,7 +810,7 @@
             type="button"
             class="btn btn-primary"
             aria-label="Close"
-            (click)="modal.dismiss();prueba()"
+            (click)="modal.dismiss();closeUpdateModalResult()"
           >
             Cerrar
           </button>
@@ -832,27 +832,6 @@
             class="btn btn-danger"
             aria-label="Close"
             (click)="modal.dismiss()"
-          >
-            Cerrar
-          </button>
-        </div>
-</ng-template>
-
-<ng-template #updateModalEjer let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
-  </div>
-  <div class="modal-body">
-    <div class="card-body">
-      <h3>{{textoModal}}</h3>
-    </div>
-  </div>
-  <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="prueba()"
           >
             Cerrar
           </button>
@@ -1093,4 +1072,26 @@
       </form>
     </div>
   </div>
+</ng-template>
+
+
+<ng-template #updateModalEjer let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Update</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>{{textoModal}}</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="closeUpdateModalResult()"
+          >
+            Cerrar
+          </button>
+        </div>
 </ng-template>

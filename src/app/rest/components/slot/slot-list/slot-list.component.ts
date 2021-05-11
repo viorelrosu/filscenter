@@ -9,6 +9,7 @@ import { SalaServiceService } from "@servicesRest/sala/sala-service.service";
 import { SlotServiceService } from "@servicesRest/slot/slot-service.service";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { HelperService } from '@core/services/helper.service';
 
 @Component({
   selector: "app-slot-list",
@@ -36,12 +37,15 @@ export class SlotListComponent implements OnInit {
     private _serviceSala: SalaServiceService,
     private _serviceMonitor: UsuarioServiceService,
     private _router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _helperService: HelperService
   ) {
     this.slotUpdate = {};
   }
 
   ngOnInit(): void {
+    this._helperService.isNotRol("user");
+
     document.getElementById("minus").hidden = true;
     this._service.getSlots().subscribe((data) => {
       this.slots = data;

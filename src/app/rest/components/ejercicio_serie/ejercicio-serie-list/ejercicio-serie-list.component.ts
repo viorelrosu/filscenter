@@ -7,6 +7,7 @@ import { TablaEjercicio } from "@modelsRest/TablaEjercicio";
 import { Ejercicio } from "@modelsRest/Ejercicio";
 import { EjercicioServiceService } from "@servicesRest/ejercicio/ejercicio-service.service";
 import { TablaEjercicioServiceService } from "@servicesRest/tabla_ejercicio/tabla-ejercicio-service.service";
+import { HelperService } from '@core/services/helper.service';
 
 @Component({
   selector: "app-ejercicio-serie-list",
@@ -36,12 +37,14 @@ export class EjercicioSerieListComponent implements OnInit {
     private _serviceEjercicio: EjercicioServiceService,
     private _serviceTablasEjercicio: TablaEjercicioServiceService,
     private _router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _helperService: HelperService
   ) {
     this.ejercicioSerieUpdate = {};
   }
 
   ngOnInit(): void {
+    this._helperService.isNotRol("user");
     document.getElementById("minus").hidden = true;
     this._service.getEjercicioSeries().subscribe((data) => {
       this.ejercicioSeries = data;

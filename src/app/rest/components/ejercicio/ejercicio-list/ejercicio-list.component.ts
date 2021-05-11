@@ -5,6 +5,7 @@ import { EjercicioServiceService } from "@servicesRest/ejercicio/ejercicio-servi
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { TipoEjercicio } from "@modelsRest/TipoEjercicio";
 import { TipoEjercicioServiceService } from "@servicesRest/tipo_ejercicio/tipo-ejercicio-service.service";
+import { HelperService } from '@core/services/helper.service';
 
 @Component({
   selector: "app-ejercicio-list",
@@ -28,12 +29,14 @@ export class EjercicioListComponent implements OnInit {
     private _service: EjercicioServiceService,
     private _serviceTipoEjercicio: TipoEjercicioServiceService,
     private _router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _helperService: HelperService
   ) {
     this.ejercicioUpdate = {};
   }
 
   ngOnInit(): void {
+    this._helperService.isNotRol("user");
     document.getElementById("minusEjercicio").hidden = true;
 
     this._service.getEjercicios().subscribe((data) => {

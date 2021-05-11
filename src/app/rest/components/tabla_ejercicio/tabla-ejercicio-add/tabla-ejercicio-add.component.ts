@@ -30,11 +30,11 @@ export class TablaEjercicioAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._serviceUsuario.getUsuariosByRol(3).subscribe(data=>{
-      this.suscriptores=data;
+    this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
+      this.suscriptores = data;
     });
-    this._serviceUsuario.getUsuariosByRol(2).subscribe(data=>{
-      this.monitores=data;
+    this._serviceUsuario.getUsuariosByRol(2).subscribe((data) => {
+      this.monitores = data;
     });
   }
 
@@ -56,29 +56,30 @@ export class TablaEjercicioAddComponent implements OnInit {
       });
   }
 
-  addTablaEjercicio(create,errorModal) {
+  addTablaEjercicio(create, errorModal) {
     this.obtenerSuscriptor()
-    .then(()=>this.obtenerMonitor())
-    .then(()=>{
-      this._service.createTablaEjercicio(this.nuevaTablaEjercicio).subscribe(data=>{
-        this.modalService.open(create, {
-          ariaLabelledBy: "modal-basic-title",
-          centered: true,
-          size: "md",
-        });
-        setTimeout(function () {
-          window.location.reload();
-        }, 3000);
-      },
-      (err) => {
-        this.modalService.open(errorModal, {
-          ariaLabelledBy: "modal-basic-title",
-          centered: true,
-          size: "md",
-        });
-      }
-    );
-    });
+      .then(() => this.obtenerMonitor())
+      .then(() => {
+        this._service.createTablaEjercicio(this.nuevaTablaEjercicio).subscribe(
+          (data) => {
+            this.modalService.open(create, {
+              ariaLabelledBy: "modal-basic-title",
+              centered: true,
+              size: "md",
+            });
+            setTimeout(function () {
+              window.location.reload();
+            }, 3000);
+          },
+          (err) => {
+            this.modalService.open(errorModal, {
+              ariaLabelledBy: "modal-basic-title",
+              centered: true,
+              size: "md",
+            });
+          }
+        );
+      });
   }
 
   refresh() {

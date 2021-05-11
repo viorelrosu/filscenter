@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { Sala } from "@modelsRest/Sala";
 import { SalaServiceService } from "@servicesRest/sala/sala-service.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { HelperService } from "@core/services/helper.service";
 
 @Component({
   selector: "app-sala-list",
@@ -18,15 +19,17 @@ export class SalaListComponent implements OnInit {
   salaUpdate: any;
   closeResult = "";
   //confirm delete
-  salaAux:any;
+  salaAux: any;
 
   constructor(
     private _service: SalaServiceService,
     private _router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _helperService: HelperService
   ) {}
 
   ngOnInit(): void {
+    this._helperService.isNotRol("user");
     document.getElementById("minus").hidden = true;
     this._service.getSalas().subscribe((data) => {
       this.salas = data;
@@ -65,23 +68,23 @@ export class SalaListComponent implements OnInit {
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
-        (result) => {
-        },
-        (reason) => {
-        }
+        (result) => {},
+        (reason) => {}
       );
   }
 
   //modal coinfirm delete
-  openModalDelete(confirmDelete, sala:Sala){
+  openModalDelete(confirmDelete, sala: Sala) {
     this.salaAux = sala;
     this.modalService
-    .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
-    .result.then(
-      (result) => {
-      },
-      (reason) => {
-      }
-    );
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
+      .result.then(
+        (result) => {},
+        (reason) => {}
+      );
   }
 }

@@ -13,7 +13,9 @@ import { LocalidadServiceService } from "@servicesRest/localidad/localidad-servi
 import { ProvinciaServiceService } from "@servicesRest/provincia/provincia-service.service";
 import { Provincia } from "@modelsRest/Provincia";
 import { Localidad } from "@modelsRest/Localidad";
-import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
+import { HelperService } from '@core/services/helper.service';
+
+import {md5} from 'pure-md5';
 
 @Component({
   selector: "app-usuario-list",
@@ -27,6 +29,7 @@ export class UsuarioListComponent implements OnInit {
   //listado de usuarios
   usuarios: Usuario[];
 
+  textoModal: string;
 
   //PARTE UPDATE
   usuarioUpdate: any;
@@ -36,11 +39,12 @@ export class UsuarioListComponent implements OnInit {
   localidades: Localidad[];
   taquillas: Taquilla[];
   closeResult = "";
-  ProvinciaId:number;
-  localidadId:number;
+  ProvinciaId: number;
+  localidadId: number;
+  confirmPass:string = "";
 
   //parte confirm delete
-    usuarioAux:any;
+  usuarioAux: any;
 
   constructor(
     private _service: UsuarioServiceService,
@@ -51,53 +55,64 @@ export class UsuarioListComponent implements OnInit {
     private _serviceSuscripcion: SuscripcionServiceService,
     private _router: Router,
     private modalService: NgbModal
+    ,private _helperService: HelperService
   ) {
-    this.usuarioUpdate={};
-    this.usuarioAux={};
+    this.usuarioUpdate = {};
+    this.usuarioAux = {};
   }
 
   ngOnInit(): void {
+    this._helperService.isRolOK("admin");
     document.getElementById("minus").hidden = true;
 
     this._service.getUsuarios().subscribe((data) => {
       this.usuarios = data;
     });
 
-    this._serviceDireccion.getDirecciones().subscribe(data=>{
+    this._serviceDireccion.getDirecciones().subscribe((data) => {
       this.direcciones = data;
     });
 
-    this._serviceSuscripcion.getSuscripciones().subscribe(data=>{
-      this.suscripciones=data;
+    this._serviceSuscripcion.getSuscripciones().subscribe((data) => {
+      this.suscripciones = data;
     });
 
-    this._serviceTaquilla.getTaquillas().subscribe(data=>{
-      this.taquillas=data;
+    this._serviceTaquilla.getTaquillas().subscribe((data) => {
+      this.taquillas = data;
     });
-
   }
 
   delete() {
     this._service.deleteUsuario(this.usuarioAux).subscribe((data) => {
       window.location.reload();
- 
     });
   }
 
-  update(){
+  update(modal) {
     this.obtenerProvincia()
-    .then(()=>this.obtenerLocalidad())
-    .then(()=>this.obtenerTaquilla())
-    .then(()=>{
-      this._service.updateUsuario(this.usuarioUpdate).subscribe(data=>{
-        alert("Usuario Actualizado!");
-        this.modalService.dismissAll();
-        window.location.reload();
-      },(err)=>{
-        alert("ERROR"+err);
+      .then(() => this.obtenerLocalidad())
+      .then(() => this.obtenerTaquilla())
+      .then(() => {
+        this.usuarioUpdate.password = md5(this.usuarioUpdate.password);
+        this._service.updateUsuario(this.usuarioUpdate).subscribe(
+          (data) => {
+            this.textoModal = "¡Usuario actualizado!";
+            this.modalService.open(modal, {
+              ariaLabelledBy: "modal-basic-title",
+              centered: true,
+              size: "md",
+            });
+          },
+          (err) => {
+            this.textoModal = "¡Error al actualizar!";
+            this.modalService.open(modal, {
+              ariaLabelledBy: "modal-basic-title",
+              centered: true,
+              size: "md",
+            });
+          }
+        );
       });
-    })
-
   }
 
   //habilitar o deshabilitar parte creación de usuario
@@ -113,88 +128,110 @@ export class UsuarioListComponent implements OnInit {
   }
 
   //carga de localidades de la provincia que pertecene al usuario
-  cargarLocalidades(usuario:Usuario) {
-    this._serviceLocalidad.getLocalidadesByProvinciaID(usuario.direccion.localidad.provincia.id).subscribe((data) => {
-      this.localidades = data;
-    }); 
+  cargarLocalidades(usuario: Usuario) {
+    this._serviceLocalidad
+      .getLocalidadesByProvinciaID(usuario.direccion.localidad.provincia.id)
+      .subscribe((data) => {
+        this.localidades = data;
+      });
   }
 
-  obtenerTaquilla(){
-    return this._serviceTaquilla.getTaquilla(1)
-    .toPromise()
-    .then(data=>{
-      this.usuarioUpdate.taquilla = data;
-    });
+  obtenerTaquilla() {
+    return this._serviceTaquilla
+      .getTaquilla(1)
+      .toPromise()
+      .then((data) => {
+        this.usuarioUpdate.taquilla = data;
+      });
   }
 
-  obtenerLocalidad(){
-    console.log(this.localidadId+"localidad");
-    console.log(this.usuarioUpdate.direccion.localidad.id+"localidad");
-    return this._serviceLocalidad.getLocalidad(this.usuarioUpdate.direccion.localidad.id)
-    .toPromise()
-    .then(data=>{
-      this.usuarioUpdate.direccion.localidad = data;
-    });
+  obtenerLocalidad() {
+    console.log(this.localidadId + "localidad");
+    console.log(this.usuarioUpdate.direccion.localidad.id + "localidad");
+    return this._serviceLocalidad
+      .getLocalidad(this.usuarioUpdate.direccion.localidad.id)
+      .toPromise()
+      .then((data) => {
+        this.usuarioUpdate.direccion.localidad = data;
+      });
   }
 
-  obtenerProvincia(){
-    console.log(this.ProvinciaId+"prvincia");
-    console.log(this.usuarioUpdate.direccion.localidad.provincia.id+"prvincia");
-    return this._serviceProvincia.getProvincia(this.usuarioUpdate.direccion.localidad.provincia.id)
-    .toPromise()
-    .then(data=>{
-      this.usuarioUpdate.direccion.localidad.provincia = data;
-    })
+  obtenerProvincia() {
+    console.log(this.ProvinciaId + "prvincia");
+    console.log(
+      this.usuarioUpdate.direccion.localidad.provincia.id + "prvincia"
+    );
+    return this._serviceProvincia
+      .getProvincia(this.usuarioUpdate.direccion.localidad.provincia.id)
+      .toPromise()
+      .then((data) => {
+        this.usuarioUpdate.direccion.localidad.provincia = data;
+      });
   }
 
-  obtenerUsuarioUpdate(usuario:Usuario){
-     return this._service.getUsuario(usuario.id).toPromise()
-     .then((data) => {
-      this.usuarioUpdate = data;
-    });
+  obtenerUsuarioUpdate(usuario: Usuario) {
+    return this._service
+      .getUsuario(usuario.id)
+      .toPromise()
+      .then((data) => {
+        this.usuarioUpdate = data;
+      });
   }
 
-  updateLocalidades(provinciaId){
+  updateLocalidades(provinciaId) {
     this.usuarioUpdate.direccion.localidad.id = "";
-    this._serviceLocalidad.getLocalidadesByProvinciaID(provinciaId).subscribe((data) => {
-      this.localidades = data;
-    }); 
+    this._serviceLocalidad
+      .getLocalidadesByProvinciaID(provinciaId)
+      .subscribe((data) => {
+        this.localidades = data;
+      });
   }
-
-
 
   // abre ventana modal
-  open(content, usuario:Usuario) {
-    this._service.getUsuario(usuario.id).toPromise()
-    .then((data) => {
-     this.usuarioUpdate = data;
-   });
- 
-    this._serviceProvincia.getProvincias().subscribe(data=>{
+  open(content, usuario: Usuario) {
+    
+    this._service
+      .getUsuario(usuario.id)
+      .toPromise()
+      .then((data) => {
+        this.usuarioUpdate = data;
+        this.confirmPass = this.usuarioUpdate.password;
+      });
+
+    this._serviceProvincia.getProvincias().subscribe((data) => {
       this.provincias = data;
     });
     this.cargarLocalidades(usuario);
-    
+
     this.modalService
-      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true, size : "xl", scrollable:true})
+      .open(content, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "xl",
+        scrollable: true,
+      })
       .result.then(
-        (result) => {
-        },
-        (reason) => {
-        }
+        (result) => {},
+        (reason) => {}
       );
   }
 
   //abre modal confirm delete
-  openModalDelete(confirmDelete, usuario:Usuario){
+  openModalDelete(confirmDelete, usuario: Usuario) {
     this.usuarioAux = usuario;
     this.modalService
-    .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
-    .result.then(
-      (result) => {
-      },
-      (reason) => {
-      }
-    );
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
+      .result.then(
+        (result) => {},
+        (reason) => {}
+      );
+  }
+
+  refresh(){
+    window.location.reload();
   }
 }

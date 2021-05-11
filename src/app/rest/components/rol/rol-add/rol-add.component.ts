@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { RolServiceService } from "@servicesRest/rol/rol-service.service";
 
 @Component({
@@ -9,7 +10,11 @@ import { RolServiceService } from "@servicesRest/rol/rol-service.service";
 })
 export class RolAddComponent implements OnInit {
   nuevoRol: any;
-  constructor(private _service: RolServiceService, private _router: Router) {
+  constructor(
+    private _service: RolServiceService,
+    private _router: Router,
+    private modalService: NgbModal
+  ) {
     this.nuevoRol = {
       nombre: "",
     };
@@ -17,10 +22,29 @@ export class RolAddComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  addRol() {
-    this._service.createRol(this.nuevoRol).subscribe(data=>{
-      alert("Rol creado");
-      window.location.reload();
-    })
+  addRol(create, errorModal) {
+    this._service.createRol(this.nuevoRol).subscribe(
+      (data) => {
+        this.modalService.open(create, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
+      },
+      (err) => {
+        this.modalService.open(errorModal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
+  }
+  
+  refresh(){
+    window.location.reload();
   }
 }

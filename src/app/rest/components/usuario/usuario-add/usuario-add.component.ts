@@ -7,6 +7,9 @@ import { ProvinciaServiceService } from "@servicesRest/provincia/provincia-servi
 import { RolServiceService } from "@servicesRest/rol/rol-service.service";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
 
+
+import {md5} from 'pure-md5';
+
 @Component({
   selector: "app-usuario-add",
   templateUrl: "./usuario-add.component.html",
@@ -16,6 +19,7 @@ export class UsuarioAddComponent implements OnInit {
   //establecer beans a crear
   nuevoUsuario: any;
   direccion: any;
+  confirmPass:string = "";
 
   //cargar selects
   localidades: Localidad[];
@@ -36,13 +40,17 @@ export class UsuarioAddComponent implements OnInit {
     private _serviceLocalidad: LocalidadServiceService,
     private _serviceProvincia: ProvinciaServiceService,
     private _serviceRol: RolServiceService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+  
   ) {
     this.nuevoUsuario = {};
     this.direccion = {};
   }
 
   ngOnInit(): void {
+   
+
+
     this._serviceProvincia.getProvincias().subscribe((data) => {
       this.provincias = data;
     });
@@ -83,10 +91,11 @@ export class UsuarioAddComponent implements OnInit {
     this.obtenerLocalidad()
       .then(() => this.obtenerRol())
       .then(() => {
+        this.nuevoUsuario.email = this.nuevoUsuario.email.toLowerCase();
+        this.nuevoUsuario.password = md5(this.nuevoUsuario.password);
         this.nuevoUsuario.direccion = this.direccion;
         this._service.altaUser(this.nuevoUsuario).subscribe(
           (data) => {
-            //alert("usuario registrado");
             this.modalService.open(create, {
               ariaLabelledBy: "modal-basic-title",
               centered: true,

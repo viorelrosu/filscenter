@@ -7,6 +7,7 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { TipoSuscripcion } from "@modelsRest/TipoSuscripcion";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
 import { Usuario } from "@modelsRest/Usuario";
+import { HelperService } from "@core/services/helper.service";
 
 @Component({
   selector: "app-suscripcion-list",
@@ -20,18 +21,20 @@ export class SuscripcionListComponent implements OnInit {
   //update
   suscripcionUpdate: any;
   tiposSuscripcion: TipoSuscripcion[];
-  usuarios:Usuario[];
+  usuarios: Usuario[];
   closeResult = "";
 
   constructor(
     private _service: SuscripcionServiceService,
     private _serviceTipoSuscripcion: TipoSuscripcionServiceService,
-    private _serviceUsuario:UsuarioServiceService,
+    private _serviceUsuario: UsuarioServiceService,
     private _router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _helperService: HelperService
   ) {}
 
   ngOnInit(): void {
+    this._helperService.isRolOK("admin");
     document.getElementById("minusSuscripcion").hidden = true;
     this._service.getSuscripciones().subscribe((data) => {
       this.suscripciones = data;
@@ -41,9 +44,9 @@ export class SuscripcionListComponent implements OnInit {
       this.tiposSuscripcion = data;
     });
 
-    this._serviceUsuario.getUsuarios().subscribe(data=>{
+    this._serviceUsuario.getUsuarios().subscribe((data) => {
       this.usuarios = data;
-    })
+    });
   }
 
   delete(suscripcion: Suscripcion) {

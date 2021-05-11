@@ -25,12 +25,12 @@ export class FormularioComponent implements OnInit {
   public fillUsuario: any;
   public direccion: any;
   public rolId: number = 3;
-  public localidadId: number;
-  public provinciaId: number = 0;
+  public localidadId: any = "";
+  public provinciaId: any = "";
   public localidades: Localidad[];
   public provincias: Provincia[];
-  public localidadSelect:Number;
-  public provinciaSelect:Number;
+  //public localidadSelect:any;
+  //public provinciaSelect:any;
   public password:string = 'fils123';
   public passwordConfirm:string = 'fils123';
   public enviando: boolean = false;
@@ -73,10 +73,10 @@ export class FormularioComponent implements OnInit {
       codigoPostal: '29850',
 
     };
-    this.provinciaId = 1;
-    this.localidadId = 1;
-    this.localidadSelect=2;
-    this.provinciaSelect=2;
+    //this.provinciaId = 1;
+    //this.localidadId = 1;
+    //this.localidadSelect=2;
+    //this.provinciaSelect=2;
    }
 
   ngOnInit(): void {
@@ -87,8 +87,9 @@ export class FormularioComponent implements OnInit {
 
   // metodo para cargar los localidades de la provincia
   cargarLocalidades(provinciaId) {
-    console.log(this.provinciaSelect);
+    //console.log(this.provinciaSelect);
     // this.localidadSelect = 2;
+    this.localidadId = "";
     this._serviceLocalidad.getLocalidadesByProvinciaID(provinciaId).subscribe((data) => {
       this.localidades = data;
     }); 

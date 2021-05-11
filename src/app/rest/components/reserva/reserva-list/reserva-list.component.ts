@@ -7,6 +7,7 @@ import { ReservaServiceService } from "@servicesRest/reserva/reserva-service.ser
 import { SlotServiceService } from "@servicesRest/slot/slot-service.service";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { HelperService } from '@core/services/helper.service';
 
 @Component({
   selector: "app-reserva-list",
@@ -31,12 +32,14 @@ export class ReservaListComponent implements OnInit {
     private _serviceSlot: SlotServiceService,
     private _serviceUsuario: UsuarioServiceService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _helperService: HelperService
   ) {
     this.reservaUpdate = {};
   }
 
   ngOnInit(): void {
+    this._helperService.isNotRol("user");
     document.getElementById("minus").hidden = true;
     this._service.getreservas().subscribe((data) => {
       this.reservas = data;

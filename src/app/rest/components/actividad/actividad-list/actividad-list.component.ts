@@ -32,7 +32,7 @@ export class ActividadListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this._helperService.isRolOK('admin');
+    this._helperService.isNotRol("user");
     document.getElementById("minusActividad").hidden = true;
 
     this._service.getActividades().subscribe((data) => {

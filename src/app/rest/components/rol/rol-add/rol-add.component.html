@@ -1,24 +1,22 @@
-<h3>Nueva Rol</h3>
+<h3>Nuevo Rol</h3>
 <div class="card-body">
   <form
     class="form-validate"
     name="form"
-    (ngSubmit)="f.form.valid && addRol()"
+    (ngSubmit)="f.form.valid && addRol(create,errorModal)"
     #f="ngForm"
   >
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="username">Número Rol</label>
+        <label for="username">Nombre Rol</label>
         <input
           type="text"
           class="form-control"
           name="nombre"
           #nombreRol="ngModel"
           [(ngModel)]="nuevoRol.nombre"
-          placeholder="Número de Rol"
+          placeholder="Nombre de Rol"
           required
-          min="1"
-          max="1000"
           pattern="^([a-zA-ZáéíóúüÁÉÍÓÚÜ]){1}([a-zA-Z_ áéíóúüÁÉÍÓÚÜ]){2,20}"
           [ngClass]="{
             'is-invalid':
@@ -42,3 +40,45 @@
     <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
   </form>
 </div>
+
+<ng-template #create let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>Rol <span class="text-danger">{{nuevoRol.nombre}}</span> registrado!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            aria-label="Close"
+            (click)="modal.dismiss();refresh()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>
+
+<ng-template #errorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¡Hubo un error!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>

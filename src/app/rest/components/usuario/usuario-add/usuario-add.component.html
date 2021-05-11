@@ -183,7 +183,7 @@
           [(ngModel)]="nuevoUsuario.email"
           placeholder="Email usuario"
           required
-          pattern="^([a-z0-9]{1})((\.|\-)?([a-z0-9])){0,}@([a-z0-9]){1}((\.|\-)?([a-z0-9]))*\.([a-z]){2,4}$"
+          pattern="^([A-Za-z0-9]{1})((\.|\-)?([a-z0-9])){0,}@([a-z0-9]){1}((\.|\-)?([a-z0-9]))*\.([a-z]){2,4}$"
           [ngClass]="{
             'is-invalid':
               (f.submitted && usuarioEmail.invalid) ||
@@ -237,6 +237,39 @@
       </div>
 
       <div class="form-group col-md-4">
+        <label for="confirmPassword">(*) Confirmar Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="confirmPassword"
+          name="confirmPassword"
+          #confirmPassword="ngModel"
+          [(ngModel)]="confirmPass"
+          placeholder="6 caract. min (por ahora)"
+          required
+          pattern="{{nuevoUsuario.password}}"
+          [ngClass]="{
+            'is-invalid':
+              (f.submitted && confirmPassword.invalid) ||
+              (confirmPassword.touched && !confirmPassword.valid)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.submitted && confirmPassword.invalid) ||
+            (confirmPassword.touched && !confirmPassword.valid)
+          "
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="confirmPassword.errors.required || confirmPassword.invalid"
+          >
+            * Password no coincide
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4">
         <label for="cuentaBancaria">(*) Cuenta Bancaria</label>
         <input
           type="text"
@@ -271,7 +304,7 @@
           </div>
         </div>
       </div>
-      <hr>
+      <hr />
       <div class="row justify-content-center m-4 w-100"><h4>Dirección</h4></div>
 
       <div class="form-group col-md-2">
@@ -517,7 +550,6 @@
           }"
           [(ngModel)]="provinciaSelect"
           (ngModelChange)="cargarLocalidades(provinciaId)"
-          
         >
           <option value="" selected>-- Elige una opción --</option>
           <option
@@ -545,9 +577,7 @@
         </div>
       </div>
 
-      
-      
-      <div *ngIf="provinciaId != 0 " class="form-group col-md-4">
+      <div *ngIf="provinciaId != 0" class="form-group col-md-4">
         <label for="localidad">(*) Localidad</label>
         <select
           class="form-control"
@@ -565,11 +595,10 @@
         >
           <option value="" selected>-- Elige una opción --</option>
           <option
-            *ngFor="let localidad of localidades" 
+            *ngFor="let localidad of localidades"
             value="{{ localidad.id }}"
           >
-            <span > {{ localidad.nombre }} </span>
-  
+            <span> {{ localidad.nombre }} </span>
           </option>
         </select>
 
@@ -590,12 +619,11 @@
         </div>
       </div>
 
-
       <div class="row justify-content-center m-4 w-100">
         <h4>Rol</h4>
       </div>
 
-      <div  class="form-group col-md-4">
+      <div class="form-group col-md-4">
         <label for="rol">(*) Rol</label>
         <select
           class="form-control"
@@ -612,11 +640,9 @@
           [(ngModel)]="rolSelect"
         >
           <option value="" selected>-- Elige una opción --</option>
-          <option string-to-number value="1">ROL_USUARIO</option>
-          <option string-to-number value="3">ROL_MONITOR</option>
-          <option string-to-number value="2">ROL_ADMIN</option>
-
-
+          <option string-to-number value="1">ROL_ADMIN</option>
+          <option string-to-number value="2">ROL_MONITOR</option>
+          <option string-to-number value="3">ROL_USUARIO</option>
         </select>
 
         <div
@@ -635,7 +661,6 @@
           </div>
         </div>
       </div>
-
     </div>
     <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
   </form>
@@ -647,17 +672,20 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>¡Usuario <span class="text-danger">{{nuevoUsuario.nombre}}</span> registrado!</h3>
+      <h3>
+        ¡Usuario
+        <span class="text-danger">{{ nuevoUsuario.nombre }}</span> registrado!
+      </h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-primary"
-            aria-label="Close"
-            (click)="modal.dismiss();refresh()"
-          >
-            Cerrar
-          </button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-primary"
+      aria-label="Close"
+      (click)="modal.dismiss(); refresh()"
+    >
+      Cerrar
+    </button>
+  </div>
 </ng-template>

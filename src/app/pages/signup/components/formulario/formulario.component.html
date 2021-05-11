@@ -133,7 +133,7 @@
                                 [(ngModel)]="nuevoUsuario.email"
                                 placeholder="Email usuario"
                                 required
-                                pattern="^([a-z0-9]{1})((\.|\-)?([a-z0-9])){0,}@([a-z0-9]){1}((\.|\-)?([a-z0-9]))*\.([a-z]){2,4}$"
+                                pattern="^([A-Za-z0-9]{1})((\.|\-)?([a-z0-9])){0,}@([a-z0-9]){1}((\.|\-)?([a-z0-9]))*\.([a-z]){2,4}$"
                                 [ngClass]="{
                                     'is-invalid':
                                     (f.submitted && usuarioEmail.invalid) ||
@@ -296,7 +296,7 @@
                                 [(ngModel)]="passwordConfirm"
                                 placeholder="Confirmar contraseña"
                                 required
-                                pattern="\w{6,}"
+                                pattern="{{password}}"
                                 [ngClass]="{
                                     'is-invalid':
                                     (f.submitted && usuarioPasswordConfirm.invalid) ||
@@ -555,7 +555,7 @@
                                     (f.submitted && direccionProvincia.invalid) ||
                                     (direccionProvincia.touched && !direccionProvincia.valid)
                                 }"
-                                [(ngModel)]="provinciaSelect"
+                                
                                 (ngModelChange)="cargarLocalidades(provinciaId)"
                                 
                             >
@@ -584,7 +584,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 form-group" *ngIf="provinciaId != ''">
                             <label class="sr-only">Localidad</label>
                             <select
                                 class="form-control"
@@ -598,7 +598,6 @@
                                     (f.submitted && direccionLocalidad.invalid) ||
                                     (direccionLocalidad.touched && !direccionLocalidad.valid)
                                 }"
-                                [(ngModel)]="localidadSelect"
                                 >
                                 <option value="" selected>Selecciona una localidad</option>
                                 <option
