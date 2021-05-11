@@ -99,6 +99,15 @@ export class HelperService {
     }
   }
 
+  public isNotRol(rolExigido: string) {
+    const user = this._tokenStorageService.getUser();
+    if(user) {
+      if(user.rol.nombre == rolExigido){
+        this._router.navigate(['/inicio']);
+      }
+    }
+  }
+
   public logout(): any {
     this._tokenStorageService.signOut();
     
