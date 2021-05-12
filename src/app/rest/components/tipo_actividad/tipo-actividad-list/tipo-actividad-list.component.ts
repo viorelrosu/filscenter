@@ -16,6 +16,7 @@ export class TipoActividadListComponent implements OnInit {
   tipoActividades: TipoActividad[];
   //update
   tipoActividadUpdate:any;
+  textoModal: string;
 
   //confirm delete
   tipoActividadAux:any;
@@ -56,12 +57,24 @@ export class TipoActividadListComponent implements OnInit {
     });
   }
 
-  update(){
+  update(modal){
     this._service.updateTipoActividad(this.tipoActividadUpdate).subscribe(data=>{
-      alert("Tipo actividad actualizada!");
-      this.modalService.dismissAll();    
-    });
-    window.location.reload();
+      this.textoModal = "¡Tipo actividad actualizada!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
 
   open(content,tipoActividad:TipoActividad) {
@@ -83,6 +96,10 @@ export class TipoActividadListComponent implements OnInit {
       (reason) => {
       }
     );
+  }
+  
+  refresh() {
+    window.location.reload();
   }
 
 }

@@ -23,6 +23,10 @@ export class SuscripcionListComponent implements OnInit {
   tiposSuscripcion: TipoSuscripcion[];
   usuarios: Usuario[];
   closeResult = "";
+  textoModal:string;
+
+  //confirm delete
+  suscripcionAux: any;
 
   constructor(
     private _service: SuscripcionServiceService,
@@ -44,25 +48,37 @@ export class SuscripcionListComponent implements OnInit {
       this.tiposSuscripcion = data;
     });
 
-    this._serviceUsuario.getUsuarios().subscribe((data) => {
+    this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
       this.usuarios = data;
     });
   }
 
-  delete(suscripcion: Suscripcion) {
-    this._service.deleteSuscripcion(suscripcion).subscribe((data) => {
-      this.suscripciones = this.suscripciones.filter((p) => p != suscripcion);
+  delete() {
+    this._service.deleteSuscripcion(this.suscripcionAux).subscribe((data) => {
+      window.location.reload();
     });
   }
 
-  update() {
+  update(modal) {
     this._service
       .updateSuscripcion(this.suscripcionUpdate)
       .subscribe((data) => {
-        alert("Suscripción Actualizada!");
-        this.modalService.dismissAll();
-      });
-    window.location.reload();
+        this.textoModal = "¡Suscripción actualizada!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
 
   habilitarSuscripcion() {
@@ -78,28 +94,37 @@ export class SuscripcionListComponent implements OnInit {
   }
 
   open(content, suscripcion: Suscripcion) {
+    console.log(suscripcion);
+    
     this._service.getSuscripcion(suscripcion.id).subscribe((data) => {
       this.suscripcionUpdate = data;
+      console.log(data);
+      
     });
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
+        (result) => {},
+        (reason) => {}
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
+  //abre modal confirm delete
+  openModalDelete(confirmDelete, suscripcion: Suscripcion) {
+    this.suscripcionAux = suscripcion;
+    this.modalService
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
+      .result.then(
+        (result) => {},
+        (reason) => {}
+      );
+  }
+
+  refresh() {
+    window.location.reload();
   }
 }

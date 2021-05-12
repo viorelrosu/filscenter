@@ -5,7 +5,7 @@ import { EjercicioServiceService } from "@servicesRest/ejercicio/ejercicio-servi
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { TipoEjercicio } from "@modelsRest/TipoEjercicio";
 import { TipoEjercicioServiceService } from "@servicesRest/tipo_ejercicio/tipo-ejercicio-service.service";
-import { HelperService } from '@core/services/helper.service';
+import { HelperService } from "@core/services/helper.service";
 
 @Component({
   selector: "app-ejercicio-list",
@@ -21,9 +21,10 @@ export class EjercicioListComponent implements OnInit {
 
   //update
   ejercicioUpdate: any;
+  textoModal: string;
 
   //confirm delete
-  ejercicioAux:any;
+  ejercicioAux: any;
 
   constructor(
     private _service: EjercicioServiceService,
@@ -54,12 +55,25 @@ export class EjercicioListComponent implements OnInit {
     });
   }
 
-  update() {
-    this._service.updateEjercicio(this.ejercicioUpdate).subscribe((data) => {
-      alert("Ejercicio actualizado!");
-      this.modalService.dismissAll();
-    });
-    window.location.reload();
+  update(modal) {
+    this._service.updateEjercicio(this.ejercicioUpdate).subscribe(
+      (data) => {
+        this.textoModal = "¡Ejercicio actualizado!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
 
   habilitarEjercicio() {
@@ -81,26 +95,27 @@ export class EjercicioListComponent implements OnInit {
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
-        (result) => {
-          
-        },
-        (reason) => {
-         
-        }
+        (result) => {},
+        (reason) => {}
       );
   }
 
-    //modal coinfirm delete
-    openModalDelete(confirmDelete, ejercicio:Ejercicio){
-      this.ejercicioAux = ejercicio;
-      this.modalService
-      .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
+  //modal coinfirm delete
+  openModalDelete(confirmDelete, ejercicio: Ejercicio) {
+    this.ejercicioAux = ejercicio;
+    this.modalService
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
       .result.then(
-        (result) => {
-        },
-        (reason) => {
-        }
+        (result) => {},
+        (reason) => {}
       );
-    }
+  }
 
+  refresh() {
+    window.location.reload();
+  }
 }

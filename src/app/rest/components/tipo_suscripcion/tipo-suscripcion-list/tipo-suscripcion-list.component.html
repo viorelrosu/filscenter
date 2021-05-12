@@ -20,7 +20,7 @@
 <div *ngIf="mostrarTipoSuscripcionAdd == true">
   <app-tipo-suscripcion-add></app-tipo-suscripcion-add>
 </div>
-<h3 class="card-title text-center">Tipos De Suscripción</h3>
+<h3 class="card-title text-left">Tipos De Suscripción</h3>
 <div class="card-text">
   <table
     id="datatable"
@@ -87,8 +87,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let tipoSuscripcion of tiposSuscripcion" class="text-center">
-        <td>{{ tipoSuscripcion.nombre }}</td>
-        <td>{{ tipoSuscripcion.duracion }} día/s</td>
+        <td class="text-left">{{ tipoSuscripcion.nombre }}</td>
+        <td class="text-left">{{ tipoSuscripcion.duracion }} día/s</td>
         <td>{{ tipoSuscripcion.tarifa }}€</td>
         <td>
           <a
@@ -102,11 +102,8 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="delete(tipoSuscripcion)"
+            (click)="openModalDelete(confirmDelete,this.tipoSuscripcion)"
             ><i class="icon-trash-2"></i
-          ></a>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
-            ><i class="icon-settings"></i
           ></a>
         </td>
       </tr>
@@ -122,6 +119,32 @@
   </table>
 </div>
 
+<!-- modal delete -->
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar el tipo suscripción <span class="text-danger">{{tipoSuscripcionAux.nombre}} ?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete(usuario)" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
+
+
+
+<!-- modal update -->
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
@@ -133,7 +156,7 @@
       <form
         class="form-validate"
         name="form"
-        (ngSubmit)="f.form.valid && update()"
+        (ngSubmit)="f.form.valid && update(updateModalTipoSuscripcion)"
         #f="ngForm"
       >
         <div class="form-row">
@@ -264,4 +287,25 @@
       </form>
     </div>
   </div>
+</ng-template>
+
+<ng-template #updateModalTipoSuscripcion let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Update</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>{{textoModal}}</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss();refresh()"
+          >
+            Cerrar
+          </button>
+        </div>
 </ng-template>

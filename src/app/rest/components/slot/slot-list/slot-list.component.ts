@@ -26,7 +26,7 @@ export class SlotListComponent implements OnInit {
   monitores: Usuario[];
   actividades: Actividad[];
   salas: Sala[];
-  closeResult = "";
+  textoModal: string;
 
   //confirm delete
   slotAux:any;
@@ -70,12 +70,24 @@ export class SlotListComponent implements OnInit {
     });
   }
 
-  update(){
+  update(modal){
     this._service.updateSlot(this.slotUpdate).subscribe(data=>{
-      alert("Slot Actualizado!");
-      this.modalService.dismissAll();
-    });
-    window.location.reload();
+      this.textoModal = "¡Slot actualizado!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
 
   habilitarSlot() {
@@ -95,7 +107,7 @@ export class SlotListComponent implements OnInit {
       this.slotUpdate = data;
     });
     this.modalService
-      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
+      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true,size:"xl" })
       .result.then(
         (result) => {
         },
@@ -113,6 +125,10 @@ export class SlotListComponent implements OnInit {
       (reason) => {
       }
     );
+  }
+
+  refresh() {
+    window.location.reload();
   }
 
 }

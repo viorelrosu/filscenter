@@ -22,7 +22,7 @@ export class ReservaListComponent implements OnInit {
   reservaUpdate: any;
   usuarios: Usuario[];
   slots: Slot[];
-  closeResult = "";
+  textoModal: string;
 
   //confirm delete
   reservaAux:any;
@@ -60,12 +60,24 @@ export class ReservaListComponent implements OnInit {
     });
   }
 
-  update() {
+  update(modal) {
     this._service.updateReserva(this.reservaUpdate).subscribe((data) => {
-      alert("Reserva Actualizada!");
-      this.modalService.dismissAll();
-    });
-    window.location.reload();
+      this.textoModal = "¡Tipo actividad actualizada!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
 
   habilitarReserva() {
@@ -84,7 +96,7 @@ export class ReservaListComponent implements OnInit {
       this.reservaUpdate = data;
     });
     this.modalService
-      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
+      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true,size:"xl" })
       .result.then(
         (result) => {
         },
@@ -103,6 +115,10 @@ export class ReservaListComponent implements OnInit {
       (reason) => {
       }
     );
+  }
+
+  refresh() {
+    window.location.reload();
   }
 
 }

@@ -121,7 +121,7 @@
       <form
         class="form-validate"
         name="form"
-        (ngSubmit)="f.form.valid && update()"
+        (ngSubmit)="f.form.valid && update(updateModalTipoEjercicio)"
         #f="ngForm"
       >
         <div class="form-row">
@@ -174,4 +174,25 @@
       </form>
     </div>
   </div>
+</ng-template>
+
+<ng-template #updateModalTipoEjercicio let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Update</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>{{textoModal}}</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss();refresh()"
+          >
+            Cerrar
+          </button>
+        </div>
 </ng-template>

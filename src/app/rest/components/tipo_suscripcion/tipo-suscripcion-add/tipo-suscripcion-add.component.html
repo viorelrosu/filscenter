@@ -3,7 +3,7 @@
   <form
     class="form-validate"
     name="form"
-    (ngSubmit)="f.form.valid && addTipoSuscripcion()"
+    (ngSubmit)="f.form.valid && addTipoSuscripcion(create,errorModal)"
     #f="ngForm"
   >
     <div class="form-row">
@@ -80,7 +80,7 @@
           name="tarifa"
           #tarifaTipoSuscripcion="ngModel"
           [(ngModel)]="nuevoTipoSuscripcion.tarifa"
-          placeholder="Tarifa de TipoSuscripcion"
+          placeholder="Tarifa de TipoSuscripcion €"
           required
           pattern="^\d+(\.\d{1,3})?"
           [ngClass]="{
@@ -97,7 +97,7 @@
           class="invalid-feedback"
         >
           <div *ngIf="tarifaTipoSuscripcion.errors.required || tarifaTipoEjercicio.invalid">
-            * Nombre no válido
+            * Tarifa no válida
           </div>
         </div>
       </div>
@@ -106,3 +106,45 @@
     <button type="submit" class="btn m-t-30 mt-3">Añadir</button>
   </form>
 </div>
+
+<ng-template #create let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>Tipo de suscripción <span class="text-danger">{{nuevoTipoSuscripcion.nombre}}</span> registrado!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            aria-label="Close"
+            (click)="modal.dismiss();refresh()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>
+
+<ng-template #errorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¡Hubo un error!</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>

@@ -13,10 +13,15 @@ import { HelperService } from '@core/services/helper.service';
   styleUrls: ["./actividad-list.component.css"],
 })
 export class ActividadListComponent implements OnInit {
-  closeResult = "";
+  mostrarActividadAdd = false;
+  
+  //update
   actividadUpdate: any;
+
   actividades: Actividad[];
   tiposActividades: TipoActividad[];
+  textoModal: string;
+  
 
     //parte confirm delete
     actividadAux:any;
@@ -49,15 +54,26 @@ export class ActividadListComponent implements OnInit {
       window.location.reload();
     });
   }
-  update() {
+  update(modal) {
     this._service.updateActividad(this.actividadUpdate).subscribe((data) => {
-      alert("Actividad Actualizada!");
-      this.modalService.dismissAll();
-    });
-    window.location.reload();
+      this.textoModal = "¡Actividad actualizada!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
 
-  mostrarActividadAdd = false;
   habilitarActividad() {
     this.mostrarActividadAdd = true;
     document.getElementById("plusActividad").hidden = true;
@@ -98,5 +114,8 @@ export class ActividadListComponent implements OnInit {
       );
   }
 
+  refresh() {
+    window.location.reload();
+  }
 
 }

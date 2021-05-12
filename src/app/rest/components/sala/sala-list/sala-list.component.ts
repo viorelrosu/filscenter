@@ -18,6 +18,8 @@ export class SalaListComponent implements OnInit {
   //update
   salaUpdate: any;
   closeResult = "";
+  textoModal: string;
+
   //confirm delete
   salaAux: any;
 
@@ -42,12 +44,25 @@ export class SalaListComponent implements OnInit {
     });
   }
 
-  update() {
-    this._service.updateSala(this.salaUpdate).subscribe((data) => {
-      alert("Sala Actualizada!");
-      this.modalService.dismissAll();
-    });
-    window.location.reload();
+  update(modal) {
+    this._service.updateSala(this.salaUpdate).subscribe(
+      (data) => {
+        this.textoModal = "¡Sala actualizada!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
 
   habilitarSala() {
@@ -86,5 +101,9 @@ export class SalaListComponent implements OnInit {
         (result) => {},
         (reason) => {}
       );
+  }
+
+  refresh() {
+    window.location.reload();
   }
 }

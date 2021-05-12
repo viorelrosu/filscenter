@@ -21,7 +21,7 @@
   <app-suscripcion-add></app-suscripcion-add>
 </div>
 
-<h3 class="text-center">Suscripción</h3>
+<h3 class="text-left">Suscripción</h3>
 
 <div class="card-text">
   <table
@@ -104,8 +104,8 @@
       <tr *ngFor="let suscripcion of suscripciones" class="text-center">
         <td>{{ suscripcion.fechaAlta | date: "d/M/YYYY" }}</td>
         <td>{{ suscripcion.fechaBaja | date: "d/M/YYYY" }}</td>
-        <td>{{ suscripcion.tipoSuscripcion.nombre }}</td>
-        <td>{{ suscripcion.usuario.nombre }}</td>
+        <td class="text-left">{{ suscripcion.tipoSuscripcion.nombre }}</td>
+        <td class="text-left">{{ suscripcion.usuario.nombre }}</td>
         <td>
           <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
           (click)="open(content,suscripcion)"
@@ -115,11 +115,8 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="delete(suscripcion)"
+            (click)="openModalDelete(confirmDelete,this.suscripcion)"
             ><i class="icon-trash-2"></i
-          ></a>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Settings"
-            ><i class="icon-settings"></i
           ></a>
         </td>
       </tr>
@@ -136,6 +133,30 @@
   </table>
 </div>
 
+<!-- modal delete -->
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¿Seguro que quieres borrar la suscripción del usuario <span class="text-danger">{{suscripcionAux.usuario.nombre}} ?</span></h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+          >
+            Cancelar
+          </button>
+          <button (click)="delete(usuario)" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+</ng-template>
+
+<!-- modal update -->
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Update Suscripción</h4>
@@ -145,7 +166,7 @@
       <form
         class="form-validate"
         name="form"
-        (ngSubmit)="f.form.valid && update()"
+        (ngSubmit)="f.form.valid && update(updateModalSuscripcion)"
         #f="ngForm"
       >
         <div class="form-row">
@@ -317,3 +338,25 @@
     </div>
   </div>
 </ng-template>
+
+<ng-template #updateModalSuscripcion let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Update</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>{{textoModal}}</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss();refresh()"
+          >
+            Cerrar
+          </button>
+        </div>
+</ng-template>
+

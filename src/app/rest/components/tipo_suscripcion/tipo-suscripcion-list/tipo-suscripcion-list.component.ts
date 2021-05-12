@@ -12,6 +12,10 @@ import { TipoSuscripcionServiceService } from "@servicesRest/tipo_suscripcion/ti
 export class TipoSuscripcionListComponent implements OnInit {
   mostrarTipoSuscripcionAdd: boolean = false;
   closeResult = "";
+  textoModal: string;
+
+  //confirm delete
+  tipoSuscripcionAux: any;
 
   tiposSuscripcion: TipoSuscripcion[];
   tipoSuscripcionUpdate: any;
@@ -31,12 +35,12 @@ export class TipoSuscripcionListComponent implements OnInit {
     });
   }
 
-  delete(tipoSuscripcion: TipoSuscripcion) {
-    this._service.deleteTipoSuscripcion(tipoSuscripcion).subscribe((data) => {
-      this.tiposSuscripcion = this.tiposSuscripcion.filter(
-        (p) => p != tipoSuscripcion
-      );
-    });
+  delete() {
+    this._service
+      .deleteTipoSuscripcion(this.tipoSuscripcionAux)
+      .subscribe((data) => {
+        window.location.reload();
+      });
   }
 
   habilitarTipoSuscripcion() {
@@ -51,15 +55,28 @@ export class TipoSuscripcionListComponent implements OnInit {
     document.getElementById("minus").hidden = true;
   }
 
-  update() {
+  update(modal) {
     this._service
       .updateTipoSuscripcion(this.tipoSuscripcionUpdate)
       .subscribe((data) => {
-        alert("Tipo suscripcion actualizado");
-        this.modalService.dismissAll();
-      }),
-      window.location.reload();
+        this.textoModal = "¡Tipo Suscripción actualizada!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
+
 
   open(content, tipoSuscripcion: TipoSuscripcion) {
     this._service.getTipoSuscripcion(tipoSuscripcion.id).subscribe((data) => {
@@ -68,22 +85,27 @@ export class TipoSuscripcionListComponent implements OnInit {
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
       .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
+        (result) => {},
+        (reason) => {}
       );
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
+  //abre modal confirm delete
+  openModalDelete(confirmDelete, tipoSuscripcion: TipoSuscripcion) {
+    this.tipoSuscripcionAux = tipoSuscripcion;
+    this.modalService
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
+      .result.then(
+        (result) => {},
+        (reason) => {}
+      );
+  }
+
+  refresh() {
+    window.location.reload();
   }
 }

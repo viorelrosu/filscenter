@@ -326,7 +326,6 @@
               [(ngModel)]="tablaUpdate.monitor.id"
             >
               <option value="" selected>- Elige una opción -</option>
-              <!--p> aqui se haria un if que sacase todos los que tuvieran usuario.rol == monitor </p-->
               <option
                 *ngFor="let monitor of monitores"
                 value="{{ monitor.id }}"
@@ -370,7 +369,7 @@
                 value="{{ suscriptor.id }}"
               >
                 {{ suscriptor.nombre }} -
-                {{ suscriptor.numeroTarjeta == null ? "tarjetaNull" : "" }}
+                {{ suscriptor.numeroTarjeta == null ? "tarjetaNull" : suscriptor.numeroTarjeta }}
               </option>
             </select>
             <div
@@ -802,7 +801,7 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>¡Ejercicio <span class="text-danger">{{nuevoEjercicioSerie.nombre}}</span> registrado!</h3>
+      <h3>¡Ejercicio Serie <span class="text-danger">{{nuevoEjercicioSerie.ejercicio.nombre}}-{{nuevoEjercicioSerie.series}}x{{nuevoEjercicioSerie.repeticiones}} </span> registrado!</h3>
     </div>
   </div>
   <div class="modal-footer">
@@ -1033,7 +1032,7 @@
             >
               <option value="" selected>-- Elige una opción --</option>
               <option
-                *ngFor="let ejercicio of ejerciciosSerie"
+                *ngFor="let ejercicio of ejercicios"
                 value="{{ ejercicio.id }}"
               >
               {{ ejercicio.nombre }}

@@ -117,6 +117,7 @@ export class TablaEjercicioListComponent implements OnInit {
 
   //desplegar añadir ejercicios en modal
   abrirAniadirModal(info) {
+    this.tipoEjerSelect = "";
     this.modalAniadir = info;
   }
 

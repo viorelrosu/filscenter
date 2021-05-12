@@ -113,7 +113,10 @@
         <td class="text-center align-middle">{{ actividad.dificultad }}</td>
         <td class="text-left align-middle">{{ actividad.tipoActividad.nombre }}</td>
         <td class="text-left align-middle">{{ actividad.descripcion }}</td>
-        <td class="text-left align-middle">{{ actividad.color }}</td>
+        <td class="text-center align-middle">
+          <div class="m-auto" style="width: 20px; height: 20px;" [ngStyle]="{'background-color': actividad.color }">
+          </div>
+        </td>
         <td class="text-center align-middle">
           <a
             class="ml-2"
@@ -178,7 +181,7 @@
       <form
         class="form-validate"
         name="form"
-        (ngSubmit)="f.form.valid && update()"
+        (ngSubmit)="f.form.valid && update(updateModalActividad)"
         #f="ngForm"
       >
         <div class="form-row">
@@ -254,50 +257,15 @@
             </div>
           </div>
 
-          <div class="form-group col-md-4">
-            <label for="color">(*) Color Tipo</label>
-            <select
-              class="form-control"
+          <div class="form-group col-md-4 ">
+            <label for="color">(*) Color</label>
+            <input
+              type="color"
               name="color"
               id="color"
               #colorTipoActividad="ngModel"
               [(ngModel)]="actividadUpdate.color"
-              required
-              [ngClass]="{
-                'is-invalid':
-                  (f.submitted && colorTipoActividad.invalid) ||
-                  (colorTipoActividad.touched && !colorTipoActividad.valid)
-              }"
-              [(ngModel)]="actividadUpdate.color"
-            >
-              <option value="" selected>-- Elige una opción --</option>
-              <option value="red">Rojo</option>
-              <option value="blue">Azul</option>
-              <option value="green">Verde</option>
-              <option value="orange">Naranja</option>
-              <option value="black">Negro</option>
-              <option value="gray">Gris</option>
-              <option value="brown">Marrón</option>
-              <option value="yellow">Amarillo</option>
-              <option value="purple">Morado</option>
-            </select>
-    
-            <div
-              *ngIf="
-                (f.submitted && colorTipoActividad.invalid) ||
-                (colorTipoActividad.touched && !colorTipoActividad.valid)
-              "
-              class="invalid-feedback"
-            >
-              <div
-                *ngIf="
-                  colorTipoActividad.errors.required ||
-                  colorTipoActividad.invalid
-                "
-              >
-                * Seleccione un color tipo de actividad
-              </div>
-            </div>
+            />
           </div>
 
           <div class="form-group col-md-6">
@@ -384,4 +352,25 @@
       </form>
     </div>
   </div>
+</ng-template>
+
+<ng-template #updateModalActividad let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Update</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>{{textoModal}}</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Close"
+            (click)="modal.dismiss();refresh()"
+          >
+            Cerrar
+          </button>
+        </div>
 </ng-template>

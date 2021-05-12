@@ -16,6 +16,7 @@ export class TipoEjercicioListComponent implements OnInit {
   //parte update
   tiposEjercicio: TipoEjercicio[];
   tipoEjercicioUpdate: any;
+  textoModal: string;
 
   //confirm delete
   tipoEjercicioAux:any;
@@ -35,14 +36,26 @@ export class TipoEjercicioListComponent implements OnInit {
       this.tiposEjercicio = data;
     });
   }
-  update() {
+  update(modal) {
     this._service
       .updateTipoEjercicio(this.tipoEjercicioUpdate)
       .subscribe((data) => {
-        alert("Tipo ejercicio actualizado !");
-        this.modalService.dismissAll();
-      });
-    window.location.reload();
+        this.textoModal = "¡Tipo ejercicio actualizado!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModal = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
   }
   delete() {
     this._service.deleteTipoEjercicio(this.tipoEjercicioAux).subscribe((data) => {
@@ -88,5 +101,8 @@ export class TipoEjercicioListComponent implements OnInit {
           }
         );
       }
-
+      refresh() {
+        window.location.reload();
+      }
+    
 }
