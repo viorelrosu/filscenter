@@ -1,13 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Suscripcion } from "@modelsRest/Suscripcion";
+import { TipoSuscripcion } from "@modelsRest/TipoSuscripcion";
+import { Usuario } from "@modelsRest/Usuario";
 import { SuscripcionServiceService } from "@servicesRest/suscripcion/suscripcion-service.service";
 import { TipoSuscripcionServiceService } from "@servicesRest/tipo_suscripcion/tipo-suscripcion-service.service";
-import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
-import { TipoSuscripcion } from "@modelsRest/TipoSuscripcion";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
-import { Usuario } from "@modelsRest/Usuario";
 import { HelperService } from "@core/services/helper.service";
+import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { Suscripcion } from "@modelsRest/suscripcion";
+
 
 @Component({
   selector: "app-suscripcion-list",
@@ -28,6 +29,11 @@ export class SuscripcionListComponent implements OnInit {
   //confirm delete
   suscripcionAux: any;
 
+  //filters
+  filterName:string;
+  mainTablaSuscripciones:Suscripcion[];
+  filterTabla:Suscripcion[];
+
   constructor(
     private _service: SuscripcionServiceService,
     private _serviceTipoSuscripcion: TipoSuscripcionServiceService,
@@ -35,13 +41,16 @@ export class SuscripcionListComponent implements OnInit {
     private _router: Router,
     private modalService: NgbModal,
     private _helperService: HelperService
-  ) {}
+  ) {
+    this.suscripcionUpdate={};
+  }
 
   ngOnInit(): void {
     this._helperService.isRolOK("admin");
     document.getElementById("minusSuscripcion").hidden = true;
     this._service.getSuscripciones().subscribe((data) => {
       this.suscripciones = data;
+      this.mainTablaSuscripciones = data;
     });
 
     this._serviceTipoSuscripcion.getTiposSuscripcion().subscribe((data) => {
@@ -127,4 +136,27 @@ export class SuscripcionListComponent implements OnInit {
   refresh() {
     window.location.reload();
   }
+
+  filtrarTabla(){ 
+    this.filterTabla = [];
+    //console.log(this.mainTablaSuscripciones);
+    
+    for (let suscripcion of this.mainTablaSuscripciones){
+      //console.log(suscripcion.usuario.nombre);
+      
+      if(suscripcion.usuario.nombre.toLocaleLowerCase() == this.filterName.toLocaleLowerCase()){
+        //console.log(suscripcion);
+        this.filterTabla.push(suscripcion);
+      }
+    }
+    console.log(this.filterTabla);
+    
+    if (this.filterTabla.length > 0){
+      this.suscripciones = this.filterTabla;
+    } else {
+      this.suscripciones = this.mainTablaSuscripciones;
+    }
+  }
 }
+
+

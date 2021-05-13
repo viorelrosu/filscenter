@@ -1,22 +1,66 @@
-<div class="d-flex justify-content-end">
-  <button
-    id="plus"
-    enabled
-    (click)="habilitarTablaEjercicio()"
-    type="button"
-    class="btn btn-light"
-  >
-    <i class="icon-plus"></i> Tabla Ejercicio
-  </button>
-  <button
-    id="minus"
-    (click)="deshabilitarTablaEjercicio()"
-    type="button"
-    class="btn btn-light"
-  >
-    <i class="icon-minus"></i> Tabla Ejercicio
-  </button>
+<div class="row input-group">
+  <div class="col-sm-12 col-md-6">
+    <div class="form-outline">
+      <label
+        >Monitor:
+        <input
+          [(ngModel)]="filterMonitor"
+          type="search"
+          class="form-control form-control-sm"
+          placeholder=""
+      /></label>
+      <label for="" class="mr-5">
+        <button
+          type="button"
+          class="btn btn-primary mt-2"
+          (click)="filtrarTabla('monitor')"
+        >
+          <i class="fas fa-search"></i>
+        </button>
+      </label>
+
+      <label
+        >Usuario:
+        <input
+          [(ngModel)]="filterUser"
+          type="search"
+          class="form-control form-control-sm"
+          placeholder=""
+      /></label>
+      <label for="">
+        <button
+          type="button"
+          class="btn btn-primary mt-2"
+          (click)="filtrarTabla('user')"
+        >
+          <i class="fas fa-search"></i>
+        </button>
+      </label>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div style="margin-top: 35px" class="d-flex justify-content-end">
+      <button
+        id="plus"
+        enabled
+        (click)="habilitarTablaEjercicio()"
+        type="button"
+        class="btn btn-light"
+      >
+        <i class="icon-plus"></i> Tabla Ejercicio
+      </button>
+      <button
+        id="minus"
+        (click)="deshabilitarTablaEjercicio()"
+        type="button"
+        class="btn btn-light"
+      >
+        <i class="icon-minus"></i> Tabla Ejercicio
+      </button>
+    </div>
+  </div>
 </div>
+
 <div *ngIf="mostrarTablaEjercicioAdd == true">
   <app-tabla-ejercicio-add></app-tabla-ejercicio-add>
 </div>
@@ -118,7 +162,9 @@
         <td class="text-left">{{ tablaEjercicio.suscriptor.nombre }}</td>
         <td>{{ tablaEjercicio.fechaInicio | date: "d/M/YYYY" }}</td>
         <td>{{ tablaEjercicio.fechaFin | date: "d/M/YYYY" }}</td>
-        <td class="text-left">{{ tablaEjercicio.activa == true ? "Activa" : "Inactiva" }}</td>
+        <td class="text-left">
+          {{ tablaEjercicio.activa == true ? "Activa" : "Inactiva" }}
+        </td>
         <td>
           <a
             class="ml-2"
@@ -131,7 +177,7 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="openModalDelete(confirmDelete,this.tablaEjercicio)"
+            (click)="openModalDelete(confirmDelete, this.tablaEjercicio)"
             ><i class="icon-trash-2"></i
           ></a>
           <a
@@ -165,26 +211,34 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>¿Seguro que quieres borrar la tabla del usuario <span class="text-danger">{{tablaAux.suscriptor.nombre}} ({{tablaAux.suscriptor.id}})?</span></h3>
+      <h3>
+        ¿Seguro que quieres borrar la tabla del usuario
+        <span class="text-danger"
+          >{{ tablaAux.suscriptor.nombre }} ({{
+            tablaAux.suscriptor.id
+          }})?</span
+        >
+      </h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss()"
-          >
-            Cancelar
-          </button>
-          <button (click)="delete()" type="button" class="btn btn-primary">Borrar</button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    >
+      Cancelar
+    </button>
+    <button (click)="delete()" type="button" class="btn btn-primary">
+      Borrar
+    </button>
+  </div>
 </ng-template>
 
 <!-- ======================================= MODAL UPDATE TABLA==============================  -->
 <!-- ======================================= MODAL UPDATE TABLA==============================  -->
 <!-- ======================================= MODAL UPDATE TABLA==============================  -->
-
 
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -369,7 +423,11 @@
                 value="{{ suscriptor.id }}"
               >
                 {{ suscriptor.nombre }} -
-                {{ suscriptor.numeroTarjeta == null ? "tarjetaNull" : suscriptor.numeroTarjeta }}
+                {{
+                  suscriptor.numeroTarjeta == null
+                    ? "tarjetaNull"
+                    : suscriptor.numeroTarjeta
+                }}
               </option>
             </select>
             <div
@@ -411,349 +469,502 @@
 
 <ng-template #detalle let-modal>
   <div class="container">
-  <div class="modal-header text-center">
-    <h4 class="modal-title" id="modal-basic-title">
-      Detalle Tabla Ejercicio de <span class="text-primary">{{ tablaDetalle.suscriptor.nombre }}</span> idtabla ({{tablaDetalle.id}})
-    </h4>
-  </div>
-  <div class="modal-body content-center">
-    <div class="row justify-content-end m-4 ">
-      <button (click)="abrirAniadirModal(true)" class="btn btn-light"><i class="icon-plus"></i> Añadir Ejercicio Serie</button>
+    <div class="modal-header text-center">
+      <h4 class="modal-title" id="modal-basic-title">
+        Detalle Tabla Ejercicio de
+        <span class="text-primary">{{ tablaDetalle.suscriptor.nombre }}</span>
+        idtabla ({{ tablaDetalle.id }})
+      </h4>
     </div>
+    <div class="modal-body content-center">
+      <div class="row input-group" >
+        <div class="col-sm-12 col-md-6">
+            <div class="form-outline">
+              <label
+                >Día:
+                <input
+                [(ngModel)]="filterDia"
+                  type="search"
+                  class="form-control form-control-sm "
+                  placeholder="1 , 2 , 3 , 3"
+              /></label>
+              <label for="">
+              <button type="button" class="btn btn-primary mt-2" (click)="filtrarTablaES()">
+                <i class="fas fa-search "></i>
+              </button></label>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 mb-3">
+          <div style="margin-top: 35px" class="d-flex justify-content-end">
+            <button (click)="abrirAniadirModal(true)" class="btn btn-light">
+              <i class="icon-plus"></i> Añadir Ejercicio Serie
+            </button>
+          </div>
+        </div>
+      </div>
 
-    <!--parte formulario add ejercicioSerie-->
-    <div *ngIf="modalAniadir==true">
-      <div class="card-body">
-        <form
-          class="form-validate"
-          name="form"
-          (ngSubmit)="f.form.valid && aniadirEjercicioSerie(detalle,this.tablaDetalle,createEjer,errorModalEjer)"
-          #f="ngForm"
-        >
-          <div class="form-row">
+
+      <!--parte formulario add ejercicioSerie-->
+      <div *ngIf="modalAniadir == true">
+        <div class="card-body">
+          <form
+            class="form-validate"
+            name="form"
+            (ngSubmit)="
+              f.form.valid &&
+                aniadirEjercicioSerie(
+                  detalle,
+                  this.tablaDetalle,
+                  createEjer,
+                  errorModalEjer
+                )
+            "
+            #f="ngForm"
+          >
+            <div class="form-row">
               <div class="form-group col-md-4">
-                  <label for="semana">(*) Veces por Semana</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="semana"
-                    name="semana"
-                    #ejercicioSerieSemana="ngModel"
-                    [(ngModel)]="nuevoEjercicioSerie.porSemana"
-                    placeholder="Veces a realizar por semana"
-                    required
-                    min="1"
-                    max="6"
-                    pattern="^([1-9]){1}"
-                    [ngClass]="{
-                      'is-invalid':
-                        (f.submitted && ejercicioSerieSemana.invalid) ||
-                        (ejercicioSerieSemana.touched && !ejercicioSerieSemana.valid)
-                    }"
-                  />
-                  <div
-                    *ngIf="
+                <label for="semana">(*) Día número Semana</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="semana"
+                  name="semana"
+                  #ejercicioSerieSemana="ngModel"
+                  [(ngModel)]="nuevoEjercicioSerie.porSemana"
+                  placeholder="Veces a realizar por semana"
+                  required
+                  min="1"
+                  max="7"
+                  pattern="^([1-7]){1}"
+                  [ngClass]="{
+                    'is-invalid':
                       (f.submitted && ejercicioSerieSemana.invalid) ||
-                      (ejercicioSerieSemana.touched && !ejercicioSerieSemana.valid)
+                      (ejercicioSerieSemana.touched &&
+                        !ejercicioSerieSemana.valid)
+                  }"
+                />
+                <div
+                  *ngIf="
+                    (f.submitted && ejercicioSerieSemana.invalid) ||
+                    (ejercicioSerieSemana.touched &&
+                      !ejercicioSerieSemana.valid)
+                  "
+                  class="invalid-feedback"
+                >
+                  <div
+                    *ngIf="
+                      ejercicioSerieSemana.errors.required ||
+                      ejercicioSerieSemana.invalid
                     "
-                    class="invalid-feedback"
                   >
-                    <div *ngIf="ejercicioSerieSemana.errors.required || ejercicioSerieSemana.invalid">
-                      * Veces seleccionadas no válida
-                    </div>
+                    * Veces seleccionadas no válida
                   </div>
                 </div>
+              </div>
 
-                <div class="form-group col-md-4">
-                  <label for="repeticiones">(*) Repeticiones</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="repeticiones"
-                    name="repeticiones"
-                    #ejercicioSerieRepeticiones="ngModel"
-                    [(ngModel)]="nuevoEjercicioSerie.repeticiones"
-                    placeholder="Repeticiones del ejercicio"
-                    required
-                    min="1"
-                    max="999"
-                    pattern="^([1-9]){1}\d*"
-                    [ngClass]="{
-                      'is-invalid':
-                        (f.submitted && ejercicioSerieRepeticiones.invalid) ||
-                        (ejercicioSerieRepeticiones.touched && !ejercicioSerieRepeticiones.valid)
-                    }"
-                  />
-                  <div
-                    *ngIf="
+              <div class="form-group col-md-4">
+                <label for="repeticiones">(*) Repeticiones</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="repeticiones"
+                  name="repeticiones"
+                  #ejercicioSerieRepeticiones="ngModel"
+                  [(ngModel)]="nuevoEjercicioSerie.repeticiones"
+                  placeholder="Repeticiones del ejercicio"
+                  required
+                  min="1"
+                  max="999"
+                  pattern="^([1-9]){1}\d*"
+                  [ngClass]="{
+                    'is-invalid':
                       (f.submitted && ejercicioSerieRepeticiones.invalid) ||
-                      (ejercicioSerieRepeticiones.touched && !ejercicioSerieRepeticiones.valid)
-                    "
-                    class="invalid-feedback"
-                  >
-                    <div *ngIf="ejercicioSerieRepeticiones.errors.required || ejercicioSerieRepeticiones.invalid">
-                      * Repeticiones no válidas
-                    </div>
-                  </div>
-                </div>
-      
-      
-                <div class="form-group col-md-4">
-                  <label for="series">(*) Series</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="series"
-                    name="series"
-                    #ejercicioSerieSeries="ngModel"
-                    [(ngModel)]="nuevoEjercicioSerie.series"
-                    placeholder="Series del ejercicio"
-                    required
-                    min="1"
-                    max="15"
-                    pattern="^([1-9]){1}\d*"
-                    [ngClass]="{
-                      'is-invalid':
-                        (f.submitted && ejercicioSerieSeries.invalid) ||
-                        (ejercicioSerieSeries.touched && !ejercicioSerieSeries.valid)
-                    }"
-                  />
+                      (ejercicioSerieRepeticiones.touched &&
+                        !ejercicioSerieRepeticiones.valid)
+                  }"
+                />
+                <div
+                  *ngIf="
+                    (f.submitted && ejercicioSerieRepeticiones.invalid) ||
+                    (ejercicioSerieRepeticiones.touched &&
+                      !ejercicioSerieRepeticiones.valid)
+                  "
+                  class="invalid-feedback"
+                >
                   <div
                     *ngIf="
-                      (f.submitted && ejercicioSerieSeries.invalid) ||
-                      (ejercicioSerieSeries.touched && !ejercicioSerieSeries.valid)
+                      ejercicioSerieRepeticiones.errors.required ||
+                      ejercicioSerieRepeticiones.invalid
                     "
-                    class="invalid-feedback"
                   >
-                    <div *ngIf="ejercicioSerieSeries.errors.required || ejercicioSerieSeries.invalid">
-                      * Series seleccionadas no válida
-                    </div>
+                    * Repeticiones no válidas
                   </div>
                 </div>
-      
-          <div class="form-group col-md-6">
-              <label for="tipoEjercicio">(*)Tipo Ejercicio</label>
-              <select
-                class="form-control"
-                name="tipoEjercicio"
-                id="tipoEjercicio"
-                #tipoEjercicioSerieEjercicio="ngModel"
-                [(ngModel)]="tipoEjercicioId"
-                required
-                [ngClass]="{
-                  'is-invalid':
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="series">(*) Series</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="series"
+                  name="series"
+                  #ejercicioSerieSeries="ngModel"
+                  [(ngModel)]="nuevoEjercicioSerie.series"
+                  placeholder="Series del ejercicio"
+                  required
+                  min="1"
+                  max="15"
+                  pattern="^([1-9]){1}\d*"
+                  [ngClass]="{
+                    'is-invalid':
+                      (f.submitted && ejercicioSerieSeries.invalid) ||
+                      (ejercicioSerieSeries.touched &&
+                        !ejercicioSerieSeries.valid)
+                  }"
+                />
+                <div
+                  *ngIf="
+                    (f.submitted && ejercicioSerieSeries.invalid) ||
+                    (ejercicioSerieSeries.touched &&
+                      !ejercicioSerieSeries.valid)
+                  "
+                  class="invalid-feedback"
+                >
+                  <div
+                    *ngIf="
+                      ejercicioSerieSeries.errors.required ||
+                      ejercicioSerieSeries.invalid
+                    "
+                  >
+                    * Series seleccionadas no válida
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="tipoEjercicio">(*)Tipo Ejercicio</label>
+                <select
+                  class="form-control"
+                  name="tipoEjercicio"
+                  id="tipoEjercicio"
+                  #tipoEjercicioSerieEjercicio="ngModel"
+                  [(ngModel)]="tipoEjercicioId"
+                  required
+                  [ngClass]="{
+                    'is-invalid':
+                      (f.submitted && tipoEjercicioSerieEjercicio.invalid) ||
+                      (tipoEjercicioSerieEjercicio.touched &&
+                        !tipoEjercicioSerieEjercicio.valid)
+                  }"
+                  [(ngModel)]="tipoEjerSelect"
+                  (ngModelChange)="cargarEjercicios(this.tipoEjercicioId, 'no')"
+                >
+                  <option value="" selected>-- Elige una opción --</option>
+                  <option
+                    *ngFor="let tipoEjercicio of tiposEjercicio"
+                    value="{{ tipoEjercicio.id }}"
+                  >
+                    {{ tipoEjercicio.nombre }}
+                  </option>
+                </select>
+
+                <div
+                  *ngIf="
                     (f.submitted && tipoEjercicioSerieEjercicio.invalid) ||
                     (tipoEjercicioSerieEjercicio.touched &&
                       !tipoEjercicioSerieEjercicio.valid)
-                }"
-                [(ngModel)]="tipoEjerSelect"
-                (ngModelChange)="cargarEjercicios(this.tipoEjercicioId,'no')"
-              >
-                <option value="" selected>-- Elige una opción --</option>
-                <option
-                  *ngFor="let tipoEjercicio of tiposEjercicio"
-                  value="{{ tipoEjercicio.id }}"
-                >
-                {{ tipoEjercicio.nombre }}
-                </option>
-              </select>
-      
-              <div
-                *ngIf="
-                  (f.submitted && tipoEjercicioSerieEjercicio.invalid) ||
-                  (tipoEjercicioSerieEjercicio.touched && !tipoEjercicioSerieEjercicio.valid)
-                "
-                class="invalid-feedback"
-              >
-                <div
-                  *ngIf="
-                    tipoEjercicioSerieEjercicio.errors.required ||
-                    tipoEjercicioSerieEjercicio.invalid
                   "
+                  class="invalid-feedback"
                 >
-                  * Seleccione un tipo ejercicio
+                  <div
+                    *ngIf="
+                      tipoEjercicioSerieEjercicio.errors.required ||
+                      tipoEjercicioSerieEjercicio.invalid
+                    "
+                  >
+                    * Seleccione un tipo ejercicio
+                  </div>
                 </div>
               </div>
-            </div>
-      
-            <div *ngIf="tipoEjercicioId != '' " class="form-group col-md-6">
-              <label for="ejercicio">(*) Ejercicio</label>
-              <select
-                class="form-control"
-                name="ejercicio"
-                id="ejercicio"
-                #ejercicioSerieEjercicio="ngModel"
-                [(ngModel)]="ejercicioId"
-                required
-                [ngClass]="{
-                  'is-invalid':
+
+              <div *ngIf="tipoEjercicioId != ''" class="form-group col-md-6">
+                <label for="ejercicio">(*) Ejercicio</label>
+                <select
+                  class="form-control"
+                  name="ejercicio"
+                  id="ejercicio"
+                  #ejercicioSerieEjercicio="ngModel"
+                  [(ngModel)]="ejercicioId"
+                  required
+                  [ngClass]="{
+                    'is-invalid':
+                      (f.submitted && ejercicioSerieEjercicio.invalid) ||
+                      (ejercicioSerieEjercicio.touched &&
+                        !ejercicioSerieEjercicio.valid)
+                  }"
+                  [(ngModel)]="ejerSelect"
+                >
+                  <option value="" selected>-- Elige una opción --</option>
+                  <option
+                    *ngFor="let ejercicio of ejercicios"
+                    value="{{ ejercicio.id }}"
+                  >
+                    {{ ejercicio.nombre }}
+                  </option>
+                </select>
+
+                <div
+                  *ngIf="
                     (f.submitted && ejercicioSerieEjercicio.invalid) ||
                     (ejercicioSerieEjercicio.touched &&
                       !ejercicioSerieEjercicio.valid)
-                }"
-                [(ngModel)]="ejerSelect"
-              >
-                <option value="" selected>-- Elige una opción --</option>
-                <option
-                  *ngFor="let ejercicio of ejercicios"
-                  value="{{ ejercicio.id }}"
-                >
-                {{ ejercicio.nombre }}
-                </option>
-              </select>
-      
-              <div
-                *ngIf="
-                  (f.submitted && ejercicioSerieEjercicio.invalid) ||
-                  (ejercicioSerieEjercicio.touched && !ejercicioSerieEjercicio.valid)
-                "
-                class="invalid-feedback"
-              >
-                <div
-                  *ngIf="
-                    ejercicioSerieEjercicio.errors.required ||
-                    ejercicioSerieEjercicio.invalid
                   "
+                  class="invalid-feedback"
                 >
-                  * Seleccione un ejercicio
+                  <div
+                    *ngIf="
+                      ejercicioSerieEjercicio.errors.required ||
+                      ejercicioSerieEjercicio.invalid
+                    "
+                  >
+                    * Seleccione un ejercicio
+                  </div>
                 </div>
               </div>
             </div>
-      
-  
-          </div>
-      
-          <div class="row justify-content-end m-4 ">
-            <button (click)="abrirAniadirModal(false)" class="btn btn-danger">Cancelar</button>
-            <button type="submit" class="btn btn-primary"><i class="icon-plus"></i> Añadir</button>
-          </div>
-        </form>
+
+            <div class="row justify-content-end m-4">
+              <button (click)="abrirAniadirModal(false)" class="btn btn-danger">
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="icon-plus"></i> Añadir
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- parte listado ejercicios-->
+      <div class="card-text">
+        <div class="card-text">
+          <table
+            id="datatable"
+            class="table table-bordered table-hover dataTable text-center"
+            style="width: 100%"
+            role="grid"
+            aria-describedby="datatable_info"
+          >
+            <thead>
+              <tr role="row">
+                <th
+                  id=""
+                  id=""
+                  class="noExport sorting"
+                  tabindex="0"
+                  aria-controls="datatable"
+                  rowspan="1"
+                  colspan="1"
+                  aria-label="Actions: activate to sort column ascending"
+                  style="width: 54px"
+                >
+                  Tipo ejercicio
+                </th>
+                <th
+                  id=""
+                  id=""
+                  class="noExport sorting"
+                  tabindex="0"
+                  aria-controls="datatable"
+                  rowspan="1"
+                  colspan="1"
+                  aria-label="Actions: activate to sort column ascending"
+                  style="width: 54px"
+                >
+                  Nombre ejercicio
+                </th>
+                <th
+                  id=""
+                  id=""
+                  class="noExport sorting"
+                  tabindex="0"
+                  aria-controls="datatable"
+                  rowspan="1"
+                  colspan="1"
+                  aria-label="Actions: activate to sort column ascending"
+                  style="width: 54px"
+                >
+                  Repeticiones
+                </th>
+                <th
+                  id=""
+                  id=""
+                  class="noExport sorting"
+                  tabindex="0"
+                  aria-controls="datatable"
+                  rowspan="1"
+                  colspan="1"
+                  aria-label="Actions: activate to sort column ascending"
+                  style="width: 54px"
+                >
+                  Series
+                </th>
+
+                <th
+                  id=""
+                  id=""
+                  class="noExport sorting"
+                  tabindex="0"
+                  aria-controls="datatable"
+                  rowspan="1"
+                  colspan="1"
+                  aria-label="Actions: activate to sort column ascending"
+                  style="width: 54px"
+                >
+                  Dia número semana
+                </th>
+                <th
+                  id=""
+                  id=""
+                  class="noExport sorting"
+                  tabindex="0"
+                  aria-controls="datatable"
+                  rowspan="1"
+                  colspan="1"
+                  aria-label="Actions: activate to sort column ascending"
+                  style="width: 54px"
+                >
+                  Acciones
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let ejercicio of ejerciciosSerieTablaDetalle"
+                class="text-center"
+              >
+                <td>{{ ejercicio.ejercicio.tipoEjercicio.nombre }}</td>
+                <td>{{ ejercicio.ejercicio.nombre }}</td>
+                <td>{{ ejercicio.repeticiones }}</td>
+                <td>{{ ejercicio.series }}</td>
+                <td>{{ ejercicio.porSemana }}</td>
+                <td>
+                  <a
+                    class="ml-2"
+                    data-toggle="tooltip"
+                    data-original-title="Edit"
+                    (click)="
+                      modalUpdateEjercicioSerie(updateES, this.ejercicio)
+                    "
+                    ><i class="icon-edit"></i
+                  ></a>
+                  <a
+                    class="ml-2"
+                    data-toggle="tooltip"
+                    data-original-title="Delete"
+                    (click)="
+                      openModalDeleteEjerSerie(
+                        confirmDeleteEjerSerie,
+                        this.ejercicio
+                      )
+                    "
+                    ><i class="icon-trash-2"></i
+                  ></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-
-    <!-- parte listado ejercicios-->
-    <div class="card-text">
-      <div class="card-text">
-        <table
-          id="datatable"
-          class="table table-bordered table-hover dataTable text-center"
-          style="width: 100%"
-          role="grid"
-          aria-describedby="datatable_info"
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-danger"
+        aria-label="Close"
+        (click)="modal.dismiss()"
+      >
+        Cerrar
+      </button>
+    </div>
+  </div>
+</ng-template>
+<!-- ======================================= MODAL DELETE EJERCICIO SERIE==============================  -->
+<!-- ======================================= MODAL DELETE EJERCICIO SERIE==============================  -->
+<!-- ======================================= MODAL DELETE EJERCICIO SERIE==============================  -->
+<ng-template #confirmDeleteEjerSerie let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>
+        ¿Seguro que quieres borrar la serie ejercicio
+        <span class="text-danger"
+          >{{ ejercicioAux.ejercicio.nombre }} ({{ ejercicioAux.id }})?</span
         >
-          <thead>
-            <tr role="row">
-              <th
-              id=""
-              id=""
-              class="noExport sorting"
-              tabindex="0"
-              aria-controls="datatable"
-              rowspan="1"
-              colspan="1"
-              aria-label="Actions: activate to sort column ascending"
-              style="width: 54px"
-            >
-              Tipo ejercicio
-            </th>
-              <th
-                id=""
-                id=""
-                class="noExport sorting"
-                tabindex="0"
-                aria-controls="datatable"
-                rowspan="1"
-                colspan="1"
-                aria-label="Actions: activate to sort column ascending"
-                style="width: 54px"
-              >
-                Nombre ejercicio
-              </th>
-              <th
-                id=""
-                id=""
-                class="noExport sorting"
-                tabindex="0"
-                aria-controls="datatable"
-                rowspan="1"
-                colspan="1"
-                aria-label="Actions: activate to sort column ascending"
-                style="width: 54px"
-              >
-                Repeticiones
-              </th>
-              <th
-                id=""
-                id=""
-                class="noExport sorting"
-                tabindex="0"
-                aria-controls="datatable"
-                rowspan="1"
-                colspan="1"
-                aria-label="Actions: activate to sort column ascending"
-                style="width: 54px"
-              >
-                Series
-              </th>
+      </h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    >
+      Cancelar
+    </button>
+    <button
+      (click)="deleteEjercicioSerie()"
+      type="button"
+      class="btn btn-primary"
+    >
+      Borrar
+    </button>
+  </div>
+</ng-template>
 
-              <th
-                id=""
-                id=""
-                class="noExport sorting"
-                tabindex="0"
-                aria-controls="datatable"
-                rowspan="1"
-                colspan="1"
-                aria-label="Actions: activate to sort column ascending"
-                style="width: 54px"
-              >
-                Veces por semana
-              </th>
-              <th
-              id=""
-              id=""
-              class="noExport sorting"
-              tabindex="0"
-              aria-controls="datatable"
-              rowspan="1"
-              colspan="1"
-              aria-label="Actions: activate to sort column ascending"
-              style="width: 54px"
-            >
-              Acciones
-            </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let ejercicio of ejerciciosSerieTablaDetalle"
-              class="text-center"
-            >
-            <td>{{ ejercicio.ejercicio.tipoEjercicio.nombre }}</td>
-            <td>{{ ejercicio.ejercicio.nombre }}</td>
-            <td>{{ ejercicio.repeticiones }}</td>
-            <td>{{ ejercicio.series }}</td>
-            <td>{{ ejercicio.porSemana }}</td>
-            <td>
-              <a
-                class="ml-2"
-                data-toggle="tooltip"
-                data-original-title="Edit"
-                (click)="modalUpdateEjercicioSerie(updateES,this.ejercicio)"
-                ><i class="icon-edit"></i
-              ></a>
-              <a
-                class="ml-2"
-                data-toggle="tooltip"
-                data-original-title="Delete"
-                (click)="openModalDeleteEjerSerie(confirmDeleteEjerSerie,this.ejercicio)"
-                ><i class="icon-trash-2"></i
-              ></a>
-            </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<!-- ======================================= MODAL ADD EJERCICIO==============================  -->
+<!-- ======================================= MODAL ADD EJERCICIO==============================  -->
+<!-- ======================================= MODAL ADD EJERCICIO==============================  -->
+<ng-template #createEjer let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>
+        ¡Ejercicio Serie
+        <span class="text-danger"
+          >{{ nuevoEjercicioSerie.ejercicio.nombre }}-{{
+            nuevoEjercicioSerie.series
+          }}x{{ nuevoEjercicioSerie.repeticiones }}
+        </span>
+        registrado!
+      </h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      aria-label="Close"
+      (click)="modal.dismiss(); closeUpdateModalResult()"
+    >
+      Cerrar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #errorModalEjer let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>{{ textoModal }}</h3>
     </div>
   </div>
   <div class="modal-footer">
@@ -766,77 +977,7 @@
       Cerrar
     </button>
   </div>
-</div>
 </ng-template>
-<!-- ======================================= MODAL DELETE EJERCICIO SERIE==============================  -->
-<!-- ======================================= MODAL DELETE EJERCICIO SERIE==============================  -->
-<!-- ======================================= MODAL DELETE EJERCICIO SERIE==============================  -->
-<ng-template #confirmDeleteEjerSerie let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
-  </div>
-  <div class="modal-body">
-    <div class="card-body">
-      <h3>¿Seguro que quieres borrar la serie ejercicio <span class="text-danger">{{ejercicioAux.ejercicio.nombre}} ({{ejercicioAux.id}})?</span></h3>    </div>
-  </div>
-  <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss()"
-          >
-            Cancelar
-          </button>
-          <button (click)="deleteEjercicioSerie()" type="button" class="btn btn-primary">Borrar</button>
-        </div>
-</ng-template>
-
-<!-- ======================================= MODAL ADD EJERCICIO==============================  -->
-<!-- ======================================= MODAL ADD EJERCICIO==============================  -->
-<!-- ======================================= MODAL ADD EJERCICIO==============================  -->
-<ng-template #createEjer let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
-  </div>
-  <div class="modal-body">
-    <div class="card-body">
-      <h3>¡Ejercicio Serie <span class="text-danger">{{nuevoEjercicioSerie.ejercicio.nombre}}-{{nuevoEjercicioSerie.series}}x{{nuevoEjercicioSerie.repeticiones}} </span> registrado!</h3>
-    </div>
-  </div>
-  <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-primary"
-            aria-label="Close"
-            (click)="modal.dismiss();closeUpdateModalResult()"
-          >
-            Cerrar
-          </button>
-        </div>
-</ng-template>
-
-<ng-template #errorModalEjer let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
-  </div>
-  <div class="modal-body">
-    <div class="card-body">
-      <h3>{{textoModal}}</h3>
-    </div>
-  </div>
-  <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss()"
-          >
-            Cerrar
-          </button>
-        </div>
-</ng-template>
-
 
 <!-- ======================================= MODAL UPDATE EJERCICIO==============================  -->
 <!-- ======================================= MODAL UPDATE EJERCICIO==============================  -->
@@ -855,7 +996,7 @@
       >
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label for="semana">(*) Veces por Semana</label>
+            <label for="semana">(*) Día número Semana</label>
             <input
               type="number"
               class="form-control"
@@ -866,8 +1007,8 @@
               placeholder="Veces a realizar por semana"
               required
               min="1"
-              max="6"
-              pattern="^([1-9]){1}"
+              max="7"
+              pattern="^([1-7]){1}"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && ejercicioSerieSemana.invalid) ||
@@ -985,21 +1126,27 @@
                     !tipoEjercicioSerieEjercicio.valid)
               }"
               [(ngModel)]="ejercicioSerieUpdate.ejercicio.tipoEjercicio.id"
-              (ngModelChange)="cargarEjercicios(this.ejercicioSerieUpdate.ejercicio.tipoEjercicio.id,'si')"
+              (ngModelChange)="
+                cargarEjercicios(
+                  this.ejercicioSerieUpdate.ejercicio.tipoEjercicio.id,
+                  'si'
+                )
+              "
             >
               <option value="" selected>-- Elige una opción --</option>
               <option
                 *ngFor="let tipoEjercicio of tiposEjercicio"
                 value="{{ tipoEjercicio.id }}"
               >
-              {{ tipoEjercicio.nombre }}
+                {{ tipoEjercicio.nombre }}
               </option>
             </select>
-    
+
             <div
               *ngIf="
                 (f.submitted && tipoEjercicioSerieEjercicio.invalid) ||
-                (tipoEjercicioSerieEjercicio.touched && !tipoEjercicioSerieEjercicio.valid)
+                (tipoEjercicioSerieEjercicio.touched &&
+                  !tipoEjercicioSerieEjercicio.valid)
               "
               class="invalid-feedback"
             >
@@ -1013,8 +1160,11 @@
               </div>
             </div>
           </div>
-    
-          <div *ngIf="ejercicioSerieUpdate.ejercicio.tipoEjercicio.id != '' " class="form-group col-md-6">
+
+          <div
+            *ngIf="ejercicioSerieUpdate.ejercicio.tipoEjercicio.id != ''"
+            class="form-group col-md-6"
+          >
             <label for="ejercicio">(*) Ejercicio</label>
             <select
               class="form-control"
@@ -1035,14 +1185,15 @@
                 *ngFor="let ejercicio of ejercicios"
                 value="{{ ejercicio.id }}"
               >
-              {{ ejercicio.nombre }}
+                {{ ejercicio.nombre }}
               </option>
             </select>
-    
+
             <div
               *ngIf="
                 (f.submitted && ejercicioSerieEjercicio.invalid) ||
-                (ejercicioSerieEjercicio.touched && !ejercicioSerieEjercicio.valid)
+                (ejercicioSerieEjercicio.touched &&
+                  !ejercicioSerieEjercicio.valid)
               "
               class="invalid-feedback"
             >
@@ -1073,24 +1224,23 @@
   </div>
 </ng-template>
 
-
 <ng-template #updateModalEjer let-modal>
   <div class="modal-header">
     <h4 class="modal-title text-center" id="modal-basic-title">Update</h4>
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>{{textoModal}}</h3>
+      <h3>{{ textoModal }}</h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="closeUpdateModalResult()"
-          >
-            Cerrar
-          </button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="closeUpdateModalResult()"
+    >
+      Cerrar
+    </button>
+  </div>
 </ng-template>

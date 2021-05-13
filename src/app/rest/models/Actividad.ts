@@ -8,8 +8,12 @@ export class Actividad {
   color: string;
   tipoActividad: TipoActividad;
 
-  constructor() {
-    
-  }
-
+  constructor(
+    id: number,
+    descripcion: string,
+    dificultad: number,
+    nombre: string,
+    color: string,
+    tipoActividad: TipoActividad
+  ) {}
 }

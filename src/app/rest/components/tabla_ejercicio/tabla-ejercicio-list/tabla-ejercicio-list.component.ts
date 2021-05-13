@@ -56,6 +56,17 @@ export class TablaEjercicioListComponent implements OnInit {
   
   //modales
   textoModal:string;
+
+  //filtros tablaejer
+  filterMonitor:string;
+  filterUser:string;
+  mainTablaTablaEjercicios:TablaEjercicio[];
+  filterTabla:TablaEjercicio[];
+
+  //filtros ejer serie
+  filterDia:number;
+  mainTablaEjerciciosSerie:EjercicioSerie[];
+  filterTablaES:EjercicioSerie[];
   
   constructor(
     private _service: TablaEjercicioServiceService,
@@ -79,6 +90,7 @@ export class TablaEjercicioListComponent implements OnInit {
 
     this._service.getTablasEjercicios().subscribe((data) => {
       this.tablasEjercicio = data;
+      this.mainTablaTablaEjercicios = data;
     });
 
     this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
@@ -247,6 +259,7 @@ export class TablaEjercicioListComponent implements OnInit {
       .getEjerciciosPorTablaId(tabla.id)
       .subscribe((data) => {
         this.ejerciciosSerieTablaDetalle = data;
+        this.mainTablaEjerciciosSerie = data;
       });
     this.modalService
       .open(detalle, {
@@ -309,5 +322,53 @@ export class TablaEjercicioListComponent implements OnInit {
         (result) => {},
         (reason) => {}
       );
+  }
+
+  filtrarTabla(rol){
+    this.filterTabla = [];
+    console.log(rol);
+    
+    
+    if(rol == "monitor"){
+      for (let tabla of this.mainTablaTablaEjercicios){ 
+        if(tabla.monitor.nombre.toLocaleLowerCase() == this.filterMonitor.toLocaleLowerCase() && tabla.monitor.rol.nombre == rol){
+          console.log(tabla.monitor.nombre+"  /  "+this.filterMonitor);
+          console.log(tabla.monitor.rol+"  /  "+ rol);
+          this.filterTabla.push(tabla);
+        }
+      }
+
+    } else {
+      for (let tabla of this.mainTablaTablaEjercicios){
+        if(tabla.suscriptor.nombre.toLocaleLowerCase() == this.filterUser.toLocaleLowerCase() && tabla.suscriptor.rol.nombre == rol){
+          this.filterTabla.push(tabla);
+        }
+      }
+    }
+    console.log(this.filterTabla.length);
+    
+    if (this.filterTabla.length > 0){
+      this.tablasEjercicio = this.filterTabla;
+    } else {
+      this.tablasEjercicio = this.mainTablaTablaEjercicios;
+    }
+
+  }
+
+  filtrarTablaES(){
+    this.filterTablaES = [];
+//this.ejerciciosSerieTablaDetalle = data;
+    for(let ejercicioSerie of this.mainTablaEjerciciosSerie){
+      if(ejercicioSerie.porSemana == this.filterDia){
+        this.filterTablaES.push(ejercicioSerie);
+      }
+    }
+
+    if (this.filterTablaES.length > 0){
+      this.ejerciciosSerieTablaDetalle = this.filterTablaES;
+    } else {
+      this.ejerciciosSerieTablaDetalle = this.mainTablaEjerciciosSerie;
+    }
+
   }
 }

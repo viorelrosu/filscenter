@@ -1,22 +1,44 @@
 <app-tipo-suscripcion-list></app-tipo-suscripcion-list>
-<div style="margin-top: 35px" class="d-flex justify-content-end">
-  <button
-    id="plusSuscripcion"
-    (click)="habilitarSuscripcion()"
-    type="button"
-    class="btn btn-light"
-  >
-    <i class="icon-plus"></i> Suscripcion
-  </button>
-  <button
-    id="minusSuscripcion"
-    (click)="deshabilitarSuscripcion()"
-    type="button"
-    class="btn btn-light"
-  >
-    <i class="icon-minus"></i> Suscripcion
-  </button>
+
+<div class="my-5"></div>
+<div class="row input-group" >
+  <div class="col-sm-12 col-md-6">
+      <div class="form-outline">
+        <label
+          >Nombre :
+          <input
+          [(ngModel)]="filterName"
+            type="search"
+            class="form-control form-control-sm "
+            placeholder=""
+        /></label>
+        <button type="button" class="btn btn-primary mt-2" (click)="filtrarTabla()">
+          <i class="fas fa-search "></i>
+        </button>
+      </div>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div style="margin-top: 35px" class="d-flex justify-content-end">
+      <button
+      id="plusSuscripcion"
+      (click)="habilitarSuscripcion()"
+      type="button"
+      class="btn btn-light"
+    >
+      <i class="icon-plus"></i> Suscripcion
+    </button>
+    <button
+      id="minusSuscripcion"
+      (click)="deshabilitarSuscripcion()"
+      type="button"
+      class="btn btn-light"
+    >
+      <i class="icon-minus"></i> Suscripcion
+    </button>
+    </div>
+  </div>
 </div>
+
 <div *ngIf="mostrarSuscripcionAdd == true">
   <app-suscripcion-add></app-suscripcion-add>
 </div>

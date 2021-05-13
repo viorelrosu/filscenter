@@ -46,6 +46,13 @@ export class UsuarioListComponent implements OnInit {
   //parte confirm delete
   usuarioAux: any;
 
+  //filtro tabla
+  filterName:string;
+  filterRol:string = "user";
+  mainTablaUsers:Usuario[];
+  filterTabla:Usuario[];
+
+
   constructor(
     private _service: UsuarioServiceService,
     private _serviceTaquilla: TaquillaServiceService,
@@ -67,6 +74,8 @@ export class UsuarioListComponent implements OnInit {
 
     this._service.getUsuarios().subscribe((data) => {
       this.usuarios = data;
+      this.mainTablaUsers = data;
+
     });
 
     this._serviceDireccion.getDirecciones().subscribe((data) => {
@@ -233,5 +242,27 @@ export class UsuarioListComponent implements OnInit {
 
   refresh(){
     window.location.reload();
+  }
+
+  // filtrar tabla
+
+  filtrarTabla(){ 
+    this.filterTabla = [];
+    console.log(this.mainTablaUsers);
+    
+    for (let persona of this.mainTablaUsers){
+      if((persona.nombre.toLocaleLowerCase() == this.filterName.toLocaleLowerCase() || persona.email.toLocaleLowerCase() == this.filterName.toLocaleLowerCase()) && persona.rol.nombre == this.filterRol){
+        console.log(persona);
+        
+        this.filterTabla.push(persona);
+      }
+    }
+    console.log(this.filterTabla);
+    
+    if (this.filterTabla.length > 0){
+      this.usuarios = this.filterTabla;
+    } else {
+      this.usuarios = this.mainTablaUsers;
+    }
   }
 }

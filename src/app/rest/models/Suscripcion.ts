@@ -1,9 +1,15 @@
-import { Usuario } from "@shared/models/usuario";
 import { TipoSuscripcion } from "./TipoSuscripcion";
+import { Usuario } from "./Usuario";
+
+
 
 export class Suscripcion {
 
     id:number;
+    fechaAlta:Date;
+    fechaBaja:Date;
+    tipoSuscrpcion:TipoSuscripcion;
+    usuario:Usuario;
 
     
     constructor(
@@ -12,7 +18,5 @@ export class Suscripcion {
         fechaBaja:Date,
         tipoSuscrpcion:TipoSuscripcion,
         usuario:Usuario
-    ){
-
-    }
+    ){}
 }

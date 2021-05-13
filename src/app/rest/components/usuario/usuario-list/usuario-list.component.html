@@ -1,21 +1,49 @@
-<div style="margin-top: 35px" class="d-flex justify-content-end">
-  <button
-    id="plus"
-    (click)="habilitarUsuario()"
-    type="button"
-    class="btn btn-light"
-  >
-    <i class="icon-plus"></i> Usuario
-  </button>
-  <button
-    id="minus"
-    (click)="deshabilitarUsuario()"
-    type="button"
-    class="btn btn-light"
-  >
-    <i class="icon-minus"></i> Usuario
-  </button>
+<div class="row input-group" >
+  <div class="col-sm-12 col-md-6">
+      <div class="form-outline">
+        <label
+          >Nombre / Email:
+          <input
+          [(ngModel)]="filterName"
+            type="search"
+            class="form-control form-control-sm "
+            placeholder=""
+        /></label>
+        <label
+        >Rol:
+        <select [(ngModel)]="filterRol" class="form-outline">
+          <option value="admin">Admin</option>
+          <option value="monitor">Monitor</option>
+          <option value="user">Usuario</option>
+        </select></label>
+        <label for="">
+        <button type="button" class="btn btn-primary mt-2" (click)="filtrarTabla()">
+          <i class="fas fa-search "></i>
+        </button></label>
+      </div>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div style="margin-top: 35px" class="d-flex justify-content-end">
+      <button
+        id="plus"
+        (click)="habilitarUsuario()"
+        type="button"
+        class="btn btn-light"
+      >
+        <i class="icon-plus"></i> Usuario
+      </button>
+      <button
+        id="minus"
+        (click)="deshabilitarUsuario()"
+        type="button"
+        class="btn btn-light"
+      >
+        <i class="icon-minus"></i> Usuario
+      </button>
+    </div>
+  </div>
 </div>
+
 <div *ngIf="mostrarUsuarioAdd == true">
   <app-usuario-add></app-usuario-add>
 </div>
@@ -156,7 +184,7 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="openModalDelete(confirmDelete,this.usuario)"
+            (click)="openModalDelete(confirmDelete, this.usuario)"
             ><i class="icon-trash-2"></i
           ></a>
         </td>
@@ -184,20 +212,27 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>¿Seguro que quieres borrar al usuario <span class="text-danger">{{usuarioAux.nombre}} ({{usuarioAux.id}})?</span></h3>
+      <h3>
+        ¿Seguro que quieres borrar al usuario
+        <span class="text-danger"
+          >{{ usuarioAux.nombre }} ({{ usuarioAux.id }})?</span
+        >
+      </h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss()"
-          >
-            Cancelar
-          </button>
-          <button (click)="delete(usuario)" type="button" class="btn btn-primary">Borrar</button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    >
+      Cancelar
+    </button>
+    <button (click)="delete(usuario)" type="button" class="btn btn-primary">
+      Borrar
+    </button>
+  </div>
 </ng-template>
 
 <!--                PARTE DEL MODAL UPDATE                -->
@@ -464,7 +499,7 @@
               [(ngModel)]="confirmPass"
               placeholder="6 caract. min (por ahora)"
               required
-              pattern="{{usuarioUpdate.password}}"
+              pattern="{{ usuarioUpdate.password }}"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && confirmPassword.invalid) ||
@@ -479,13 +514,14 @@
               class="invalid-feedback"
             >
               <div
-                *ngIf="confirmPassword.errors.required || confirmPassword.invalid"
+                *ngIf="
+                  confirmPassword.errors.required || confirmPassword.invalid
+                "
               >
                 * Password no coincide
               </div>
             </div>
           </div>
-
 
           <div class="form-group col-md-4">
             <label for="cuentaBancaria">(*) Cuenta Bancaria</label>
@@ -855,7 +891,7 @@
           <div class="row justify-content-center m-4 w-100">
             <h4>Rol</h4>
           </div>
-    
+
           <div class="form-group col-md-4">
             <label for="rol">(*) Rol</label>
             <select
@@ -863,7 +899,6 @@
               name="rol"
               id="rol"
               #direccionLocalidad="ngModel"
-              
               required
               [ngClass]="{
                 'is-invalid':
@@ -877,7 +912,7 @@
               <option string-to-number value="2">ROL_MONITOR</option>
               <option string-to-number value="3">ROL_USUARIO</option>
             </select>
-    
+
             <div
               *ngIf="
                 (f.submitted && direccionLocalidad.invalid) ||
@@ -887,16 +922,14 @@
             >
               <div
                 *ngIf="
-                  direccionLocalidad.errors.required || direccionLocalidad.invalid
+                  direccionLocalidad.errors.required ||
+                  direccionLocalidad.invalid
                 "
               >
                 * Seleccione una Localidad
               </div>
             </div>
           </div>
-
-
-
         </div>
 
         <div class="modal-footer">
@@ -921,18 +954,17 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>{{textoModal}}</h3>
+      <h3>{{ textoModal }}</h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss();refresh()"
-          >
-            Cerrar
-          </button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss(); refresh()"
+    >
+      Cerrar
+    </button>
+  </div>
 </ng-template>
-
