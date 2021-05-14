@@ -16,6 +16,7 @@ import { Localidad } from "@modelsRest/Localidad";
 import { HelperService } from '@core/services/helper.service';
 
 import {md5} from 'pure-md5';
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "app-usuario-list",
@@ -62,7 +63,8 @@ export class UsuarioListComponent implements OnInit {
     private _serviceSuscripcion: SuscripcionServiceService,
     private _router: Router,
     private modalService: NgbModal
-    ,private _helperService: HelperService
+    ,private _helperService: HelperService,
+    private datePipe:DatePipe
   ) {
     this.usuarioUpdate = {};
     this.usuarioAux = {};
@@ -198,12 +200,12 @@ export class UsuarioListComponent implements OnInit {
 
   // abre ventana modal
   open(content, usuario: Usuario) {
-    
     this._service
       .getUsuario(usuario.id)
       .toPromise()
       .then((data) => {
         this.usuarioUpdate = data;
+        this.usuarioUpdate.fechaNacimiento = this.datePipe.transform(this.usuarioUpdate.fechaNacimiento, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
         this.confirmPass = this.usuarioUpdate.password;
       });
 

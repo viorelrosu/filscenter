@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { DatePipe } from '@angular/common';
 
 //imports componentes
 import { SharedModule } from "@shared/shared.module";
@@ -85,5 +86,6 @@ import { FormatoHoraPipe } from "./pipes/formatoHora.pipe";
     TipoActividadListComponent,
   ],
   imports: [SharedModule],
+  providers: [DatePipe]
 })
 export class RestModule {}

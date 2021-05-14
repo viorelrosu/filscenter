@@ -173,8 +173,8 @@
       <tr *ngFor="let tablaEjercicio of tablasEjercicio" class="text-center">
         <td class="text-left">{{ tablaEjercicio.monitor.nombre }}</td>
         <td class="text-left">{{ tablaEjercicio.suscriptor.nombre }}</td>
-        <td>{{ tablaEjercicio.fechaInicio | date: "d/M/YYYY" }}</td>
-        <td>{{ tablaEjercicio.fechaFin | date: "d/M/YYYY" }}</td>
+        <td>{{ tablaEjercicio.fechaInicio | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ tablaEjercicio.fechaFin | date: 'dd/MM/yyyy' }}</td>
         <td class="text-left">
           {{ tablaEjercicio.activa == true ? "Activa" : "Inactiva" }}
         </td>

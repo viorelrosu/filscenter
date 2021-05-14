@@ -142,8 +142,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let suscripcion of suscripciones" class="text-center">
-        <td>{{ suscripcion.fechaAlta | date: "d/M/YYYY" }}</td>
-        <td>{{ suscripcion.fechaBaja | date: "d/M/YYYY" }}</td>
+        <!--date:'yyyy-MM-dd'-->
+        <td>{{ suscripcion.fechaAlta | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ suscripcion.fechaBaja | date: 'dd/MM/yyyy' }}</td>
         <td class="text-left">{{ suscripcion.tipoSuscripcion.nombre }}</td>
         <td class="text-left">{{ suscripcion.usuario.nombre }}</td>
         <td>

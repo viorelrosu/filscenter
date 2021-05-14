@@ -12,6 +12,7 @@ import { TipoEjercicio } from "@modelsRest/TipoEjercicio";
 import { TipoEjercicioServiceService } from "@servicesRest/tipo_ejercicio/tipo-ejercicio-service.service";
 import { Ejercicio } from "@modelsRest/Ejercicio";
 import { HelperService } from '@core/services/helper.service';
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "app-tabla-ejercicio-list",
@@ -76,7 +77,8 @@ export class TablaEjercicioListComponent implements OnInit {
     private _serviceUsuario: UsuarioServiceService,
     private _router: Router,
     private modalService: NgbModal
-    ,private _helperService: HelperService
+    ,private _helperService: HelperService,
+    private datePipe:DatePipe
     ) {
       this.tablaUpdate = {};
     this.tablaDetalle = {};
@@ -279,6 +281,8 @@ export class TablaEjercicioListComponent implements OnInit {
   open(content, tabla: TablaEjercicio) {
     this._service.getTablaEjercicio(tabla.id).subscribe((data) => {
       this.tablaUpdate = data;
+      this.tablaUpdate.fechaInicio = this.datePipe.transform(this.tablaUpdate.fechaInicio, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
+      this.tablaUpdate.fechaFin = this.datePipe.transform(this.tablaUpdate.fechaFin, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
       this.inicio = this.tablaUpdate.fechaInicio;
     });
     this.modalService
