@@ -1,28 +1,5 @@
-<div class="row input-group" >
-  <div class="col-sm-12 col-md-6">
-      <div class="form-outline">
-        <label
-          >Nombre / Email:
-          <input
-          [(ngModel)]="filterName"
-            type="search"
-            class="form-control form-control-sm "
-            placeholder=""
-        /></label>
-        <label
-        >Rol:
-        <select [(ngModel)]="filterRol" class="form-outline">
-          <option value="admin">Admin</option>
-          <option value="monitor">Monitor</option>
-          <option value="user">Usuario</option>
-        </select></label>
-        <label for="">
-        <button type="button" class="btn btn-primary mt-2" (click)="filtrarTabla()">
-          <i class="fas fa-search "></i>
-        </button></label>
-      </div>
-  </div>
-  <div class="col-sm-12 col-md-6">
+<div class="row input-group">
+  <div class="col-sm-12 col-md-12">
     <div style="margin-top: 35px" class="d-flex justify-content-end">
       <button
         id="plus"
@@ -47,7 +24,50 @@
 <div *ngIf="mostrarUsuarioAdd == true">
   <app-usuario-add></app-usuario-add>
 </div>
-<h3 class="text-left">Usuarios</h3>
+
+<div class="row input-group">
+  <div class="col-sm-12 col-md-6">
+    <h3 class="text-left">Usuarios</h3>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div class="d-flex justify-content-end">
+      <label
+        >Nombre / Email:
+        <input
+          [(ngModel)]="filterName"
+          type="search"
+          class="form-control"
+          placeholder=""
+      /></label>
+      <label
+        >Rol:
+        <select [(ngModel)]="filterRol" class="form-outline">
+          <option value="admin">Admin</option>
+          <option value="monitor">Monitor</option>
+          <option value="user">Usuario</option>
+        </select></label
+      >
+      <label for="">
+        <button
+        style="height: 40px;"
+          type="button"
+          class="btn btn-primary mt-4"
+          (click)="filtrarTabla()"
+        >
+          <i class="fas fa-search"></i></button
+      ></label>
+      <button
+        style="height: 40px;"
+        (click)="quitarFiltroTabla()"
+        type="button"
+        class="btn btn-secondary mt-4 ml-4"
+      >
+        <i class="fas fa-sync text-light"></i>
+      </button>
+
+    </div>
+  </div>
+</div>
 <div class="card-text">
   <table
     id="datatable"

@@ -9,7 +9,6 @@ import { HelperService } from "@core/services/helper.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Suscripcion } from "@modelsRest/suscripcion";
 
-
 @Component({
   selector: "app-suscripcion-list",
   templateUrl: "./suscripcion-list.component.html",
@@ -24,15 +23,15 @@ export class SuscripcionListComponent implements OnInit {
   tiposSuscripcion: TipoSuscripcion[];
   usuarios: Usuario[];
   closeResult = "";
-  textoModal:string;
+  textoModal: string;
 
   //confirm delete
   suscripcionAux: any;
 
   //filters
-  filterName:string;
-  mainTablaSuscripciones:Suscripcion[];
-  filterTabla:Suscripcion[];
+  filterName: string;
+  mainTablaSuscripciones: Suscripcion[];
+  filterTabla: Suscripcion[];
 
   constructor(
     private _service: SuscripcionServiceService,
@@ -42,7 +41,7 @@ export class SuscripcionListComponent implements OnInit {
     private modalService: NgbModal,
     private _helperService: HelperService
   ) {
-    this.suscripcionUpdate={};
+    this.suscripcionUpdate = {};
   }
 
   ngOnInit(): void {
@@ -69,9 +68,8 @@ export class SuscripcionListComponent implements OnInit {
   }
 
   update(modal) {
-    this._service
-      .updateSuscripcion(this.suscripcionUpdate)
-      .subscribe((data) => {
+    this._service.updateSuscripcion(this.suscripcionUpdate).subscribe(
+      (data) => {
         this.textoModal = "¡Suscripción actualizada!";
         this.modalService.open(modal, {
           ariaLabelledBy: "modal-basic-title",
@@ -104,11 +102,10 @@ export class SuscripcionListComponent implements OnInit {
 
   open(content, suscripcion: Suscripcion) {
     console.log(suscripcion);
-    
+
     this._service.getSuscripcion(suscripcion.id).subscribe((data) => {
       this.suscripcionUpdate = data;
       console.log(data);
-      
     });
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
@@ -137,26 +134,31 @@ export class SuscripcionListComponent implements OnInit {
     window.location.reload();
   }
 
-  filtrarTabla(){ 
+  filtrarTabla() {
     this.filterTabla = [];
     //console.log(this.mainTablaSuscripciones);
-    
-    for (let suscripcion of this.mainTablaSuscripciones){
+
+    for (let suscripcion of this.mainTablaSuscripciones) {
       //console.log(suscripcion.usuario.nombre);
-      
-      if(suscripcion.usuario.nombre.toLocaleLowerCase() == this.filterName.toLocaleLowerCase()){
+
+      if (
+        suscripcion.usuario.nombre.toLocaleLowerCase() ==
+        this.filterName.toLocaleLowerCase()
+      ) {
         //console.log(suscripcion);
         this.filterTabla.push(suscripcion);
       }
     }
     console.log(this.filterTabla);
-    
-    if (this.filterTabla.length > 0){
+
+    if (this.filterTabla.length > 0) {
       this.suscripciones = this.filterTabla;
     } else {
       this.suscripciones = this.mainTablaSuscripciones;
     }
   }
+
+  quitarFiltroTabla() {
+    this.suscripciones = this.mainTablaSuscripciones;
+  }
 }
-
-

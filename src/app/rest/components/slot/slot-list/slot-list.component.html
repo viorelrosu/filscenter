@@ -21,7 +21,38 @@
   <app-slot-add></app-slot-add>
 </div>
 
-<h3 class="text-left">Slots</h3>
+<div class="row input-group">
+  <div class="col-sm-12 col-md-6">
+    <h3 class="text-left">Slots</h3>
+  </div>
+  <div class="col-sm-12 col-md-6 d-flex justify-content-end">
+    <div class="">
+      <label
+        >Sala / Día semana
+        <input
+          [(ngModel)]="filterSala"
+          type="search"
+          class="form-control"
+          placeholder=""
+      /></label>
+      <label for="">
+        <button
+          type="button"
+          class="btn btn-primary mt-2"
+          (click)="filtrarTabla()"
+        >
+          <i class="fas fa-search"></i></button
+      ></label>
+      <button
+        type="button"
+        class="btn btn-secondary mt-2 ml-4"
+        (click)="quitarFiltroTabla()"
+      >
+        <i class="fas fa-sync text-light"></i>
+      </button>
+    </div>
+  </div>
+</div>
 
 <div class="card-text">
   <div class="card-text">
@@ -136,21 +167,24 @@
         <tr *ngFor="let slot of slots" class="text-center">
           <td class="text-left">{{ slot.actividad.nombre }}</td>
           <td class="text-left">{{ slot.actividad.tipoActividad.nombre }}</td>
-          <td class="text-left">{{slot.monitor.nombre}}</td>
+          <td class="text-left">{{ slot.monitor.nombre }}</td>
           <td>{{ slot.sala.numero == null ? "-" : slot.sala.numero }}</td>
           <td class="text-left">{{ slot.diaSemana }}</td>
           <td>{{ slot.horaInicio | formatoHora }}</td>
           <td>{{ slot.aforoActual }}</td>
           <td>
-            <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
-            (click)="open(content,slot)"
+            <a
+              class="ml-2"
+              data-toggle="tooltip"
+              data-original-title="Edit"
+              (click)="open(content, slot)"
               ><i class="icon-edit"></i
             ></a>
             <a
               class="ml-2"
               data-toggle="tooltip"
               data-original-title="Delete"
-              (click)="openModalDelete(confirmDelete,this.slot)"
+              (click)="openModalDelete(confirmDelete, this.slot)"
               ><i class="icon-trash-2"></i
             ></a>
           </td>
@@ -178,20 +212,30 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>¿Seguro que quieres borrar el slot <span class="text-danger">{{slotAux.actividad.nombre}}-{{slotAux.actividad.tipoActividad.nombre}} ({{slotAux.horaInicio | formatoHora}})?</span></h3>
+      <h3>
+        ¿Seguro que quieres borrar el slot
+        <span class="text-danger"
+          >{{ slotAux.actividad.nombre }}-{{
+            slotAux.actividad.tipoActividad.nombre
+          }}
+          ({{ slotAux.horaInicio | formatoHora }})?</span
+        >
+      </h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss()"
-          >
-            Cancelar
-          </button>
-          <button (click)="delete()" type="button" class="btn btn-primary">Borrar</button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    >
+      Cancelar
+    </button>
+    <button (click)="delete()" type="button" class="btn btn-primary">
+      Borrar
+    </button>
+  </div>
 </ng-template>
 
 <ng-template #content let-modal>
@@ -401,17 +445,17 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>{{textoModal}}</h3>
+      <h3>{{ textoModal }}</h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss();refresh()"
-          >
-            Cerrar
-          </button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss(); refresh()"
+    >
+      Cerrar
+    </button>
+  </div>
 </ng-template>

@@ -248,7 +248,7 @@ export class UsuarioListComponent implements OnInit {
 
   filtrarTabla(){ 
     this.filterTabla = [];
-    console.log(this.mainTablaUsers);
+    //console.log(this.mainTablaUsers);
     
     for (let persona of this.mainTablaUsers){
       if((persona.nombre.toLocaleLowerCase() == this.filterName.toLocaleLowerCase() || persona.email.toLocaleLowerCase() == this.filterName.toLocaleLowerCase()) && persona.rol.nombre == this.filterRol){
@@ -264,5 +264,9 @@ export class UsuarioListComponent implements OnInit {
     } else {
       this.usuarios = this.mainTablaUsers;
     }
+  }
+
+  quitarFiltroTabla(){
+    this.usuarios = this.mainTablaUsers;
   }
 }

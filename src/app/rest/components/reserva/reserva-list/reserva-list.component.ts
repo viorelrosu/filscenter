@@ -7,7 +7,7 @@ import { ReservaServiceService } from "@servicesRest/reserva/reserva-service.ser
 import { SlotServiceService } from "@servicesRest/slot/slot-service.service";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
-import { HelperService } from '@core/services/helper.service';
+import { HelperService } from "@core/services/helper.service";
 
 @Component({
   selector: "app-reserva-list",
@@ -25,7 +25,12 @@ export class ReservaListComponent implements OnInit {
   textoModal: string;
 
   //confirm delete
-  reservaAux:any;
+  reservaAux: any;
+
+  //filtros
+  filterUser: any;
+  mainTablaReserva: Reserva[];
+  filterTabla: Reserva[];
 
   constructor(
     private _service: ReservaServiceService,
@@ -43,6 +48,7 @@ export class ReservaListComponent implements OnInit {
     document.getElementById("minus").hidden = true;
     this._service.getreservas().subscribe((data) => {
       this.reservas = data;
+      this.mainTablaReserva = data;
     });
 
     this._serviceSlot.getSlots().subscribe((data) => {
@@ -56,13 +62,14 @@ export class ReservaListComponent implements OnInit {
 
   delete() {
     this._service.deleteReserva(this.reservaAux).subscribe((data) => {
-   window.location.reload();
+      window.location.reload();
     });
   }
 
   update(modal) {
-    this._service.updateReserva(this.reservaUpdate).subscribe((data) => {
-      this.textoModal = "¡Tipo actividad actualizada!";
+    this._service.updateReserva(this.reservaUpdate).subscribe(
+      (data) => {
+        this.textoModal = "¡Tipo actividad actualizada!";
         this.modalService.open(modal, {
           ariaLabelledBy: "modal-basic-title",
           centered: true,
@@ -96,29 +103,52 @@ export class ReservaListComponent implements OnInit {
       this.reservaUpdate = data;
     });
     this.modalService
-      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true,size:"xl" })
+      .open(content, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "xl",
+      })
       .result.then(
-        (result) => {
-        },
-        (reason) => {
-        }
+        (result) => {},
+        (reason) => {}
       );
   }
 
-  openModalDelete(confirmDelete, reserva:Reserva){
+  openModalDelete(confirmDelete, reserva: Reserva) {
     this.reservaAux = reserva;
     this.modalService
-    .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
-    .result.then(
-      (result) => {
-      },
-      (reason) => {
-      }
-    );
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
+      .result.then(
+        (result) => {},
+        (reason) => {}
+      );
   }
 
   refresh() {
     window.location.reload();
   }
 
+  filtrarTabla() {
+    this.filterTabla = [];
+
+    for (let reserva of this.mainTablaReserva) {
+      if (reserva.usuario.nombre.toLowerCase() == this.filterUser.toLowerCase()) {
+        this.filterTabla.push(reserva);
+      }
+    }
+
+    if (this.filterTabla.length > 0) {
+      this.reservas = this.filterTabla;
+    } else {
+      this.reservas = this.mainTablaReserva;
+    }
+  }
+
+  quitarFiltroTabla() {
+    this.reservas = this.mainTablaReserva;
+  }
 }

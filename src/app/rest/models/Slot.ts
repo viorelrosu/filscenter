@@ -7,6 +7,7 @@ export class Slot {
     id:number;
     horaInicio:number;
     diaSemana:string;
+    sala:Sala;
     monitor:Usuario;
     actividad:Actividad;
 

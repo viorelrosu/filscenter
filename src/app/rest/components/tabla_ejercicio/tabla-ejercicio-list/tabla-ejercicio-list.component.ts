@@ -371,4 +371,11 @@ export class TablaEjercicioListComponent implements OnInit {
     }
 
   }
+
+  quitarFiltroTabla(){
+    this.tablasEjercicio = this.mainTablaTablaEjercicios;
+  }
+  quitarFiltroTablaES(){
+    this.ejerciciosSerieTablaDetalle = this.mainTablaEjerciciosSerie;
+  }
 }

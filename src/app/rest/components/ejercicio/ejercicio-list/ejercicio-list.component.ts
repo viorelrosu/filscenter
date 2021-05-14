@@ -26,6 +26,11 @@ export class EjercicioListComponent implements OnInit {
   //confirm delete
   ejercicioAux: any;
 
+  //filtros
+  filterEjercicio: any;
+  mainTablaEjercicios: Ejercicio[];
+  filterTabla: Ejercicio[];
+
   constructor(
     private _service: EjercicioServiceService,
     private _serviceTipoEjercicio: TipoEjercicioServiceService,
@@ -42,6 +47,7 @@ export class EjercicioListComponent implements OnInit {
 
     this._service.getEjercicios().subscribe((data) => {
       this.ejercicios = data;
+      this.mainTablaEjercicios = data;
     });
 
     this._serviceTipoEjercicio.getTipoEjercicios().subscribe((data) => {
@@ -117,5 +123,29 @@ export class EjercicioListComponent implements OnInit {
 
   refresh() {
     window.location.reload();
+  }
+
+  filtrarTabla() {
+    this.filterTabla = [];
+
+    for (let ejercicio of this.mainTablaEjercicios) {
+      if (
+        ejercicio.nombre.toLowerCase() == this.filterEjercicio.toLowerCase() ||
+        ejercicio.tipoEjercicio.nombre.toLowerCase() ==
+          this.filterEjercicio.toLowerCase()
+      ) {
+        this.filterTabla.push(ejercicio);
+      }
+    }
+
+    if (this.filterTabla.length > 0) {
+      this.ejercicios = this.filterTabla;
+    } else {
+      this.ejercicios = this.mainTablaEjercicios;
+    }
+  }
+
+  quitarFiltroTabla() {
+    this.ejercicios = this.mainTablaEjercicios;
   }
 }

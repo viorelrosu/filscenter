@@ -1,40 +1,26 @@
 <app-tipo-suscripcion-list></app-tipo-suscripcion-list>
 
 <div class="my-5"></div>
-<div class="row input-group" >
-  <div class="col-sm-12 col-md-6">
-      <div class="form-outline">
-        <label
-          >Nombre :
-          <input
-          [(ngModel)]="filterName"
-            type="search"
-            class="form-control form-control-sm "
-            placeholder=""
-        /></label>
-        <button type="button" class="btn btn-primary mt-2" (click)="filtrarTabla()">
-          <i class="fas fa-search "></i>
-        </button>
-      </div>
-  </div>
-  <div class="col-sm-12 col-md-6">
+
+<div class="row input-group">
+  <div class="col-sm-12 col-md-12">
     <div style="margin-top: 35px" class="d-flex justify-content-end">
       <button
-      id="plusSuscripcion"
-      (click)="habilitarSuscripcion()"
-      type="button"
-      class="btn btn-light"
-    >
-      <i class="icon-plus"></i> Suscripcion
-    </button>
-    <button
-      id="minusSuscripcion"
-      (click)="deshabilitarSuscripcion()"
-      type="button"
-      class="btn btn-light"
-    >
-      <i class="icon-minus"></i> Suscripcion
-    </button>
+        id="plusSuscripcion"
+        (click)="habilitarSuscripcion()"
+        type="button"
+        class="btn btn-light"
+      >
+        <i class="icon-plus"></i> Suscripcion
+      </button>
+      <button
+        id="minusSuscripcion"
+        (click)="deshabilitarSuscripcion()"
+        type="button"
+        class="btn btn-light"
+      >
+        <i class="icon-minus"></i> Suscripcion
+      </button>
     </div>
   </div>
 </div>
@@ -43,7 +29,39 @@
   <app-suscripcion-add></app-suscripcion-add>
 </div>
 
-<h3 class="text-left">Suscripción</h3>
+<div class="row input-group">
+  <div class="col-sm-12 col-md-6">
+    <h3 class="text-left">Suscripción</h3>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div class="form-outline d-flex justify-content-end">
+      <label
+        >Nombre :
+        <input
+          [(ngModel)]="filterName"
+          type="search"
+          class="form-control form-control-sm"
+          placeholder=""
+      /></label>
+      <button
+        style="height: 40px"
+        type="button"
+        class="btn btn-primary mt-4"
+        (click)="filtrarTabla()"
+      >
+        <i class="fas fa-search"></i>
+      </button>
+      <button
+        style="height: 40px"
+        (click)="quitarFiltroTabla()"
+        type="button"
+        class="btn btn-secondary mt-4 ml-4"
+      >
+        <i class="fas fa-sync text-light"></i>
+      </button>
+    </div>
+  </div>
+</div>
 
 <div class="card-text">
   <table
@@ -129,15 +147,18 @@
         <td class="text-left">{{ suscripcion.tipoSuscripcion.nombre }}</td>
         <td class="text-left">{{ suscripcion.usuario.nombre }}</td>
         <td>
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
-          (click)="open(content,suscripcion)"
+          <a
+            class="ml-2"
+            data-toggle="tooltip"
+            data-original-title="Edit"
+            (click)="open(content, suscripcion)"
             ><i class="icon-edit"></i
           ></a>
           <a
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="openModalDelete(confirmDelete,this.suscripcion)"
+            (click)="openModalDelete(confirmDelete, this.suscripcion)"
             ><i class="icon-trash-2"></i
           ></a>
         </td>
@@ -162,20 +183,25 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>¿Seguro que quieres borrar la suscripción del usuario <span class="text-danger">{{suscripcionAux.usuario.nombre}} ?</span></h3>
+      <h3>
+        ¿Seguro que quieres borrar la suscripción del usuario
+        <span class="text-danger">{{ suscripcionAux.usuario.nombre }} ?</span>
+      </h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss()"
-          >
-            Cancelar
-          </button>
-          <button (click)="delete(usuario)" type="button" class="btn btn-primary">Borrar</button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    >
+      Cancelar
+    </button>
+    <button (click)="delete(usuario)" type="button" class="btn btn-primary">
+      Borrar
+    </button>
+  </div>
 </ng-template>
 
 <!-- modal update -->
@@ -367,18 +393,17 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>{{textoModal}}</h3>
+      <h3>{{ textoModal }}</h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss();refresh()"
-          >
-            Cerrar
-          </button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss(); refresh()"
+    >
+      Cerrar
+    </button>
+  </div>
 </ng-template>
-

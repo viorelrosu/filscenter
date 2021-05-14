@@ -31,6 +31,11 @@ export class SlotListComponent implements OnInit {
   //confirm delete
   slotAux:any;
 
+  //filtros
+  filterSala:any;
+  mainTablaSlot:Slot[];
+  filterTabla:Slot[];
+
   constructor(
     private _service: SlotServiceService,
     private _serviceActividad: ActividadServiceService,
@@ -47,8 +52,10 @@ export class SlotListComponent implements OnInit {
     this._helperService.isNotRol("user");
 
     document.getElementById("minus").hidden = true;
+
     this._service.getSlots().subscribe((data) => {
       this.slots = data;
+      this.mainTablaSlot = data;
     });
 
     this._serviceActividad.getActividades().subscribe((data) => {
@@ -129,6 +136,26 @@ export class SlotListComponent implements OnInit {
 
   refresh() {
     window.location.reload();
+  }
+
+  filtrarTabla(){
+    this.filterTabla=[];
+
+    for (let slot of this.mainTablaSlot){
+      if(slot.sala.numero == this.filterSala || slot.diaSemana.toLocaleLowerCase() == this.filterSala.toLocaleLowerCase()){
+        this.filterTabla.push(slot);
+      }
+    }
+    console.log(this.filterTabla.length);
+    
+    if (this.filterTabla.length > 0){
+        this.slots = this.filterTabla;
+    } else {
+      this.slots = this.mainTablaSlot;
+    }
+  }
+  quitarFiltroTabla(){
+    this.slots = this.mainTablaSlot;
   }
 
 }
