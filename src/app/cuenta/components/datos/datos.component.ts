@@ -7,6 +7,7 @@ import { Localidad } from "@modelsRest/Localidad";
 import { TipoSuscripcion } from "@modelsRest/TipoSuscripcion";
 
 import {md5} from 'pure-md5';
+import { DatePipe } from '@angular/common';
 
 import { HelperService } from '@core/services/helper.service';
 import { UsuarioServiceService as UsuarioService } from "@servicesRest/usuario/usuario-service.service";
@@ -33,7 +34,7 @@ export class PageCuentaDatosComponent implements OnInit {
   public localidadId:number;
   public provincias: Provincia[];
   public localidades: Localidad[];
-  public password:string;
+  public password:string = "";
 
   public isDataLoaded:boolean = false;
 
@@ -52,7 +53,8 @@ export class PageCuentaDatosComponent implements OnInit {
     private _serviceTipoSuscripcion: TipoSuscripcionService,
     private _serviceSuscripcion: SuscripcionService,
     private _helperService: HelperService,
-    private _modalService: NgbModal
+    private _modalService: NgbModal,
+    private datePipe:DatePipe
   ) { 
     this.usuarioUpdate={};
   }
@@ -142,6 +144,7 @@ export class PageCuentaDatosComponent implements OnInit {
      return this._serviceRestUser.getUsuario(this.sessionUser.id).toPromise()
      .then((data) => {
       this.usuarioUpdate = data;
+      this.usuarioUpdate.fechaNacimiento = this.datePipe.transform(this.usuarioUpdate.fechaNacimiento, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
       //console.log(this.usuarioUpdate);
     })
     .then(()=>{

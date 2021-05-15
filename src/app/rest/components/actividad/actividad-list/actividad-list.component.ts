@@ -5,7 +5,7 @@ import { TipoActividad } from "@modelsRest/TipoActividad";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { ActividadServiceService } from "@servicesRest/actividad/actividad-service.service";
 import { TipoActividadServiceService } from "@servicesRest/tipo_actividad/tipo-actividad-service.service";
-import { HelperService } from '@core/services/helper.service';
+import { HelperService } from "@core/services/helper.service";
 
 @Component({
   selector: "app-actividad-list",
@@ -14,21 +14,25 @@ import { HelperService } from '@core/services/helper.service';
 })
 export class ActividadListComponent implements OnInit {
   mostrarActividadAdd = false;
-  
+
   //update
   actividadUpdate: any;
 
   actividades: Actividad[];
   tiposActividades: TipoActividad[];
   textoModal: string;
-  
 
-    //parte confirm delete
-    actividadAux:any;
+  //parte confirm delete
+  actividadAux: any;
+
+  //filtro
+  filterActividad: any;
+  mainTablaActividad: Actividad[];
+  filterTabla: Actividad[];
 
   constructor(
     private _service: ActividadServiceService,
-    private _serviceTipoActividad:TipoActividadServiceService,
+    private _serviceTipoActividad: TipoActividadServiceService,
     private _router: Router,
     private modalService: NgbModal,
     private _helperService: HelperService
@@ -42,6 +46,7 @@ export class ActividadListComponent implements OnInit {
 
     this._service.getActividades().subscribe((data) => {
       this.actividades = data;
+      this.mainTablaActividad = data;
     });
 
     this._serviceTipoActividad.getTipoActividades().subscribe((data) => {
@@ -55,8 +60,9 @@ export class ActividadListComponent implements OnInit {
     });
   }
   update(modal) {
-    this._service.updateActividad(this.actividadUpdate).subscribe((data) => {
-      this.textoModal = "¡Actividad actualizada!";
+    this._service.updateActividad(this.actividadUpdate).subscribe(
+      (data) => {
+        this.textoModal = "¡Actividad actualizada!";
         this.modalService.open(modal, {
           ariaLabelledBy: "modal-basic-title",
           centered: true,
@@ -86,18 +92,20 @@ export class ActividadListComponent implements OnInit {
     document.getElementById("minusActividad").hidden = true;
   }
 
-    //abre modal confirm delete
-    openModalDelete(confirmDelete, actividad){
-      this.actividadAux = actividad;
-      this.modalService
-      .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
+  //abre modal confirm delete
+  openModalDelete(confirmDelete, actividad) {
+    this.actividadAux = actividad;
+    this.modalService
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
       .result.then(
-        (result) => {
-        },
-        (reason) => {
-        }
+        (result) => {},
+        (reason) => {}
       );
-    }
+  }
 
   //modal ventada update
   open(content, actividad: Actividad) {
@@ -105,12 +113,14 @@ export class ActividadListComponent implements OnInit {
       this.actividadUpdate = data;
     });
     this.modalService
-      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true,size:"lg" })
+      .open(content, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "lg",
+      })
       .result.then(
-        (result) => {
-        },
-        (reason) => {
-        }
+        (result) => {},
+        (reason) => {}
       );
   }
 
@@ -118,4 +128,26 @@ export class ActividadListComponent implements OnInit {
     window.location.reload();
   }
 
+  filtrarTabla() {
+    this.filterTabla = [];
+
+    for (let actividad of this.mainTablaActividad) {
+      if (
+        actividad.nombre.toLowerCase() == this.filterActividad.toLowerCase() ||
+        actividad.tipoActividad.nombre.toLowerCase() == this.filterActividad.toLowerCase()
+      ) {
+        this.filterTabla.push(actividad);
+      }
+    }
+
+    if (this.filterTabla.length > 0) {
+      this.actividades = this.filterTabla;
+    } else {
+      this.actividades = this.mainTablaActividad;
+    }
+  }
+
+  quitarFiltroTabla() {
+    this.actividades = this.mainTablaActividad;
+  }
 }

@@ -92,6 +92,19 @@
           Nombre
         </th>
         <th
+        id=""
+        id=""
+        class="noExport sorting"
+        tabindex="0"
+        aria-controls="datatable"
+        rowspan="1"
+        colspan="1"
+        aria-label="Actions: activate to sort column ascending"
+        style="width: 54px"
+      >
+        Apellidos
+      </th>
+        <th
           id=""
           id=""
           class="noExport sorting"
@@ -143,19 +156,7 @@
         >
           Telefono
         </th>
-        <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
-        >
-          Usuario
-        </th>
+
         <th
           id=""
           id=""
@@ -186,11 +187,11 @@
     <tbody>
       <tr *ngFor="let usuario of usuarios" class="text-center">
         <td class="text-left">{{ usuario.nombre }}</td>
+        <td class="text-left">{{ usuario.apellidos }}</td>
         <td class="text-left">{{ usuario.dni }}</td>
         <td class="text-left">{{ usuario.email }}</td>
         <td>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' }}</td>
         <td>{{ usuario.telefono }}</td>
-        <td class="text-left">{{ usuario.nombreUsuario }}</td>
         <td>{{ usuario.numeroTarjeta }}</td>
         <td>
           <a
@@ -213,11 +214,11 @@
     <tfoot>
       <tr>
         <th id="">Nombre</th>
+        <th id="">Apellidos</th>
         <th id="">DNI</th>
         <th id="">Email</th>
         <th id="">Fecha Nacimiento</th>
         <th id="">Telefono</th>
-        <th id="">Usuario</th>
         <th id="">Número tarjeta</th>
         <th id="" rowspan="1" colspan="1">Acciones</th>
       </tr>
@@ -453,7 +454,7 @@
               [(ngModel)]="usuarioUpdate.email"
               placeholder="Email usuario"
               required
-              pattern="^([a-z0-9]{1})((\.|\-)?([a-z0-9])){0,}@([a-z0-9]){1}((\.|\-)?([a-z0-9]))*\.([a-z]){2,4}$"
+              pattern="^([A-Za-z0-9]{1})((\.|\-)?([A-Za-z0-9])){0,}@([a-z0-9]){1}((\.|\-)?([a-z0-9]))*\.([a-z]){2,4}$"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && usuarioEmail.invalid) ||

@@ -33,25 +33,7 @@
   <div class="col-sm-12 col-md-8 d-flex justify-content-end">
     <div class="form-outline">
       <label
-        >Monitor:
-        <input
-          [(ngModel)]="filterMonitor"
-          type="search"
-          class="form-control form-control-sm"
-          placeholder=""
-      /></label>
-      <label for="" class="mr-3">
-        <button
-          type="button"
-          class="btn btn-primary mt-2"
-          (click)="filtrarTabla('monitor')"
-        >
-          <i class="fas fa-search"></i>
-        </button>
-      </label>
-
-      <label
-        >Usuario:
+        >Usuario / Monitor:
         <input
           [(ngModel)]="filterUser"
           type="search"
@@ -62,7 +44,7 @@
         <button
           type="button"
           class="btn btn-primary mt-2"
-          (click)="filtrarTabla('user')"
+          (click)="filtrarTabla()"
         >
           <i class="fas fa-search"></i>
         </button>

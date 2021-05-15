@@ -1,756 +1,871 @@
 <section class="pt-5">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-12 text-center mb-3">
-                <div class="heading-text heading-line heading-gradient text-center mb-0">
-                    <h4 class="mb-0 font-size-h2"><span>{{ title }}</span></h4>
-                </div>
-            </div>
-            <div *ngIf="!isDataLoaded" class="col-lg-12 my-5">
-                <div *ngIf="!isDataLoaded" class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status">
-                      <span class="sr-only">Cargando...</span>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="isDataLoaded" class="col-lg-12">
-                <!-- suscripcion -->
-                <div class="row my-4">
-                    <div class="col-md-12 mb-4">
-                        <h4 class="text-primary">Datos Suscripción</h4>
-                    </div>
-                    <div class="col-md-12" *ngIf="sessionUser.suscripcion.isSubscribed">
-                        <div class="">Fecha Alta: <span class="font-weight-bold">{{ sessionUser.suscripcion.suscripcion.fechaAlta | date:mediumDate }}</span></div>
-                        <div class="" *ngIf="sessionUser.suscripcion.suscripcion.fechaBaja != null ">
-                            Fecha Baja: <span class="font-weight-bold">{{ sessionUser.suscripcion.suscripcion.fechaBaja | date:mediumDate }}</span>
-                        </div>
-                        <div class="">Tipo de Suscripicón: <span class="font-weight-bold">{{ sessionUser.suscripcion.suscripcion.tipoSuscripcion.nombre }}</span></div>
-                        <div class="">Tarifa: <span class="font-weight-bold">{{ sessionUser.suscripcion.suscripcion.tipoSuscripcion.tarifa | currency:'€' }}</span></div>
-                    </div>
-                    <div class="col-md-12" *ngIf="!sessionUser.suscripcion.isSubscribed">
-                        <div class=""><button class="btn btn-primary" (click)="open(modal)">Suscríbete</button></div>
-                    </div>
-                </div>
-                <div class="line"></div>
-
-                <!-- suscripcion -->
-                <div class="row my-4">
-                    <div class="col-md-12 mb-4">
-                        <h4 class="text-primary">Imagen perfil</h4>
-                    </div>
-                    <div class="col-md-12">
-                        <cuenta-upload-image [user]="sessionUser"></cuenta-upload-image>
-                    </div>
-                </div>
-                <div class="line"></div>
-
-
-                <form
-                    class="form-validate"
-                    name="form"
-                    (ngSubmit)="f.form.valid && update()"
-                    #f="ngForm"
-                >
-                    <div class="row my-4">
-                        <div class="col-md-12 mb-2">
-                            <h4 class="text-primary">Datos Usuario</h4>
-                        </div>
-                        <div class="col-md-12">
-                            <h5>Datos Personales</h5>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="nombre">Nombre <span class="text-danger">*</span></label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="nombre"
-                            name="nombre"
-                            #usuarioNombre="ngModel"
-                            [(ngModel)]="usuarioUpdate.nombre"
-                            placeholder="Nombre usuario"
-                            required
-                            pattern="^([a-zA-Za´´eíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,50}"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && usuarioNombre.invalid) ||
-                                (usuarioNombre.touched && !usuarioNombre.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && usuarioNombre.invalid) ||
-                                (usuarioNombre.touched && !usuarioNombre.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="usuarioNombre.errors.required || usuarioNombre.invalid"
-                            >
-                                Nombre no válido
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="apellido">Apellido <span class="text-danger">*</span></label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="apellido"
-                            name="apellido"
-                            #usuarioApellido="ngModel"
-                            [(ngModel)]="usuarioUpdate.apellidos"
-                            placeholder="Apellidos usuario"
-                            required
-                            pattern="^([a-zA-ZáéíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,70}"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && usuarioApellido.invalid) ||
-                                (usuarioApellido.touched && !usuarioApellido.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && usuarioApellido.invalid) ||
-                                (usuarioApellido.touched && !usuarioApellido.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                usuarioApellido.errors.required || usuarioApellido.invalid
-                                "
-                            >
-                                Apellido no válido
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="dni">DNI <span class="text-danger">*</span></label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="dni"
-                            name="dni"
-                            #usuarioDni="ngModel"
-                            [(ngModel)]="usuarioUpdate.dni"
-                            placeholder="ej: 55668877X"
-                            required
-                            pattern="^(\d){8}[a-zA-Z]{1}"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && usuarioDni.invalid) ||
-                                (usuarioDni.touched && !usuarioDni.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && usuarioDni.invalid) ||
-                                (usuarioDni.touched && !usuarioDni.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div *ngIf="usuarioDni.errors.required || usuarioDni.invalid">
-                                Dni no válido
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="email">Email <span class="text-danger">*</span></label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="email"
-                            name="email"
-                            autocomplete="username"
-                            #usuarioEmail="ngModel"
-                            [(ngModel)]="usuarioUpdate.email"
-                            placeholder="Email usuario"
-                            required
-                            pattern="^([a-z0-9]{1})((\.|\-)?([a-z0-9])){0,}@([a-z0-9]){1}((\.|\-)?([a-z0-9]))*\.([a-z]){2,4}$"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && usuarioEmail.invalid) ||
-                                (usuarioEmail.touched && !usuarioEmail.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && usuarioEmail.invalid) ||
-                                (usuarioEmail.touched && !usuarioEmail.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div *ngIf="usuarioEmail.errors.required || usuarioEmail.invalid">
-                                Email no válido
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="telefono">Teléfono <span class="text-danger">*</span></label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="telefono"
-                            name="telefono"
-                            #usuarioTelefono="ngModel"
-                            [(ngModel)]="usuarioUpdate.telefono"
-                            placeholder="Ej:666555444"
-                            required
-                            pattern="^(6|7|8|9){1}\d{8,9}"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && usuarioTelefono.invalid) ||
-                                (usuarioTelefono.touched && !usuarioTelefono.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && usuarioTelefono.invalid) ||
-                                (usuarioTelefono.touched && !usuarioTelefono.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                usuarioTelefono.errors.required || usuarioTelefono.invalid
-                                "
-                            >
-                                Teléfono no válido
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="fechaNacimiento">Fecha Nacimiento <span class="text-danger">*</span></label>
-                            <input
-                            type="date"
-                            class="form-control"
-                            id="fechaNacimiento"
-                            name="fechaNacimiento"
-                            #usuarioFechaNacimiento="ngModel"
-                            [(ngModel)]="usuarioUpdate.fechaNacimiento"
-                            placeholder="Fecha de Nacimiento"
-                            required
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && usuarioFechaNacimiento.invalid) ||
-                                (usuarioFechaNacimiento.touched &&
-                                    !usuarioFechaNacimiento.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && usuarioFechaNacimiento.invalid) ||
-                                (usuarioFechaNacimiento.touched &&
-                                !usuarioFechaNacimiento.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                usuarioFechaNacimiento.errors.required ||
-                                usuarioFechaNacimiento.invalid
-                                "
-                            >
-                                Fecha no válida
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="cuentaBancaria">Cuenta Bancaria <span class="text-danger">*</span></label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="cuentaBancaria"
-                            name="cuentaBancaria"
-                            #usuarioCuentaBancaria="ngModel"
-                            [(ngModel)]="usuarioUpdate.cuentaBancaria"
-                            placeholder="ES55 4444 4444 44 444444444 "
-                            required
-                            pattern="(ES\d{2} \d{4} \d{4} \d{2} \d{10}|ES\d{22})"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && usuarioCuentaBancaria.invalid) ||
-                                (usuarioCuentaBancaria.touched &&
-                                    !usuarioCuentaBancaria.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && usuarioCuentaBancaria.invalid) ||
-                                (usuarioCuentaBancaria.touched && !usuarioCuentaBancaria.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                usuarioCuentaBancaria.errors.required ||
-                                usuarioCuentaBancaria.invalid
-                                "
-                            >
-                                Cuenta Bancaria no válida
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="password">Password <span class="text-danger">*</span></label>
-                            <input
-                            type="password"
-                            class="form-control"
-                            id="password"
-                            name="password"
-                            autocomplete="current-password"
-                            #usuarioPassword="ngModel"
-                            [(ngModel)]="password"
-                            placeholder="6 caract. min (por ahora)"
-                            required
-                            pattern="\w{6,}"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && usuarioPassword.invalid) ||
-                                (usuarioPassword.touched && !usuarioPassword.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && usuarioPassword.invalid) ||
-                                (usuarioPassword.touched && !usuarioPassword.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                usuarioPassword.errors.required || usuarioPassword.invalid
-                                "
-                            >
-                                Password no válida
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row my-4">
-                        <div class="col-md-12">
-                            <h5>Datos Dirección</h5>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-5">
-                            <label for="calle">Calle <span class="text-danger">*</span></label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="calle"
-                            name="calle"
-                            #direccionCalle="ngModel"
-                            [(ngModel)]="usuarioUpdate.direccion.calle"
-                            placeholder="C/"
-                            required
-                            pattern="^([a-zA-Z]){1}([a-zA-Z ]){2,50}"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && direccionCalle.invalid) ||
-                                (direccionCalle.touched && !direccionCalle.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && direccionCalle.invalid) ||
-                                (direccionCalle.touched && !direccionCalle.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="direccionCalle.errors.required || direccionCalle.invalid"
-                            >
-                                Calle no válida
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="numero">Número <span class="text-danger">*</span></label>
-                            <input
-                            type="number"
-                            class="form-control"
-                            id="numero"
-                            name="numero"
-                            #direccionNumero="ngModel"
-                            [(ngModel)]="usuarioUpdate.direccion.numero"
-                            placeholder="Nº"
-                            min="1"
-                            max="1000"
-                            required
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && direccionNumero.invalid) ||
-                                (direccionNumero.touched && !direccionNumero.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && direccionNumero.invalid) ||
-                                (direccionNumero.touched && !direccionNumero.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                direccionNumero.errors.required || direccionNumero.invalid
-                                "
-                            >
-                                Número no válido
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="bloque">Bloque</label>
-                            <input
-                            type="number"
-                            class="form-control"
-                            id="bloque"
-                            name="bloque"
-                            #direccionBloque="ngModel"
-                            [(ngModel)]="usuarioUpdate.direccion.bloque"
-                            placeholder="Ej: 1"
-                            pattern="^([1-9]\d*)"
-                            min="1"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && direccionBloque.invalid) ||
-                                (direccionBloque.touched && !direccionBloque.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && direccionBloque.invalid) ||
-                                (direccionBloque.touched && !direccionBloque.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                direccionBloque.errors.required || direccionBloque.invalid
-                                "
-                            >
-                                Bloque no válido
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label for="escalera">Escalera</label>
-                            <input
-                            type="number"
-                            class="form-control"
-                            id="escalera"
-                            name="escalera"
-                            #direccionEscalera="ngModel"
-                            [(ngModel)]="usuarioUpdate.direccion.escalera"
-                            placeholder="Ej: 1"
-                            pattern="^([1-9]\d*)"
-                            min="1"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && direccionEscalera.invalid) ||
-                                (direccionEscalera.touched && !direccionEscalera.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && direccionEscalera.invalid) ||
-                                (direccionEscalera.touched && !direccionEscalera.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                direccionEscalera.errors.required || direccionEscalera.invalid
-                                "
-                            >
-                                Escalera no válida
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="piso">Piso</label>
-                            <input
-                            type="number"
-                            class="form-control"
-                            id="piso"
-                            name="piso"
-                            #direccionPiso="ngModel"
-                            [(ngModel)]="usuarioUpdate.direccion.piso"
-                            placeholder="Ej: 1"
-                            pattern="^([1-9]\d*)"
-                            min="1"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && direccionPiso.invalid) ||
-                                (direccionPiso.touched && !direccionPiso.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && direccionPiso.invalid) ||
-                                (direccionPiso.touched && !direccionPiso.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="direccionPiso.errors.required || direccionPiso.invalid"
-                            >
-                                Piso no válido
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="puerta">Puerta</label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="puerta"
-                            name="puerta"
-                            #direccionPuerta="ngModel"
-                            [(ngModel)]="usuarioUpdate.direccion.puerta"
-                            placeholder="Ej: 1,A"
-                            pattern="^(\d|[a-zA-Z]{1})"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && direccionPuerta.invalid) ||
-                                (direccionPuerta.touched && !direccionPuerta.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && direccionPuerta.invalid) ||
-                                (direccionPuerta.touched && !direccionPuerta.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                direccionPuerta.errors.required || direccionPuerta.invalid
-                                "
-                            >
-                                Puerta no válida
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="cp">Código Postal <span class="text-danger">*</span></label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="cp"
-                            name="cp"
-                            #direccionCP="ngModel"
-                            [(ngModel)]="usuarioUpdate.direccion.codigoPostal"
-                            placeholder="Ej: 29850"
-                            required
-                            pattern="^\d{5,6}"
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && direccionCP.invalid) ||
-                                (direccionCP.touched && !direccionCP.valid)
-                            }"
-                            />
-                            <div
-                            *ngIf="
-                                (f.submitted && direccionCP.invalid) ||
-                                (direccionCP.touched && !direccionCP.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div *ngIf="direccionCP.errors.required || direccionCP.invalid">
-                                Código Postal no válido
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="provincia">Provincia <span class="text-danger">*</span></label>
-                            <select
-                            class="form-control"
-                            name="provincia"
-                            id="provincia"
-                            #direccionProvincia="ngModel"
-                            [(ngModel)]="provinciaId"
-                            required
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && direccionProvincia.invalid) ||
-                                (direccionProvincia.touched && !direccionProvincia.valid)
-                            }"
-                            [(ngModel)]="usuarioUpdate.direccion.localidad.provincia.id"
-                            (ngModelChange)="updateLocalidades(provinciaId)"
-                            >
-                            <option value="" selected>Seleccione una provincia</option>
-                            <option
-                                *ngFor="let provincia of provincias"
-                                value="{{ provincia.id }}"
-                            >
-                                {{ provincia.nombre }}
-                            </option>
-                            </select>
-
-                            <div
-                            *ngIf="
-                                (f.submitted && direccionProvincia.invalid) ||
-                                (direccionProvincia.touched && !direccionProvincia.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                direccionProvincia.errors.required ||
-                                direccionProvincia.invalid
-                                "
-                            >
-                                Seleccione una Provincia
-                            </div>
-                            </div>
-                        </div>
-
-                        <div *ngIf="provinciaId != 0" class="form-group col-md-6">
-                            <label for="localidad">Localidad <span class="text-danger">*</span></label>
-                            <select
-                            class="form-control"
-                            name="localidad"
-                            id="localidad"
-                            #direccionLocalidad="ngModel"
-                            [(ngModel)]="localidadId"
-                            required
-                            [ngClass]="{
-                                'is-invalid':
-                                (f.submitted && direccionLocalidad.invalid) ||
-                                (direccionLocalidad.touched && !direccionLocalidad.valid)
-                            }"
-                            [(ngModel)]="usuarioUpdate.direccion.localidad.id"
-                            >
-                            <option value="" selected>Seleccione una localidad</option>
-                            <option
-                                *ngFor="let localidad of localidades"
-                                value="{{ localidad.id }}"
-                            >
-                                <span> {{ localidad.nombre }} </span>
-                            </option>
-                            </select>
-
-                            <div
-                            *ngIf="
-                                (f.submitted && direccionLocalidad.invalid) ||
-                                (direccionLocalidad.touched && !direccionLocalidad.valid)
-                            "
-                            class="invalid-feedback"
-                            >
-                            <div
-                                *ngIf="
-                                direccionLocalidad.errors.required ||
-                                direccionLocalidad.invalid
-                                "
-                            >
-                                Seleccione una Localidad
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    <button type="submit" class="btn btn-outline-dark">Modificar Datos</button>
-                    
-                </form>
-            </div>
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-12 text-center mb-3">
+        <div
+          class="heading-text heading-line heading-gradient text-center mb-0"
+        >
+          <h4 class="mb-0 font-size-h2">
+            <span>{{ title }}</span>
+          </h4>
         </div>
+      </div>
+      <div *ngIf="!isDataLoaded" class="col-lg-12 my-5">
+        <div *ngIf="!isDataLoaded" class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Cargando...</span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isDataLoaded" class="col-lg-12">
+        <!-- suscripcion -->
+        <div class="row my-4">
+          <div class="col-md-12 mb-4">
+            <h4 class="text-primary">Datos Suscripción</h4>
+          </div>
+          <div class="col-md-12" *ngIf="sessionUser.suscripcion.isSubscribed">
+            <div class="">
+              Fecha Alta:
+              <span class="font-weight-bold">{{
+                sessionUser.suscripcion.suscripcion.fechaAlta | date: mediumDate
+              }}</span>
+            </div>
+            <div
+              class=""
+              *ngIf="sessionUser.suscripcion.suscripcion.fechaBaja != null"
+            >
+              Fecha Baja:
+              <span class="font-weight-bold">{{
+                sessionUser.suscripcion.suscripcion.fechaBaja | date: mediumDate
+              }}</span>
+            </div>
+            <div class="">
+              Tipo de Suscripicón:
+              <span class="font-weight-bold">{{
+                sessionUser.suscripcion.suscripcion.tipoSuscripcion.nombre
+              }}</span>
+            </div>
+            <div class="">
+              Tarifa:
+              <span class="font-weight-bold">{{
+                sessionUser.suscripcion.suscripcion.tipoSuscripcion.tarifa
+                  | currency: "€"
+              }}</span>
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="!sessionUser.suscripcion.isSubscribed">
+            <div class="">
+              <button class="btn btn-primary" (click)="open(modal)">
+                Suscríbete
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="line"></div>
+
+        <!-- suscripcion -->
+        <div class="row my-4">
+          <div class="col-md-12 mb-4">
+            <h4 class="text-primary">Imagen perfil</h4>
+          </div>
+          <div class="col-md-12">
+            <cuenta-upload-image [user]="sessionUser"></cuenta-upload-image>
+          </div>
+        </div>
+        <div class="line"></div>
+
+        <form
+          class="form-validate"
+          name="form"
+          (ngSubmit)="f.form.valid && update()"
+          #f="ngForm"
+        >
+          <div class="row my-4">
+            <div class="col-md-12 mb-2">
+              <h4 class="text-primary">Datos Usuario</h4>
+            </div>
+            <div class="col-md-12">
+              <h5>Datos Personales</h5>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="nombre"
+                >Nombre <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                name="nombre"
+                #usuarioNombre="ngModel"
+                [(ngModel)]="usuarioUpdate.nombre"
+                placeholder="Nombre usuario"
+                required
+                pattern="^([a-zA-Za´´eíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,50}"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && usuarioNombre.invalid) ||
+                    (usuarioNombre.touched && !usuarioNombre.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && usuarioNombre.invalid) ||
+                  (usuarioNombre.touched && !usuarioNombre.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="usuarioNombre.errors.required || usuarioNombre.invalid"
+                >
+                  Nombre no válido
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="apellido"
+                >Apellido <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="apellido"
+                name="apellido"
+                #usuarioApellido="ngModel"
+                [(ngModel)]="usuarioUpdate.apellidos"
+                placeholder="Apellidos usuario"
+                required
+                pattern="^([a-zA-ZáéíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,70}"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && usuarioApellido.invalid) ||
+                    (usuarioApellido.touched && !usuarioApellido.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && usuarioApellido.invalid) ||
+                  (usuarioApellido.touched && !usuarioApellido.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    usuarioApellido.errors.required || usuarioApellido.invalid
+                  "
+                >
+                  Apellido no válido
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="dni">DNI <span class="text-danger">*</span></label>
+              <input
+                type="text"
+                class="form-control"
+                id="dni"
+                name="dni"
+                #usuarioDni="ngModel"
+                [(ngModel)]="usuarioUpdate.dni"
+                placeholder="ej: 55668877X"
+                required
+                pattern="^(\d){8}[a-zA-Z]{1}"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && usuarioDni.invalid) ||
+                    (usuarioDni.touched && !usuarioDni.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && usuarioDni.invalid) ||
+                  (usuarioDni.touched && !usuarioDni.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="usuarioDni.errors.required || usuarioDni.invalid">
+                  Dni no válido
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="email"
+                >Email <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="email"
+                name="email"
+                autocomplete="username"
+                #usuarioEmail="ngModel"
+                [(ngModel)]="usuarioUpdate.email"
+                placeholder="Email usuario"
+                required
+                pattern="^([a-z0-9]{1})((\.|\-)?([a-z0-9])){0,}@([a-z0-9]){1}((\.|\-)?([a-z0-9]))*\.([a-z]){2,4}$"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && usuarioEmail.invalid) ||
+                    (usuarioEmail.touched && !usuarioEmail.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && usuarioEmail.invalid) ||
+                  (usuarioEmail.touched && !usuarioEmail.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="usuarioEmail.errors.required || usuarioEmail.invalid"
+                >
+                  Email no válido
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="telefono"
+                >Teléfono <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="telefono"
+                name="telefono"
+                #usuarioTelefono="ngModel"
+                [(ngModel)]="usuarioUpdate.telefono"
+                placeholder="Ej:666555444"
+                required
+                pattern="^(6|7|8|9){1}\d{8,9}"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && usuarioTelefono.invalid) ||
+                    (usuarioTelefono.touched && !usuarioTelefono.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && usuarioTelefono.invalid) ||
+                  (usuarioTelefono.touched && !usuarioTelefono.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    usuarioTelefono.errors.required || usuarioTelefono.invalid
+                  "
+                >
+                  Teléfono no válido
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="fechaNacimiento"
+                >Fecha Nacimiento <span class="text-danger">*</span></label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="fechaNacimiento"
+                name="fechaNacimiento"
+                #usuarioFechaNacimiento="ngModel"
+                [(ngModel)]="usuarioUpdate.fechaNacimiento"
+                placeholder="Fecha de Nacimiento"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && usuarioFechaNacimiento.invalid) ||
+                    (usuarioFechaNacimiento.touched &&
+                      !usuarioFechaNacimiento.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && usuarioFechaNacimiento.invalid) ||
+                  (usuarioFechaNacimiento.touched &&
+                    !usuarioFechaNacimiento.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    usuarioFechaNacimiento.errors.required ||
+                    usuarioFechaNacimiento.invalid
+                  "
+                >
+                  Fecha no válida
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="cuentaBancaria"
+                >Cuenta Bancaria <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="cuentaBancaria"
+                name="cuentaBancaria"
+                #usuarioCuentaBancaria="ngModel"
+                [(ngModel)]="usuarioUpdate.cuentaBancaria"
+                placeholder="ES55 4444 4444 44 444444444 "
+                required
+                pattern="(ES\d{2} \d{4} \d{4} \d{2} \d{10}|ES\d{22})"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && usuarioCuentaBancaria.invalid) ||
+                    (usuarioCuentaBancaria.touched &&
+                      !usuarioCuentaBancaria.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && usuarioCuentaBancaria.invalid) ||
+                  (usuarioCuentaBancaria.touched &&
+                    !usuarioCuentaBancaria.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    usuarioCuentaBancaria.errors.required ||
+                    usuarioCuentaBancaria.invalid
+                  "
+                >
+                  Cuenta Bancaria no válida
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="password"
+                >Password <span class="text-danger">*</span></label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                #usuarioPassword="ngModel"
+                [(ngModel)]="password"
+                placeholder="6 caract. min (por ahora)"
+                required
+                pattern="\w{6,}"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && usuarioPassword.invalid) ||
+                    (usuarioPassword.touched && !usuarioPassword.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && usuarioPassword.invalid) ||
+                  (usuarioPassword.touched && !usuarioPassword.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    usuarioPassword.errors.required || usuarioPassword.invalid
+                  "
+                >
+                  Password no válida
+                </div>
+              </div>
+            </div>
+          
+
+          <div *ngIf="password!='' " class="form-group col-md-6">
+            <label for="confirmPassword">(*) Confirmar Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="confirmPassword"
+              name="confirmPassword"
+              #confirmPassword="ngModel"
+              [(ngModel)]="confirmPass"
+              placeholder="6 caract. min (por ahora)"
+              required
+              pattern="{{password}}"
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && confirmPassword.invalid) ||
+                  (confirmPassword.touched && !confirmPassword.valid)
+              }"
+            />
+            <div
+              *ngIf="
+                (f.submitted && confirmPassword.invalid) ||
+                (confirmPassword.touched && !confirmPassword.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="confirmPassword.errors.required || confirmPassword.invalid"
+              >
+                * Password no coincide
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div class="row my-4">
+            <div class="col-md-12">
+              <h5>Datos Dirección</h5>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <label for="calle"
+                >Calle <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="calle"
+                name="calle"
+                #direccionCalle="ngModel"
+                [(ngModel)]="usuarioUpdate.direccion.calle"
+                placeholder="C/"
+                required
+                pattern="^([a-zA-Z]){1}([a-zA-Z ]){2,50}"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && direccionCalle.invalid) ||
+                    (direccionCalle.touched && !direccionCalle.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && direccionCalle.invalid) ||
+                  (direccionCalle.touched && !direccionCalle.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    direccionCalle.errors.required || direccionCalle.invalid
+                  "
+                >
+                  Calle no válida
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="numero"
+                >Número <span class="text-danger">*</span></label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="numero"
+                name="numero"
+                #direccionNumero="ngModel"
+                [(ngModel)]="usuarioUpdate.direccion.numero"
+                placeholder="Nº"
+                min="1"
+                max="1000"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && direccionNumero.invalid) ||
+                    (direccionNumero.touched && !direccionNumero.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && direccionNumero.invalid) ||
+                  (direccionNumero.touched && !direccionNumero.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    direccionNumero.errors.required || direccionNumero.invalid
+                  "
+                >
+                  Número no válido
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="bloque">Bloque</label>
+              <input
+                type="number"
+                class="form-control"
+                id="bloque"
+                name="bloque"
+                #direccionBloque="ngModel"
+                [(ngModel)]="usuarioUpdate.direccion.bloque"
+                placeholder="Ej: 1"
+                pattern="^([1-9]\d*)"
+                min="1"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && direccionBloque.invalid) ||
+                    (direccionBloque.touched && !direccionBloque.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && direccionBloque.invalid) ||
+                  (direccionBloque.touched && !direccionBloque.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    direccionBloque.errors.required || direccionBloque.invalid
+                  "
+                >
+                  Bloque no válido
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="escalera">Escalera</label>
+              <input
+                type="number"
+                class="form-control"
+                id="escalera"
+                name="escalera"
+                #direccionEscalera="ngModel"
+                [(ngModel)]="usuarioUpdate.direccion.escalera"
+                placeholder="Ej: 1"
+                pattern="^([1-9]\d*)"
+                min="1"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && direccionEscalera.invalid) ||
+                    (direccionEscalera.touched && !direccionEscalera.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && direccionEscalera.invalid) ||
+                  (direccionEscalera.touched && !direccionEscalera.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    direccionEscalera.errors.required ||
+                    direccionEscalera.invalid
+                  "
+                >
+                  Escalera no válida
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="piso">Piso</label>
+              <input
+                type="number"
+                class="form-control"
+                id="piso"
+                name="piso"
+                #direccionPiso="ngModel"
+                [(ngModel)]="usuarioUpdate.direccion.piso"
+                placeholder="Ej: 1"
+                pattern="^([1-9]\d*)"
+                min="1"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && direccionPiso.invalid) ||
+                    (direccionPiso.touched && !direccionPiso.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && direccionPiso.invalid) ||
+                  (direccionPiso.touched && !direccionPiso.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="direccionPiso.errors.required || direccionPiso.invalid"
+                >
+                  Piso no válido
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="puerta">Puerta</label>
+              <input
+                type="text"
+                class="form-control"
+                id="puerta"
+                name="puerta"
+                #direccionPuerta="ngModel"
+                [(ngModel)]="usuarioUpdate.direccion.puerta"
+                placeholder="Ej: 1,A"
+                pattern="^(\d|[a-zA-Z]{1})"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && direccionPuerta.invalid) ||
+                    (direccionPuerta.touched && !direccionPuerta.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && direccionPuerta.invalid) ||
+                  (direccionPuerta.touched && !direccionPuerta.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    direccionPuerta.errors.required || direccionPuerta.invalid
+                  "
+                >
+                  Puerta no válida
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="cp"
+                >Código Postal <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="cp"
+                name="cp"
+                #direccionCP="ngModel"
+                [(ngModel)]="usuarioUpdate.direccion.codigoPostal"
+                placeholder="Ej: 29850"
+                required
+                pattern="^\d{5,6}"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && direccionCP.invalid) ||
+                    (direccionCP.touched && !direccionCP.valid)
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.submitted && direccionCP.invalid) ||
+                  (direccionCP.touched && !direccionCP.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="direccionCP.errors.required || direccionCP.invalid">
+                  Código Postal no válido
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="provincia"
+                >Provincia <span class="text-danger">*</span></label
+              >
+              <select
+                class="form-control"
+                name="provincia"
+                id="provincia"
+                #direccionProvincia="ngModel"
+                [(ngModel)]="provinciaId"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && direccionProvincia.invalid) ||
+                    (direccionProvincia.touched && !direccionProvincia.valid)
+                }"
+                [(ngModel)]="usuarioUpdate.direccion.localidad.provincia.id"
+                (ngModelChange)="updateLocalidades(provinciaId)"
+              >
+                <option value="" selected>Seleccione una provincia</option>
+                <option
+                  *ngFor="let provincia of provincias"
+                  value="{{ provincia.id }}"
+                >
+                  {{ provincia.nombre }}
+                </option>
+              </select>
+
+              <div
+                *ngIf="
+                  (f.submitted && direccionProvincia.invalid) ||
+                  (direccionProvincia.touched && !direccionProvincia.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    direccionProvincia.errors.required ||
+                    direccionProvincia.invalid
+                  "
+                >
+                  Seleccione una Provincia
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="provinciaId != 0" class="form-group col-md-6">
+              <label for="localidad"
+                >Localidad <span class="text-danger">*</span></label
+              >
+              <select
+                class="form-control"
+                name="localidad"
+                id="localidad"
+                #direccionLocalidad="ngModel"
+                [(ngModel)]="localidadId"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    (f.submitted && direccionLocalidad.invalid) ||
+                    (direccionLocalidad.touched && !direccionLocalidad.valid)
+                }"
+                [(ngModel)]="usuarioUpdate.direccion.localidad.id"
+              >
+                <option value="" selected>Seleccione una localidad</option>
+                <option
+                  *ngFor="let localidad of localidades"
+                  value="{{ localidad.id }}"
+                >
+                  <span> {{ localidad.nombre }} </span>
+                </option>
+              </select>
+
+              <div
+                *ngIf="
+                  (f.submitted && direccionLocalidad.invalid) ||
+                  (direccionLocalidad.touched && !direccionLocalidad.valid)
+                "
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    direccionLocalidad.errors.required ||
+                    direccionLocalidad.invalid
+                  "
+                >
+                  Seleccione una Localidad
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-outline-dark">
+            Modificar Datos
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
 </section>
 
 <ng-template #modal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-label"><span class="badge badge-pill badge-primary claseTitle text-uppercase">Nueva Suscripción</span></h4>
-      <button type="button" class="close" (click)="modal.dismiss()"><i class="icon-x"></i></button>
-    </div>
-    <form
-        class="form-validate"
-        name="form"
-        (ngSubmit)="f.form.valid && addSuscripcion()"
-        #f="ngForm"
-    >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-label">
+      <span class="badge badge-pill badge-primary claseTitle text-uppercase"
+        >Nueva Suscripción</span
+      >
+    </h4>
+    <button type="button" class="close" (click)="modal.dismiss()">
+      <i class="icon-x"></i>
+    </button>
+  </div>
+  <form
+    class="form-validate"
+    name="form"
+    (ngSubmit)="f.form.valid && addSuscripcion()"
+    #f="ngForm"
+  >
     <div class="modal-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group col-md-12">
-                    <label for="tipoEjercicio">Tipo de Suscripción <span class="text-danger">*</span></label>
-                    <select
-                      class="form-control"
-                      name="tipoSuscripcion"
-                      id="tipoSuscripcion"
-                      #suscripcionTipoSuscripcion="ngModel"
-                      [(ngModel)]="suscripcionTipoID"
-                      required
-                      [ngClass]="{
-                        'is-invalid':
-                          (f.submitted && suscripcionTipoSuscripcion.invalid) ||
-                          (suscripcionTipoSuscripcion.touched &&
-                            !suscripcionTipoSuscripcion.valid)
-                      }"
-                      [(ngModel)]="tipoSusSelect"
-                    >
-                      <option value="" selected>Selecciona el tipo</option>
-                      <option
-                        *ngFor="let tipoSuscripcion of suscripcionTipos"
-                        value="{{ tipoSuscripcion.id }}"
-                      >
-                        {{ tipoSuscripcion.nombre }} ({{ tipoSuscripcion.tarifa | currency:'€'}})
-                      </option>
-                    </select>
-            
-                    <div
-                      *ngIf="
-                        (f.submitted && suscripcionTipoSuscripcion.invalid) ||
-                        (suscripcionTipoSuscripcion.touched &&
-                          !suscripcionTipoSuscripcion.valid)
-                      "
-                      class="invalid-feedback"
-                    >
-                      <div
-                        *ngIf="
-                          suscripcionTipoSuscripcion.errors.required ||
-                          suscripcionTipoSuscripcion.invalid
-                        "
-                      >
-                        * Seleccione un tipo de suscripcion
-                      </div>
-                    </div>
-                </div>
-                <div class="form-group col-md-12">
-                    <input type="checkbox" name="recurrente" class="form-control" [(ngModel)]="nuevaSuscripcion.recurrente" /> <label>¿Es recurrente?</label>
-                </div> 
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group col-md-12">
+            <label for="tipoEjercicio"
+              >Tipo de Suscripción <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control"
+              name="tipoSuscripcion"
+              id="tipoSuscripcion"
+              #suscripcionTipoSuscripcion="ngModel"
+              [(ngModel)]="suscripcionTipoID"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.submitted && suscripcionTipoSuscripcion.invalid) ||
+                  (suscripcionTipoSuscripcion.touched &&
+                    !suscripcionTipoSuscripcion.valid)
+              }"
+              [(ngModel)]="tipoSusSelect"
+            >
+              <option value="" selected>Selecciona el tipo</option>
+              <option
+                *ngFor="let tipoSuscripcion of suscripcionTipos"
+                value="{{ tipoSuscripcion.id }}"
+              >
+                {{ tipoSuscripcion.nombre }} ({{
+                  tipoSuscripcion.tarifa | currency: "€"
+                }})
+              </option>
+            </select>
+
+            <div
+              *ngIf="
+                (f.submitted && suscripcionTipoSuscripcion.invalid) ||
+                (suscripcionTipoSuscripcion.touched &&
+                  !suscripcionTipoSuscripcion.valid)
+              "
+              class="invalid-feedback"
+            >
+              <div
+                *ngIf="
+                  suscripcionTipoSuscripcion.errors.required ||
+                  suscripcionTipoSuscripcion.invalid
+                "
+              >
+                * Seleccione un tipo de suscripcion
+              </div>
             </div>
+          </div>
+          <div class="form-group col-md-12">
+            <input
+              type="checkbox"
+              name="recurrente"
+              class="form-control"
+              [(ngModel)]="nuevaSuscripcion.recurrente"
+            />
+            <label>¿Es recurrente?</label>
+          </div>
         </div>
+      </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-danger btn-sm" (click)="modal.dismiss()">Cerrar</button>
+      <button
+        type="button"
+        class="btn btn-danger btn-sm"
+        (click)="modal.dismiss()"
+      >
+        Cerrar
+      </button>
       <button type="submit" class="btn btn-primary">Suscribir</button>
     </div>
-    </form>
-  </ng-template>
+  </form>
+</ng-template>

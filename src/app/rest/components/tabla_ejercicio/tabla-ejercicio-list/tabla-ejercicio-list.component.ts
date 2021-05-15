@@ -11,7 +11,7 @@ import { EjercicioServiceService } from "@servicesRest/ejercicio/ejercicio-servi
 import { TipoEjercicio } from "@modelsRest/TipoEjercicio";
 import { TipoEjercicioServiceService } from "@servicesRest/tipo_ejercicio/tipo-ejercicio-service.service";
 import { Ejercicio } from "@modelsRest/Ejercicio";
-import { HelperService } from '@core/services/helper.service';
+import { HelperService } from "@core/services/helper.service";
 import { DatePipe } from "@angular/common";
 
 @Component({
@@ -23,52 +23,51 @@ export class TablaEjercicioListComponent implements OnInit {
   //parte list
   mostrarTablaEjercicioAdd: boolean = false;
   tablasEjercicio: TablaEjercicio[];
-  
+
   //parte update tablaEjercicio
   tablaUpdate: any;
   monitores: Usuario[];
   suscriptores: Usuario[];
   closeResult = "";
   inicio = new Date();
-  
+
   //parte Detalle tabla
   tablaDetalle: any;
   ejerciciosSerieTablaDetalle: EjercicioSerie[];
-  
+
   //abrir añadir ejercicioSerieModal
   modalAniadir = false;
   tiposEjercicio: TipoEjercicio[];
   ejerciciosSerie: EjercicioSerie[];
-  ejercicios:Ejercicio[];
+  ejercicios: Ejercicio[];
   nuevoEjercicioSerie: any;
   ejercicioId: any;
   tipoEjerSelect = "";
   ejerSelect = "";
   content: any;
   tipoEjercicioId: any;
-  
+
   //parte update EjercicioSerie
   ejercicioSerieUpdate: any;
-  
+
   //confirm delete
   tablaAux: any;
   //confirm delete ejer serie
   ejercicioAux: any;
-  
-  //modales
-  textoModal:string;
 
-  //filtros tablaejer
-  filterMonitor:string;
-  filterUser:string;
-  mainTablaTablaEjercicios:TablaEjercicio[];
-  filterTabla:TablaEjercicio[];
+  //modales
+  textoModal: string;
+
+  //filtros tabla ejer
+  filterUser: string;
+  mainTablaTablaEjercicios: TablaEjercicio[];
+  filterTabla: TablaEjercicio[];
 
   //filtros ejer serie
-  filterDia:number;
-  mainTablaEjerciciosSerie:EjercicioSerie[];
-  filterTablaES:EjercicioSerie[];
-  
+  filterDia: number;
+  mainTablaEjerciciosSerie: EjercicioSerie[];
+  filterTablaES: EjercicioSerie[];
+
   constructor(
     private _service: TablaEjercicioServiceService,
     private _serviceEjercicio: EjercicioServiceService,
@@ -76,11 +75,11 @@ export class TablaEjercicioListComponent implements OnInit {
     private _serviceEjerciciosSerie: EjercicioSerieServiceService,
     private _serviceUsuario: UsuarioServiceService,
     private _router: Router,
-    private modalService: NgbModal
-    ,private _helperService: HelperService,
-    private datePipe:DatePipe
-    ) {
-      this.tablaUpdate = {};
+    private modalService: NgbModal,
+    private _helperService: HelperService,
+    private datePipe: DatePipe
+  ) {
+    this.tablaUpdate = {};
     this.tablaDetalle = {};
     this.nuevoEjercicioSerie = {};
     this.ejercicioSerieUpdate = {};
@@ -233,14 +232,15 @@ export class TablaEjercicioListComponent implements OnInit {
           ariaLabelledBy: "modal-basic-title",
           centered: true,
           size: "md",
-        }),err=>{
-          this.textoModal = "¡Error al actualizar!";
-          this.modalService.open(modal, {
-            ariaLabelledBy: "modal-basic-title",
-            centered: true,
-            size: "md",
-          })
-        };
+        }),
+          (err) => {
+            this.textoModal = "¡Error al actualizar!";
+            this.modalService.open(modal, {
+              ariaLabelledBy: "modal-basic-title",
+              centered: true,
+              size: "md",
+            });
+          };
       });
   }
 
@@ -281,8 +281,14 @@ export class TablaEjercicioListComponent implements OnInit {
   open(content, tabla: TablaEjercicio) {
     this._service.getTablaEjercicio(tabla.id).subscribe((data) => {
       this.tablaUpdate = data;
-      this.tablaUpdate.fechaInicio = this.datePipe.transform(this.tablaUpdate.fechaInicio, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
-      this.tablaUpdate.fechaFin = this.datePipe.transform(this.tablaUpdate.fechaFin, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
+      this.tablaUpdate.fechaInicio = this.datePipe.transform(
+        this.tablaUpdate.fechaInicio,
+        "yyyy-MM-dd" /*'dd-MM-yyyy'*/
+      );
+      this.tablaUpdate.fechaFin = this.datePipe.transform(
+        this.tablaUpdate.fechaFin,
+        "yyyy-MM-dd" /*'dd-MM-yyyy'*/
+      );
       this.inicio = this.tablaUpdate.fechaInicio;
     });
     this.modalService
@@ -328,58 +334,47 @@ export class TablaEjercicioListComponent implements OnInit {
       );
   }
 
-  filtrarTabla(rol){
+  filtrarTabla() {
     this.filterTabla = [];
-    console.log(rol);
     
-    
-    if(rol == "monitor"){
-      for (let tabla of this.mainTablaTablaEjercicios){ 
-        if(tabla.monitor.nombre.toLocaleLowerCase() == this.filterMonitor.toLocaleLowerCase() && tabla.monitor.rol.nombre == rol){
-          console.log(tabla.monitor.nombre+"  /  "+this.filterMonitor);
-          console.log(tabla.monitor.rol+"  /  "+ rol);
-          this.filterTabla.push(tabla);
-        }
-      }
-
-    } else {
-      for (let tabla of this.mainTablaTablaEjercicios){
-        if(tabla.suscriptor.nombre.toLocaleLowerCase() == this.filterUser.toLocaleLowerCase() && tabla.suscriptor.rol.nombre == rol){
-          this.filterTabla.push(tabla);
-        }
+    for (let tabla of this.mainTablaTablaEjercicios) {
+      if (
+        tabla.monitor.nombre.toLocaleLowerCase() ==
+          this.filterUser.toLocaleLowerCase() ||
+        tabla.suscriptor.nombre.toLocaleLowerCase() ==
+          this.filterUser.toLocaleLowerCase()
+      ) {
+        this.filterTabla.push(tabla);
       }
     }
-    console.log(this.filterTabla.length);
-    
-    if (this.filterTabla.length > 0){
+
+    if (this.filterTabla.length > 0) {
       this.tablasEjercicio = this.filterTabla;
     } else {
       this.tablasEjercicio = this.mainTablaTablaEjercicios;
     }
-
   }
 
-  filtrarTablaES(){
+  filtrarTablaES() {
     this.filterTablaES = [];
-//this.ejerciciosSerieTablaDetalle = data;
-    for(let ejercicioSerie of this.mainTablaEjerciciosSerie){
-      if(ejercicioSerie.porSemana == this.filterDia){
+    //this.ejerciciosSerieTablaDetalle = data;
+    for (let ejercicioSerie of this.mainTablaEjerciciosSerie) {
+      if (ejercicioSerie.porSemana == this.filterDia) {
         this.filterTablaES.push(ejercicioSerie);
       }
     }
 
-    if (this.filterTablaES.length > 0){
+    if (this.filterTablaES.length > 0) {
       this.ejerciciosSerieTablaDetalle = this.filterTablaES;
     } else {
       this.ejerciciosSerieTablaDetalle = this.mainTablaEjerciciosSerie;
     }
-
   }
 
-  quitarFiltroTabla(){
+  quitarFiltroTabla() {
     this.tablasEjercicio = this.mainTablaTablaEjercicios;
   }
-  quitarFiltroTablaES(){
+  quitarFiltroTablaES() {
     this.ejerciciosSerieTablaDetalle = this.mainTablaEjerciciosSerie;
   }
 }

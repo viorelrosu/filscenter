@@ -104,6 +104,7 @@ export class UsuarioListComponent implements OnInit {
       .then(() => this.obtenerLocalidad())
       .then(() => this.obtenerTaquilla())
       .then(() => {
+        this.usuarioUpdate.email = this.usuarioUpdate.email.toLowerCase();
         this.usuarioUpdate.password = md5(this.usuarioUpdate.password);
         this._service.updateUsuario(this.usuarioUpdate).subscribe(
           (data) => {

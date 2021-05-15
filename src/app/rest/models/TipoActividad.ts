@@ -1,10 +1,5 @@
 export class TipoActividad {
-    public id : number;
-    
-    constructor(
-        id:number,
-        nombre:string
-    ){
-
-    }
+  public id: number;
+  nombre: string;
+  constructor(id: number, nombre: string) {}
 }

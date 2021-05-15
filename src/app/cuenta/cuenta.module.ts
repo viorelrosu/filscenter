@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { SharedModule } from '@shared/shared.module';
 import { PageCuentaPerfilComponent } from './pages/perfil/perfil.component';
 import { MenuComponent } from './components/menu/menu.component';
@@ -24,5 +25,6 @@ import { CuentaUploadImageComponent } from './components/upload-image/upload-ima
     CuentaRoutingModule,
   ],
   exports: [PageCuentaPerfilComponent, CuentaRoutingModule, PageCuentaDatosComponent, PageCuentaInicioComponent],
+  providers: [DatePipe]
 })
 export class CuentaModule { }
