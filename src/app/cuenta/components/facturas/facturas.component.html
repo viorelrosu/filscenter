@@ -33,7 +33,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let factura of userFacturas">
-                                <td>{{ factura.numero }}</td>
+                                <td># {{ factura.numero }}</td>
                                 <td>{{ factura.fecha | date: mediumDate }}</td>
                                 <td class="text-center">{{ factura.importe | currency: "€" }}</td>
                                 <td class="text-center">

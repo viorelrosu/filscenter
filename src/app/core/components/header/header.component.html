@@ -60,9 +60,9 @@
                             <li class="dropdown">
                                 <a href="javascript:;" [routerLinkActive]="['current']" [routerLinkActiveOptions]="{exact: true}">Área personal</a>
                                 <ul class="dropdown-menu" *ngIf="isLoggedIn; else menuNotLoggedIn">
-                                    <li><a href="/cuenta">Mis Datos</a></li>
-                                    <li><a href="/cuenta/horario">Horario</a></li>
-                                    <li><a href="/cuenta/facturas">Facturas</a></li>
+                                    <li><a href="/cuenta/inicio">Mi Cuenta</a></li>
+                                    <li><a href="/cuenta/mis/datos">Mis Datos</a></li>
+                                    <li><a href="/cuenta/mis/facturas">Mis Facturas</a></li>
                                     <li><a href="javascript:;" (click)="logout()">Salir</a></li>
                                 </ul>
                             </li>
