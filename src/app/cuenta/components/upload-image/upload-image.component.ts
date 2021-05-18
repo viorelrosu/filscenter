@@ -25,6 +25,7 @@ export class CuentaUploadImageComponent implements OnInit {
   public messageClass='danger';
   public isImageUploaded: boolean = false;
   public image:string;
+  public imagenAnterior: string;
 
   fileInfos?: Observable<any>;
 
@@ -72,15 +73,18 @@ export class CuentaUploadImageComponent implements OnInit {
         }
         reader.readAsDataURL(file);
         
-        await this.deleteOldFile();
+        this.imagenAnterior = this.user.imagen;
         this.isImageUploaded = await this.showAndSaveAvatar();
+        if(this.fileName != this.imagenAnterior) {
+          await this.deleteOldFile();
+        }
 
       }
   }
 
   async deleteOldFile(){
     await new Promise((resolve, reject) => {
-      this._serviceUploadFile.deleteFile(this.user.imagen).toPromise()
+      this._serviceUploadFile.deleteFile(this.imagenAnterior).toPromise()
       .then((data)=>{
         console.log(data);
         resolve;

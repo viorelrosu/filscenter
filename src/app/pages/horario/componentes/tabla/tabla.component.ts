@@ -8,6 +8,7 @@ import { ReservaServiceService as ReservaService } from "@servicesRest/reserva/r
 import { HelperService } from '@core/services/helper.service';
 
 import { Slot } from "@modelsRest/Slot";
+import { Reserva } from "@modelsRest/Reserva";
 
 declare var $:any;
 @Component({
@@ -18,6 +19,7 @@ declare var $:any;
 export class TablaComponent implements OnInit, OnChanges {
   public slots: Slot[];
   public horas: Object[]=[];
+  public reservasUser: Reserva[];
   public diasSemana: String[] = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
   public isDataLoaded: boolean = false;
   public reserva: any = {};
@@ -25,8 +27,9 @@ export class TablaComponent implements OnInit, OnChanges {
   public isRecurrente:boolean = false;
   public aforoActual:number = 0;
   public isLoggedIn: boolean = false;
-  public isSuscribed:boolean = false;
+  public isSubscribed:boolean = false;
   public hasReserva: boolean = false;
+  public reservaToDel: Reserva;
   public closeResult:string = '';
   public sessionUser: any;
 
@@ -74,11 +77,12 @@ export class TablaComponent implements OnInit, OnChanges {
     this._helperService.getSessionUser()
     .then((user:any)=>{
       this.sessionUser = user;
+      return user;
+      //console.log(this.sessionUser);
     })
-    .then(()=>{
+    .then((user)=>{
       this.isLoggedIn = this._helperService.checkIsLogin();
-      this.isSuscribed = this.sessionUser.suscripcion.isSuscribed;
-
+      this.isSubscribed = user.suscripcion.isSubscribed;
       this.loadSlots();
     });
     
@@ -89,37 +93,51 @@ export class TablaComponent implements OnInit, OnChanges {
   }
 
   loadSlots(){
-    this._serviceSlot.getSlots().toPromise()
-    .then((data)=>{
-      //console.log(data);
-      this.slots = data;
-    })
-    .then(()=>{
-      //console.log(this.horas);
-      for(var slot of this.slots) {
-        var index = slot.horaInicio;
-        var diaSemana = slot.diaSemana;
-        var indexArray = this.getIndexOfK(this.horas, index);
-        var isDisabled = this.checkIsDisabled(slot);
-        this.horas[indexArray][diaSemana] = {
-          id: slot.id,
-          isDisabled: isDisabled,
-          imagen: 'assets/fitness/images/trainers/'+slot.monitor.imagen,
-          monitor: slot.monitor.nombre,
-          actividad: slot.actividad.nombre,
-          color: slot.actividad.color,
-          slot: slot
+    if(this.sessionUser) {
+      this._serviceReserva.getReservasByUsuarioId(this.sessionUser.id).toPromise()
+      .then((reservas)=>{
+        this.reservasUser = reservas;
+        //console.log(this.reservasUser);
+      })
+      .then(()=>{
+        return this._serviceSlot.getSlots().toPromise();
+      })
+      .then((slots)=>{
+        //console.log(data);
+        this.slots = slots;
+      })
+      .then(()=>{
+        //console.log(this.horas);
+        for(var slot of this.slots) {
+          var index = slot.horaInicio;
+          var diaSemana = slot.diaSemana;
+          var indexArray = this.getIndexOfK(this.horas, index);
+          var isDisabled = this.checkIsDisabled(slot);
+          var isReserved = this.checkIsReserved(slot);
+          this.horas[indexArray][diaSemana] = {
+            id: slot.id,
+            isDisabled: isDisabled,
+            isReserved: isReserved,
+            imagen: (slot.monitor.imagen) ? 'assets/uploads/'+slot.monitor.imagen : 'assets/uploads/user-perfil.png',
+            monitor: slot.monitor.nombre,
+            actividad: slot.actividad.nombre,
+            color: slot.actividad.color,
+            slot: slot
+          }
         }
-      }
-    })
-    .then(()=>{
-      this.isDataLoaded=true;
-    });
-
+      })
+      .then(()=>{
+        this.isDataLoaded=true;
+      });
+    }
   }
 
   checkIsDisabled(slot:Slot) {
     return !this.searchResults.some(elem => elem.id === slot.id);
+  }
+
+  checkIsReserved(slot:Slot) {
+    return this.reservasUser.some(elem => elem.slot.id === slot.id);
   }
 
   getIndexOfK(arr:any, value:number) {
@@ -158,14 +176,14 @@ export class TablaComponent implements OnInit, OnChanges {
     })
     .then(()=>{
       //comprobamos si tiene ya una reserva
-      if(this.isLoggedIn && this.isSuscribed) {
+      if(this.isLoggedIn && this.isSubscribed) {
         return this._serviceReserva.getReservaBySlotIdAndUsuarioId(this.slotSeleccionado.id, this.sessionUser.id).toPromise()
       }
       return false;
     })
     .then((data)=>{
       //console.log(data);
-      this.hasReserva = (data.length) ? true : false;
+      this.hasReserva = (data) ? data[0] : false;
     })
     .then(()=>{
       this.modalService.open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
@@ -195,11 +213,11 @@ export class TablaComponent implements OnInit, OnChanges {
     this.aforoActual = 0;
   }
 
-  doReserva(id:number){
+  doReserva(){
     this.reserva.recurrente = this.isRecurrente ? 'true' : 'false';
     this.reserva.fechaInicio = new Date().toISOString();
     
-    return this._serviceSlot.getSlot(id).toPromise()
+    return this._serviceSlot.getSlot(this.slotSeleccionado.id).toPromise()
     .then((data)=>{
       this.reserva.slot = data;
     })
@@ -212,6 +230,7 @@ export class TablaComponent implements OnInit, OnChanges {
     .then(()=>{
       //console.log(this.reserva);
       this._serviceReserva.createReserva(this.reserva).subscribe((data)=>{
+        this.loadSlots();
         this.closeModal();
         $.notify({
           // options
@@ -236,6 +255,46 @@ export class TablaComponent implements OnInit, OnChanges {
       });
     });
 
+  }
+
+  delConfirm(reserva:Reserva){
+    this.reservaToDel = reserva;
+  }
+
+  delCancelar(){
+    this.reservaToDel = null;
+  }
+
+  delReserva() {
+    this._serviceReserva.deleteReserva(this.reservaToDel).subscribe(
+      (data) => {
+        this.reservaToDel = null;
+        this.loadSlots();
+        this.closeModal();
+        $.notify({
+            // options
+            icon: 'fas fa-check',
+            title: '¡Muy bien!',
+            message: 'La reserva se ha eliminado correctamente.',
+          },{
+          // settings
+          type: 'success'
+        });
+      },
+      (err) => {
+
+        $.notify({
+          // options
+          icon: 'fas fa-close',
+          title: 'Lo sentimos, ha habido un error!',
+          message: err.error.message,
+        },{
+          // settings
+          type: 'danger'
+        });
+
+      }
+    );
   }
 
 }

@@ -4,8 +4,8 @@
   </div>
 </div>
 
-<div *ngIf="isDataLoaded">
-  <table class="table table-striped horario table-responsive">
+<div *ngIf="isDataLoaded" class="table-responsive">
+  <table class="table table-striped horario">
     <thead>
       <tr>
         <th scope="col" class="text-center">Hora</th>
@@ -24,7 +24,7 @@
         <td *ngFor="let dia of diasSemana"  class="text-center">
           <div *ngIf="hora[dia]">
             <button
-              class="btn btn-xs btn-rounded horarioClase" [ngStyle]="{'border-color':hora[dia].color, 'background-color': hora[dia].color }"
+              class="btn btn-xs btn-rounded horarioClase d-flex align-items-center" [ngStyle]="{'border-color':hora[dia].color, 'background-color': hora[dia].color }"
               (click)="open(content,hora[dia].slot)"
               [class.disabled]="hora[dia].isDisabled"
             >
@@ -34,7 +34,10 @@
                 class="rounded-circle m-r-10"
                 width="26"
               />
-              {{ hora[dia].actividad}}
+              <div class="line-height-12 m-r-5">
+                {{ hora[dia].actividad}}
+              </div>
+              <div class="" *ngIf="hora[dia].isReserved"><span><i class="fa fa-check"></i></span></div>
             </button>
           </div>
           <div *ngIf="!hora[dia]">
@@ -56,7 +59,7 @@
       <div class="row">
         <div class="col-md-12">
             <div class="monitor">
-                <img src="{{'assets/fitness/images/trainers/'+slotSeleccionado.monitor.imagen}}" alt="Alan Monroe" class="rounded-circle"/>
+                <img src="{{ slotSeleccionado.monitor.imagen ? '/assets/uploads/'+slotSeleccionado.monitor.imagen : '/assets/uploads/' + slotSeleccionado.monitor.imagen }}" alt="Alan Monroe" class="rounded-circle"/>
                 <span class="nombre">{{ slotSeleccionado.monitor.nombre + ' '+ slotSeleccionado.monitor.apellidos }}</span>
                 <span>Monitor</span>
             </div>
@@ -82,23 +85,29 @@
             </ul>
         </div>
         <div class="col-md-12 my-4" *ngIf="isLoggedIn">
-            <div class="" *ngIf="isSuscribed">
+            <div class="" *ngIf="isSubscribed">
               <h4 class="text-center mb-3">Reserva tu plaza en la clase</h4>
               <div class="row" *ngIf="!hasReserva">
                   <div class="col-4 offset-4 text-right">
                       <input type="checkbox" name="recurrente" class="form-control" [(ngModel)]="isRecurrente" /> <label>¿Es recurrente?</label>
                   </div>
                   <div class="col-md-8 offset-md-2 text-center">
-                      <button type="button" class="btn btn-xs btn-success" (click)="doReserva(slotSeleccionado.id)">Reservar clase</button>
+                      <button type="button" class="btn btn-xs btn-success" (click)="doReserva()">Reservar clase</button>
                   </div>
               </div>
               <div class="row" *ngIf="hasReserva">
-                <div class="col-md-12 text-center">
-                  <span class="badge badge-pill badge-success font-size-14">Ya tienes una plaza reservada para esta clase</span>
+                <div class="col-md-12 text-center" *ngIf="!reservaToDel">
+                  <span class="badge badge-pill badge-success font-size-14 mb-2">Ya tienes una plaza reservada para esta clase</span>
+                  <button class="btn btn-danger btn-sm" (click)="delConfirm(hasReserva)">Eliminar reserva</button>
+                </div>
+                <div class="col-md-12 text-center" *ngIf="reservaToDel">
+                  <span class="badge badge-pill badge-warning font-size-14 mb-2">¿Estás seguro?</span><br />
+                  <button class="btn btn-primary btn-sm" (click)="delCancelar()">Cancelar</button>
+                  <button class="btn btn-danger btn-sm" (click)="delReserva()">Si, eliminar reserva</button>
                 </div>
               </div>
             </div>
-            <div class="row" *ngIf="!isSuscribed">
+            <div class="row" *ngIf="!isSubscribed">
               <div class="col-md-12 text-center mb-2">
                 <span class="badge badge-pill badge-info font-size-14">Para reservar plazas, suscríbete</span>
               </div>

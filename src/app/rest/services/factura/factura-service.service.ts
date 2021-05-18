@@ -30,4 +30,9 @@ export class FacturaServiceService {
     return this._http.put<Factura>(this.url + "/" + factura.id, factura);
   }
 
+  getFacturasByUsuarioId(id:number): Observable<any> {
+    //return this._http.get(this.url + '/usuario/'+id);
+    return this._http.get(this.url);
+  }
+
 }

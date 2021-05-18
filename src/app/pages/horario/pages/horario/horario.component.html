@@ -10,7 +10,7 @@
             <div class="col-md-12" >
                 <form #formSearchHorario="ngForm" >
                     <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <!-- <div class="form-group col-md-3">
                             <label for="filter_tipo_vista">Tipo de vista</label>
                             <select class="form-control" name="filter_actividad" [(ngModel)]="filters.type">
                                 <option selected="selected" value="tabla">Tabla</option>
@@ -24,7 +24,7 @@
                             type="date"
                             name="filter_fecha_inicio"
                             />
-                        </div>
+                        </div> -->
                         <div class="form-group col-md-3">
                             <label for="filter_actividad">Actividad</label>
                             <select class="form-control" name="filter_actividad" (change)="searchByActividad($event.target.value)">

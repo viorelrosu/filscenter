@@ -29,6 +29,7 @@ export class CuentaInicioHorarioComponent implements OnInit {
   public isRecurrente:boolean = false;
   public aforoActual:number = 0;
   public hasReserva: boolean = false;
+  public reservaToDel: Reserva;
   public closeResult:string = '';
 
   public searchResults: Slot[] = [];
@@ -119,7 +120,7 @@ export class CuentaInicioHorarioComponent implements OnInit {
           id: slot.id,
           isReserved: isReserved,
           isDisabled: isDisabled,
-          imagen: 'assets/fitness/images/trainers/'+slot.monitor.imagen,
+          imagen: 'assets/uploads/'+slot.monitor.imagen,
           monitor: slot.monitor.nombre,
           actividad: slot.actividad.nombre,
           color: slot.actividad.color,
@@ -246,6 +247,7 @@ export class CuentaInicioHorarioComponent implements OnInit {
     .then(()=>{
       //console.log(this.reserva);
       this._serviceReserva.createReserva(this.reserva).subscribe((data)=>{
+        this.reservaToDel = null;
         this.loadSlots();
         this.closeModal();
         $.notify({
@@ -273,9 +275,18 @@ export class CuentaInicioHorarioComponent implements OnInit {
 
   }
 
-  delReserva(reserva:Reserva) {
-    this._serviceReserva.deleteReserva(reserva).subscribe(
+  delConfirm(reserva:Reserva){
+    this.reservaToDel = reserva;
+  }
+
+  delCancelar(){
+    this.reservaToDel = null;
+  }
+
+  delReserva() {
+    this._serviceReserva.deleteReserva(this.reservaToDel).subscribe(
       (data) => {
+        this.loadSlots();
         this.closeModal();
         $.notify({
             // options

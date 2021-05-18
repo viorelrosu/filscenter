@@ -9,6 +9,7 @@ import { PageCuentaInicioComponent } from './components/inicio/inicio.component'
 import { CuentaInicioHorarioComponent } from './components/inicio-horario/inicio-horario.component';
 import { CuentaInicioTablasComponent } from './components/inicio-tablas/inicio-tablas.component';
 import { CuentaUploadImageComponent } from './components/upload-image/upload-image.component';
+import { PageCuentaFacturasComponent } from './components/facturas/facturas.component';
 
 @NgModule({
   declarations: [
@@ -18,13 +19,14 @@ import { CuentaUploadImageComponent } from './components/upload-image/upload-ima
     PageCuentaInicioComponent,
     CuentaInicioHorarioComponent,
     CuentaInicioTablasComponent,
-    CuentaUploadImageComponent
+    CuentaUploadImageComponent,
+    PageCuentaFacturasComponent
   ],
   imports: [
     SharedModule,
     CuentaRoutingModule,
   ],
-  exports: [PageCuentaPerfilComponent, CuentaRoutingModule, PageCuentaDatosComponent, PageCuentaInicioComponent],
+  exports: [PageCuentaPerfilComponent, CuentaRoutingModule, PageCuentaDatosComponent, PageCuentaFacturasComponent, PageCuentaInicioComponent],
   providers: [DatePipe]
 })
 export class CuentaModule { }

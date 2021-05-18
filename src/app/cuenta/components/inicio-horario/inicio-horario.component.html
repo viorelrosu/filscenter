@@ -48,9 +48,9 @@
             <td *ngFor="let dia of diasSemana"  class="text-center">
                 <div *ngIf="hora[dia]">
                     <button
-                        class="btn btn-xs btn-rounded horarioClase d-flex align-items-center" [ngStyle]="{'border-color':hora[dia].color, 'background-color': hora[dia].color }"
+                        class="btn btn-xs btn-rounded horarioClase d-flex align-items-center" [ngStyle]="{'border-color': hora[dia].isReserved ? hora[dia].color : '#ccc', 'background-color': hora[dia].isReserved ? hora[dia].color : '#ccc' }"
                         (click)="open(content,hora[dia].slot)"
-                        [class.opacity-85]="!hora[dia].isReserved"
+                        [class.opacity-80]="!hora[dia].isReserved"
                         [class.disabled]="hora[dia].isDisabled"
                     >
                     <div class="">
@@ -86,7 +86,7 @@
         <div class="row">
           <div class="col-md-12">
               <div class="monitor">
-                  <img src="{{'assets/fitness/images/trainers/'+slotSeleccionado.monitor.imagen}}" alt="Alan Monroe" class="rounded-circle"/>
+                  <img src="{{'assets/uploads/'+slotSeleccionado.monitor.imagen}}" alt="Alan Monroe" class="rounded-circle"/>
                   <span class="nombre">{{ slotSeleccionado.monitor.nombre + ' '+ slotSeleccionado.monitor.apellidos }}</span>
                   <span>Monitor</span>
               </div>
@@ -122,12 +122,15 @@
                     </div>
                 </div>
                 <div class="row" *ngIf="hasReserva">
-                  <div class="col-md-12 text-center mb-2">
-                    <span class="badge badge-pill badge-success font-size-14">Ya tienes una plaza reservada para esta clase</span>
-                  </div>
-                  <div class="col-md-12 text-center">
-                      <button class="btn btn-danger btn-sm" (click)="delReserva(hasReserva)">Eliminar reserva</button>
-                  </div>
+                    <div class="col-md-12 text-center" *ngIf="!reservaToDel">
+                        <span class="badge badge-pill badge-success font-size-14 mb-2">Ya tienes una plaza reservada para esta clase</span><br>
+                        <button class="btn btn-danger btn-sm" (click)="delConfirm(hasReserva)">Eliminar reserva</button>
+                    </div>
+                    <div class="col-md-12 text-center" *ngIf="reservaToDel">
+                        <span class="badge badge-pill badge-warning font-size-14 mb-2">¿Estás seguro?</span><br />
+                        <button class="btn btn-primary btn-sm" (click)="delCancelar()">Cancelar</button>
+                        <button class="btn btn-danger btn-sm" (click)="delReserva()">Si, eliminar reserva</button>
+                    </div>
                 </div>
           </div>
       </div>

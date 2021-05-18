@@ -82,7 +82,7 @@ const delFile = (req, res) => {
             message: "No se ha podido eliminar el fichero!",
         });
     }
-  };
+};
 
 module.exports = {
   upload,
