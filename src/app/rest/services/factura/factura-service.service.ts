@@ -11,6 +11,7 @@ export class FacturaServiceService {
   constructor(private _http: HttpClient) {}
 
   url = appSettings.apiUrl+ 'factura';
+  urlFacturas = appSettings.apiUrl+ 'facturas';
 
   getFacturas(): Observable<any> {
     return this._http.get(this.url);
@@ -31,8 +32,7 @@ export class FacturaServiceService {
   }
 
   getFacturasByUsuarioId(id:number): Observable<any> {
-    //return this._http.get(this.url + '/usuario/'+id);
-    return this._http.get(this.url);
+    return this._http.get(this.urlFacturas + '/usuario/'+id);
   }
 
 }
