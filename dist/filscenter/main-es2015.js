@@ -9980,17 +9980,12 @@ function HeaderComponent_ng_template_36_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "ul", 20);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "li");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "a", 25);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3, "Mis Datos");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3, "Iniciar Sesi\u00F3n");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "li");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "a", 26);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](6, "Iniciar Sesi\u00F3n");
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "li");
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "a", 27);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9, "Registro");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](6, "Registro");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -10017,7 +10012,7 @@ class HeaderComponent {
     }
 }
 HeaderComponent.ɵfac = function HeaderComponent_Factory(t) { return new (t || HeaderComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_core_services_helper_service__WEBPACK_IMPORTED_MODULE_1__["HelperService"])); };
-HeaderComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: HeaderComponent, selectors: [["app-header"]], decls: 38, vars: 30, consts: [["id", "header", "data-transparent", "true", 1, "header-modern", "dark"], [1, "header-inner"], [1, "container"], ["id", "logo"], ["href", "/inicio"], ["src", "assets/fitness/images/logo/logo-filscenter.png", "height", "60"], ["id", "mainMenu-trigger"], [1, "lines-button", "x"], [1, "lines"], ["id", "mainMenu"], ["href", "/inicio", 3, "routerLinkActive", "routerLinkActiveOptions"], ["href", "/quienes-somos", 3, "routerLinkActive", "routerLinkActiveOptions"], ["href", "/clases", 3, "routerLinkActive", "routerLinkActiveOptions"], ["href", "/servicios", 3, "routerLinkActive", "routerLinkActiveOptions"], ["href", "/horario", 3, "routerLinkActive", "routerLinkActiveOptions"], ["href", "/contacto", 3, "routerLinkActive", "routerLinkActiveOptions"], [1, "dropdown"], ["href", "javascript:;", 3, "routerLinkActive", "routerLinkActiveOptions"], ["class", "dropdown-menu", 4, "ngIf", "ngIfElse"], ["menuNotLoggedIn", ""], [1, "dropdown-menu"], ["href", "/cuenta/inicio"], ["href", "/cuenta/mis/datos"], ["href", "/cuenta/mis/facturas"], ["href", "javascript:;", 3, "click"], ["href", "/cuenta"], ["href", "/iniciar-sesion"], ["href", "/registro"]], template: function HeaderComponent_Template(rf, ctx) { if (rf & 1) {
+HeaderComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: HeaderComponent, selectors: [["app-header"]], decls: 38, vars: 30, consts: [["id", "header", "data-transparent", "true", 1, "header-modern", "dark"], [1, "header-inner"], [1, "container"], ["id", "logo"], ["href", "/inicio"], ["src", "assets/fitness/images/logo/logo-filscenter.png", "height", "60"], ["id", "mainMenu-trigger"], [1, "lines-button", "x"], [1, "lines"], ["id", "mainMenu"], ["href", "/inicio", 3, "routerLinkActive", "routerLinkActiveOptions"], ["href", "/quienes-somos", 3, "routerLinkActive", "routerLinkActiveOptions"], ["href", "/clases", 3, "routerLinkActive", "routerLinkActiveOptions"], ["href", "/servicios", 3, "routerLinkActive", "routerLinkActiveOptions"], ["href", "/horario", 3, "routerLinkActive", "routerLinkActiveOptions"], ["href", "/contacto", 3, "routerLinkActive", "routerLinkActiveOptions"], [1, "dropdown"], ["href", "javascript:;", 3, "routerLinkActive", "routerLinkActiveOptions"], ["class", "dropdown-menu", 4, "ngIf", "ngIfElse"], ["menuNotLoggedIn", ""], [1, "dropdown-menu"], ["href", "/cuenta/inicio"], ["href", "/cuenta/mis/datos"], ["href", "/cuenta/mis/facturas"], ["href", "javascript:;", 3, "click"], ["href", "/iniciar-sesion"], ["href", "/registro"]], template: function HeaderComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-topbar");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "header", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 1);
@@ -10079,7 +10074,7 @@ HeaderComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](36, HeaderComponent_ng_template_36_Template, 10, 0, "ng-template", null, 19, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplateRefExtractor"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](36, HeaderComponent_ng_template_36_Template, 7, 0, "ng-template", null, 19, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplateRefExtractor"]);
     } if (rf & 2) {
         const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](37);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](15);
@@ -20597,7 +20592,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appSettings", function() { return appSettings; });
 const appSettings = {
     salt: 'K2Q{ey?kK8;+zP6F',
-    apiUrl: 'http://localhost:8080/webservice/'
+    apiUrl: 'http://82.223.29.132:8080/webservice/'
 }
 
 /***/ }),
