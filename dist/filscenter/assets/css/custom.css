@@ -1,0 +1,200 @@
+/* 
+
+1. Add your custom Css styles below
+2. Place the this code in your template: 
+
+ <link href="css/custom.css" rel="stylesheet">
+
+*/
+
+.line {
+    /* border-color: #111; */
+}
+
+.font-size-12 {
+    font-size: 12px;
+}
+
+.font-size-14 {
+    font-size: 14px;
+}
+
+.font-size-16 {
+    font-size: 16px;
+}
+
+.font-size-18 {
+    font-size: 18px;
+}
+
+.font-size-20 {
+    font-size: 20px;
+}
+
+.font-size-22 {
+    font-size: 22px;
+}
+
+.opacity-50 {
+    opacity: 0.50;
+}
+
+.opacity-55 {
+    opacity: 0.55;
+}
+
+.opacity-60 {
+    opacity: 0.60;
+}
+
+.opacity-65 {
+    opacity: 0.65;
+}
+
+.opacity-70 {
+    opacity: 0.70;
+}
+
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.opacity-80 {
+    opacity: 0.80;
+}
+
+.opacity-85 {
+    opacity: 0.85;
+}
+
+.line-height-12 {
+    line-height: 12px;
+}
+
+.line-height-14 {
+    line-height: 14px;
+}
+
+.heading-text.heading-gradient h4 > * {
+    -webkit-text-fill-color: transparent !important;
+    -webkit-background-clip: text !important;
+    background: radial-gradient(circle at left top, #4b72ff 9%, #2250fc 48%, #6442ff 91%);
+  }
+
+#slider {
+    top: -130px;
+    margin-bottom: -130px;
+}
+/*
+.inspiro-slider .slide-captions * {
+    opacity: 1;
+    animation-duration: 600ms;
+} */
+
+#topbar .social-icons {
+    float:left;
+}
+
+#topbar .top-menu {
+    float:right;
+}
+
+#page-title {
+    top: -120px;
+    margin-bottom: -124px;
+    position: relative;
+    padding: 220px 0 160px;
+}
+
+#page-title .container {
+    align-self: center !important;
+}
+
+#page-title[data-bg-parallax] .page-title > h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 60px;
+    margin-bottom: 10px;
+}
+
+#page-title[data-bg-parallax] .page-title > span.strong {
+    color: #ffffff;
+    display: block;
+    font-size: 12px !important;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 18px;
+    margin-bottom: 20px;
+    position: relative;
+    text-transform: uppercase;
+}
+
+#page-title[data-bg-parallax] .page-title > span.strong::after {
+    border-top: 3px solid #fff;
+    content: "";
+    display: block;
+    margin-bottom: 0;
+    margin-top: 8px;
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#mainMenu nav ul li a.current {
+    color: blue;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.text-orange {
+    color: #FCC43F!important;
+}
+
+/* monitor */
+.monitor {
+    padding: 10px 0;
+    background-color: transparent;
+    border: 0;
+    text-align: left;
+}
+.monitor span {
+    font-weight: 600;
+    font-size: 15px;
+    display: block;
+    line-height: 22px;
+}
+
+.monitor span ~ span {
+    font-weight: 500;
+    color: #bbbbbb;
+    display: block;
+    font-size: 13px;
+    font-style: italic;
+}
+.monitor img {
+    height: 50px;
+    width: 50px;
+    float: left;
+    margin: 0 20px 20px 0;
+    box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 6%);
+}
+
+.table.horario th,
+.table.horario td {
+    vertical-align: middle!important;
+}
+
+.horarioClase {
+    height: 34px!important;
+}
+
+
+/* header */
+#header.dark .header-inner #logo a > img{
+    display:block;
+    height: 50px;
+    margin-top: 20px;
+}
+
