@@ -42644,7 +42644,8 @@
 
       var appSettings = {
         salt: 'K2Q{ey?kK8;+zP6F',
-        apiUrl: 'http://82.223.29.132:8080/webservice/'
+        apiUrl: 'http://82.223.29.132:8080/webservice/',
+        apiUpload: 'http://82.223.29.132:4000'
       };
       /***/
     },
@@ -51151,8 +51152,9 @@
         function UploadFileService(http) {
           _classCallCheck(this, UploadFileService);
 
-          this.http = http;
-          this.baseUrl = 'http://localhost:4000';
+          this.http = http; //private baseUrl = 'http://82.223.29.132:4000';
+
+          this.baseUrl = 'http://uploads.filscentergym.com';
         }
 
         _createClass(UploadFileService, [{

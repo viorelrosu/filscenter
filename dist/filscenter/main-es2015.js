@@ -20592,7 +20592,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appSettings", function() { return appSettings; });
 const appSettings = {
     salt: 'K2Q{ey?kK8;+zP6F',
-    apiUrl: 'http://82.223.29.132:8080/webservice/'
+    apiUrl: 'http://82.223.29.132:8080/webservice/',
+    apiUpload: 'http://82.223.29.132:4000'
 }
 
 /***/ }),
@@ -24646,7 +24647,8 @@ __webpack_require__.r(__webpack_exports__);
 class UploadFileService {
     constructor(http) {
         this.http = http;
-        this.baseUrl = 'http://localhost:4000';
+        //private baseUrl = 'http://82.223.29.132:4000';
+        this.baseUrl = 'http://uploads.filscentergym.com';
     }
     upload(file) {
         const formData = new FormData();
