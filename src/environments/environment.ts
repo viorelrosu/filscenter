@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://82.223.29.132:8080/webservice/',
+  apiUrl: 'http://localhost:8080/webservice/',
   apiUpload: 'http://localhost:4000',
   versionCheckURL : 'http://localhost:4000/dist/filscenter/version.json',
 };
