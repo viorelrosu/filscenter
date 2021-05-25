@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VersionCheckService } from '@core/services/version-check.service';
+//import { VersionCheckService } from '@core/services/version-check.service';
 import { environment } from '../environments/environment';
 declare var $:any;
 @Component({
@@ -11,13 +11,13 @@ export class AppComponent implements OnInit{
   public title = 'filscenter';
 
   constructor(
-    private _versionCheckService: VersionCheckService
+    //private _versionCheckService: VersionCheckService
   ) {
   }
 
   ngOnInit() {
     this.loadJs();
-    this._versionCheckService.initVersionCheck(environment.versionCheckURL);
+    //this._versionCheckService.initVersionCheck(environment.versionCheckURL);
   }
 
   loadJs() {
