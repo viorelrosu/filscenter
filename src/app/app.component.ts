@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     this.loadJs();
-    this._versionCheckService.initVersionCheck(environment.versionCheckURL);
+    //this._versionCheckService.initVersionCheck(environment.versionCheckURL);
   }
 
   loadJs() {

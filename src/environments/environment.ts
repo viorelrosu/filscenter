@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/webservice/',
+  apiUrl: 'http://82.223.29.132:8080/webservice/',
   apiUpload: 'http://localhost:4000',
-  versionCheckURL : 'http://localhost:4000/version.json',
+  versionCheckURL : 'http://localhost:4000/dist/filscenter/version.json',
 };
 
 /*
@@ -16,4 +16,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI

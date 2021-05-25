@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class VersionCheckService {
   // this will be replaced by actual hash post-build.js
   private currentHash = '{{POST_BUILD_ENTERS_HASH_HERE}}';
