@@ -17,6 +17,10 @@ export class SlotServiceService {
     return this._http.get(this.url);
   }
 
+  getSlotsBySala(id:number): Observable<any> {
+    return this._http.get(this.url + '/sala/' + id);
+  }
+
   getSlot(slot:number):Observable<any>{
     return this._http.get<Slot>(this.url+"/"+slot);
   }

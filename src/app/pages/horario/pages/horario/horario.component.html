@@ -26,6 +26,12 @@
                             />
                         </div> -->
                         <div class="form-group col-md-3">
+                            <label for="filter_sala">Sala</label>
+                            <select class="form-control" name="filter_sala" (change)="searchBySala($event.target.value)">
+                                <option *ngFor="let sala of salas" [value]="sala.id">{{sala.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
                             <label for="filter_actividad">Actividad</label>
                             <select class="form-control" name="filter_actividad" (change)="searchByActividad($event.target.value)">
                                 <option *ngFor="let actividad of actividades" [value]="actividad.id">{{actividad.nombre}}</option>
@@ -43,10 +49,10 @@
         </div>
     </div>
     <div *ngIf="filters.type == 'tabla'; else vistaTimeline">
-        <horario-tabla [searchResults]="searchResultSlots"></horario-tabla>
+        <horario-tabla [searchResults]="searchResultSlots" [searchBySalaID]="searchBySalaID"></horario-tabla>
     </div>
     <ng-template #vistaTimeline>
-        <horario-timeline [searchResults]="searchResultSlots"></horario-timeline>
+        <horario-timeline [searchResults]="searchResultSlots" [searchBySalaID]="searchBySalaID"></horario-timeline>
     </ng-template>
   </div>
   <div class="container" *ngIf="!isDataLoaded">

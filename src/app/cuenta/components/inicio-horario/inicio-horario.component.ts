@@ -35,8 +35,10 @@ export class CuentaInicioHorarioComponent implements OnInit {
   public searchResults: Slot[] = [];
   public searchByActividadID: number = 0;
   public searchByMonitorID: number = 0;
+  public searchBySalaID: number = 1;
   public actividades:any = [ {id:0,nombre:'Todas las actividades'} ];
   public monitores:any = [ {id:0, nombre:'Todos los monitores'}];
+  public salas:any = [ {id:1, nombre:'Sala #1'}];
   public isSearch:boolean = false;
 
   public sessionUser: any;
@@ -50,6 +52,46 @@ export class CuentaInicioHorarioComponent implements OnInit {
     private _serviceUsuario: UsuarioService,
   ) { 
     
+    this.setHoras();
+
+  }
+
+  ngOnInit(): void {
+
+    this._helperService.getSessionUser()
+    .then((user:any)=>{
+      this.sessionUser = user;
+    })
+    .then(()=>{
+      this.setSelectores();
+    })
+    .then(()=>{
+      this.loadSlots();
+    });
+
+  }
+
+  setSelectores(){
+    return this._serviceSlot.getSlots().toPromise()
+    .then((slots)=>{
+      for(var slot of slots) {
+        if(!this.getIndexOfID(this.salas, slot.actividad.id)) {
+          this.salas.push({id: slot.sala.id, nombre: 'Sala #' + slot.sala.numero });
+        }
+
+        if(!this.getIndexOfID(this.actividades, slot.actividad.id)) {
+          this.actividades.push({id: slot.actividad.id, nombre: slot.actividad.nombre });
+        }
+      
+        if(!this.getIndexOfID(this.monitores, slot.monitor.id)) {
+          this.monitores.push({id: slot.monitor.id, nombre: slot.monitor.nombre + ' ' + slot.monitor.apellidos });
+        }
+      }
+    });
+  };
+
+  setHoras(){
+    this.horas = [];
     for(var i=7; i<23; i++){
       var hora:String;
       var index:number;
@@ -75,19 +117,6 @@ export class CuentaInicioHorarioComponent implements OnInit {
         Domingo: null,
       });
     } 
-
-  }
-
-  ngOnInit(): void {
-
-    this._helperService.getSessionUser()
-    .then((user:any)=>{
-      this.sessionUser = user;
-    })
-    .then(()=>{
-      this.loadSlots();
-    });
-
   }
 
   loadSlots(){
@@ -97,7 +126,7 @@ export class CuentaInicioHorarioComponent implements OnInit {
       //console.log(this.reservasUser);
     })
     .then(()=>{
-      return this._serviceSlot.getSlots().toPromise();
+      return this._serviceSlot.getSlotsBySala(this.searchBySalaID).toPromise();
     })
     .then((slots)=>{
       //console.log(data);
@@ -109,7 +138,9 @@ export class CuentaInicioHorarioComponent implements OnInit {
       }
     })
     .then(()=>{
-      //console.log(this.horas);
+      this.setHoras();
+    })
+    .then(()=>{
       for(var slot of this.slots) {
         var index = slot.horaInicio;
         var diaSemana = slot.diaSemana;
@@ -126,14 +157,6 @@ export class CuentaInicioHorarioComponent implements OnInit {
           color: slot.actividad.color,
           slot: slot
         }
-
-          if(!this.getIndexOfID(this.actividades, slot.actividad.id)) {
-            this.actividades.push({id: slot.actividad.id, nombre: slot.actividad.nombre });
-          }
-        
-          if(!this.getIndexOfID(this.monitores, slot.monitor.id)) {
-            this.monitores.push({id: slot.monitor.id, nombre: slot.monitor.nombre + ' ' + slot.monitor.apellidos });
-          }
       }
     })
     .then(()=>{
@@ -157,7 +180,10 @@ export class CuentaInicioHorarioComponent implements OnInit {
   }
 
   checkIsReserved(slot:Slot) {
-    return this.reservasUser.some(elem => elem.slot.id === slot.id);
+    if(this.reservasUser.length > 0) {
+      return this.reservasUser.some(elem => elem.slot.id === slot.id);
+    }
+    return false;
   }
 
   getIndexOfK(arr:any, value:number) {
@@ -314,6 +340,12 @@ export class CuentaInicioHorarioComponent implements OnInit {
     );
   }
 
+  searchBySala(value:any){
+    this.searchBySalaID = value;
+    this.isSearch = true;
+    this.searchSlots();
+  }
+
   searchByActividad(value:any){
     this.searchByActividadID = value;
     this.isSearch = true;
@@ -328,46 +360,45 @@ export class CuentaInicioHorarioComponent implements OnInit {
 
   searchSlots() {
     this.searchResults = [];
+    var isSearchByActividad = false;
+    var isSearchByMonitor = false;
+    var isSearchBySala = true;
+
+    if (this.searchByActividadID != 0 ) {
+      isSearchByActividad = true;
+    }
+
+    if (this.searchByMonitorID != 0 ) {
+      isSearchByMonitor = true;
+    }
+
+    //search by sala
+    if(isSearchBySala) {
+      this.searchResults = this.slots.filter(slot => {
+        return slot.sala.id == this.searchBySalaID;
+      });
+    }
 
     //search by actividad
-    if( (this.searchByActividadID != 0) && (this.searchByMonitorID == 0) ) {
-      for(let slot of this.slots) {
-        if(slot.actividad.id == this.searchByActividadID) {
-          this.searchResults.push(slot);
-        }
-      }
+    if(isSearchByActividad) {
+      this.searchResults = this.searchResults.filter(slot => {
+        return slot.actividad.id == this.searchByActividadID;
+      });
     }
 
     //search by monitor
-    if( (this.searchByActividadID == 0) && (this.searchByMonitorID != 0) ) {
-      for(let slot of this.slots) {
-        if(slot.monitor.id == this.searchByMonitorID) {
-          this.searchResults.push(slot);
-        }
-      }
+    if(isSearchByMonitor) {
+      this.searchResults = this.searchResults.filter(slot => {
+        return slot.monitor.id == this.searchByMonitorID;
+      });
     }
 
-    //search by actividad y monitor
-    if( (this.searchByActividadID != 0) && (this.searchByMonitorID != 0) ) {
-      for(let slot of this.slots) {
-        if((slot.actividad.id == this.searchByActividadID) && (slot.monitor.id == this.searchByMonitorID)) {
-          this.searchResults.push(slot);
-        }
-      }
-    }
-
-    //all the slots
-    if( (this.searchByActividadID == 0) && (this.searchByMonitorID == 0) ) {
-      for(let slot of this.slots) {
-          this.searchResults.push(slot);
-      }
-    }
+    //console.log(this.slots);
     //console.log(this.searchResultSlots);
 
     if(this.isSearch) {
       this.loadSlots();
     }
-
   }
 
 }

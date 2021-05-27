@@ -12,6 +12,12 @@
                 <form #formSearchHorario="ngForm" >
                     <div class="form-row">
                         <div class="form-group col-md-3">
+                            <label for="filter_sala">Sala</label>
+                            <select class="form-control" name="filter_sala" (change)="searchBySala($event.target.value)">
+                                <option *ngFor="let sala of salas" [value]="sala.id">{{sala.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
                             <label for="filter_actividad">Actividad</label>
                             <select class="form-control" name="filter_actividad" (change)="searchByActividad($event.target.value)">
                                 <option *ngFor="let actividad of actividades" [value]="actividad.id">{{actividad.nombre}}</option>
@@ -48,7 +54,7 @@
             <td *ngFor="let dia of diasSemana"  class="text-center">
                 <div *ngIf="hora[dia]">
                     <button
-                        class="btn btn-xs btn-rounded horarioClase d-flex align-items-center" [ngStyle]="{'border-color': hora[dia].isReserved ? hora[dia].color : '#ccc', 'background-color': hora[dia].isReserved ? hora[dia].color : '#ccc' }"
+                        class="btn btn-xs btn-rounded horarioClase d-flex align-items-center" [ngStyle]="{'border-color': hora[dia].isReserved ? hora[dia].color : '#ccc', 'background-color': hora[dia].isReserved ? hora[dia].color : '#ccc', 'margin':'0 auto' }"
                         (click)="open(content,hora[dia].slot)"
                         [class.opacity-80]="!hora[dia].isReserved"
                         [class.disabled]="hora[dia].isDisabled"

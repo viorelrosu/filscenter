@@ -24,7 +24,7 @@
         <td *ngFor="let dia of diasSemana"  class="text-center">
           <div *ngIf="hora[dia]">
             <button
-              class="btn btn-xs btn-rounded horarioClase d-flex align-items-center" [ngStyle]="{'border-color':hora[dia].color, 'background-color': hora[dia].color }"
+              class="btn btn-xs btn-rounded horarioClase d-flex align-items-center" [ngStyle]="{'border-color':hora[dia].color, 'background-color': hora[dia].color, 'margin':'0 auto' }"
               (click)="open(content,hora[dia].slot)"
               [class.disabled]="hora[dia].isDisabled"
             >

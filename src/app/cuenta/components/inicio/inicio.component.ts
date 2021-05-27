@@ -16,8 +16,7 @@ export class PageCuentaInicioComponent implements OnInit {
   public menuActive: string;
   public isDataLoaded: boolean = false;
   public showHorario: boolean = false;
-  public showTablas: boolean = true;
-
+  public showTablas: boolean = false;
   public sessionUser: any;
   public isSuscribed: boolean = false;
 

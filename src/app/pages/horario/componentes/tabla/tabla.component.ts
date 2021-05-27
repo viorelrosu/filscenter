@@ -34,6 +34,7 @@ export class TablaComponent implements OnInit, OnChanges {
   public sessionUser: any;
 
   @Input() searchResults: Slot[];
+  @Input() searchBySalaID: number;
 
   constructor(
     private modalService: NgbModal,
@@ -44,6 +45,32 @@ export class TablaComponent implements OnInit, OnChanges {
     private _serviceUsuario: UsuarioService,
   ) { 
 
+    this.setHoras();
+  
+  }
+
+  ngOnInit(): void {
+    //this._helperService.checkIsLoginAndRedirectToLogin();
+    this._helperService.getSessionUser()
+    .then((user:any)=>{
+      this.sessionUser = user;
+      return user;
+      //console.log(this.sessionUser);
+    })
+    .then((user)=>{
+      this.isLoggedIn = this._helperService.checkIsLogin();
+      this.isSubscribed = (user && user.suscripcion) ? user.suscripcion.isSubscribed : '';
+      this.loadSlots();
+    });
+    
+  }
+
+  ngOnChanges(){
+    this.loadSlots();
+  }
+
+  setHoras(){
+    this.horas = [];
     for(var i=7; i<23; i++){
       var hora:String;
       var index:number;
@@ -69,42 +96,36 @@ export class TablaComponent implements OnInit, OnChanges {
         Domingo: null,
       });
     } 
-  
   }
 
-  ngOnInit(): void {
-    this._helperService.checkIsLoginAndRedirectToLogin();
-    this._helperService.getSessionUser()
-    .then((user:any)=>{
-      this.sessionUser = user;
-      return user;
-      //console.log(this.sessionUser);
-    })
-    .then((user)=>{
-      this.isLoggedIn = this._helperService.checkIsLogin();
-      this.isSubscribed = user.suscripcion.isSubscribed;
-      this.loadSlots();
+  getReservas() {
+    return new Promise( resolve => {
+      if(this.isLoggedIn && this.sessionUser) {
+        console.log(this.sessionUser);
+        this._serviceReserva.getReservasByUsuarioId(this.sessionUser.id).toPromise()
+        .then((reservas)=>{
+          this.reservasUser = reservas;
+          //console.log(this.reservasUser);
+        }).then(()=>{
+          resolve(true);
+        });
+      } else {
+        resolve(false);
+      }
     });
-    
-  }
-
-  ngOnChanges(){
-    this.loadSlots();
   }
 
   loadSlots(){
-    if(this.sessionUser) {
-      this._serviceReserva.getReservasByUsuarioId(this.sessionUser.id).toPromise()
-      .then((reservas)=>{
-        this.reservasUser = reservas;
-        //console.log(this.reservasUser);
-      })
+      this.getReservas()
       .then(()=>{
-        return this._serviceSlot.getSlots().toPromise();
+        return this._serviceSlot.getSlotsBySala(this.searchBySalaID).toPromise();
       })
       .then((slots)=>{
-        //console.log(data);
+        //console.log(slots);
         this.slots = slots;
+      })
+      .then(()=>{
+        this.setHoras();
       })
       .then(()=>{
         //console.log(this.horas);
@@ -129,7 +150,6 @@ export class TablaComponent implements OnInit, OnChanges {
       .then(()=>{
         this.isDataLoaded=true;
       });
-    }
   }
 
   checkIsDisabled(slot:Slot) {
@@ -137,7 +157,10 @@ export class TablaComponent implements OnInit, OnChanges {
   }
 
   checkIsReserved(slot:Slot) {
-    return this.reservasUser.some(elem => elem.slot.id === slot.id);
+    if ( this.isLoggedIn && this.sessionUser && (this.reservasUser.length > 0) ) {
+      return this.reservasUser.some(elem => elem.slot.id === slot.id);
+    }
+    return false;
   }
 
   getIndexOfK(arr:any, value:number) {

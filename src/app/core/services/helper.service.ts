@@ -26,7 +26,7 @@ export class HelperService {
 
   public checkIsLoginAndRedirectToLogin(){
     if (!this._tokenStorageService.getToken()) {
-      this._router.navigate(['/login']);
+      this._router.navigate(['/iniciar-sesion']);
     }
   }
 
@@ -85,7 +85,7 @@ export class HelperService {
       if (user) {
         resolve(user);
       } else {
-        resolve({});
+        resolve(false);
       }
     });
   }

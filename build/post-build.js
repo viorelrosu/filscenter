@@ -29,10 +29,10 @@ readDir(path.join(__dirname, '../dist/filscenter/'))
     console.log(`${mainBundleFile}`);
     if (mainBundleFile) {
       let matchHash = mainBundleFile.match(mainBundleRegexp);
-
+      console.log(matchHash);
       // if it has a hash in it's name, mark it down
-      if (matchHash.length > 1 && !!matchHash[1]) {
-        mainHash = matchHash[1];
+      if (matchHash.length > 1 && !!matchHash[5]) {
+        mainHash = matchHash[5];
       }
     }
 

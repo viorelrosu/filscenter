@@ -28,8 +28,10 @@ export class PageHorarioComponent implements OnInit, DoCheck {
   public searchResultSlots: Slot[];
   public searchByActividadID: number = 0;
   public searchByMonitorID: number = 0;
+  public searchBySalaID: number = 1;
   public actividades:any = [ {id:0,nombre:'Todas las actividades'} ];
   public monitores:any = [ {id:0, nombre:'Todos los monitores'}];
+  public salas:any = [ {id:1, nombre:'Sala #1'} ];
   public isDataLoaded:boolean = false;
 
   constructor(
@@ -51,7 +53,7 @@ export class PageHorarioComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
 
-    this._helperService.checkIsLoginAndRedirectToLogin();
+    //this._helperService.checkIsLoginAndRedirectToLogin();
     this._helperService.getSessionUser()
     .then((user:any)=>{
       this.sessionUser = user;
@@ -59,7 +61,6 @@ export class PageHorarioComponent implements OnInit, DoCheck {
     .then(()=>{
       this.isLoggedIn = this._helperService.checkIsLogin();
     });
-    
     
     this._serviceSlot.getSlots().toPromise()
     .then((slots)=>{
@@ -72,6 +73,10 @@ export class PageHorarioComponent implements OnInit, DoCheck {
         if(!this.getIndexOfID(this.monitores, slot.monitor.id)) {
           this.monitores.push({id: slot.monitor.id, nombre: slot.monitor.nombre + ' ' + slot.monitor.apellidos });
         }
+
+        if(!this.getIndexOfID(this.salas, slot.sala.id)) {
+          this.salas.push({id: slot.sala.id, nombre: 'Sala #' + slot.sala.numero });
+        }
       }
     })
     .then(()=>{
@@ -79,11 +84,10 @@ export class PageHorarioComponent implements OnInit, DoCheck {
     })
     .then(()=>{
       this.isDataLoaded=true;
-      //console.log(this.actividades);
+      //console.log(this.salas);
     });
     
   }
-
 
   getIndexOfID(arr:any, id:number) {
     var exist = false;
@@ -109,42 +113,47 @@ export class PageHorarioComponent implements OnInit, DoCheck {
     this.searchSlots();
   }
 
+  searchBySala(value:any){
+    this.searchBySalaID = value;
+    this.searchSlots();
+  }
+
   searchSlots() {
     this.searchResultSlots = [];
+    var isSearchByActividad = false;
+    var isSearchByMonitor = false;
+    var isSearchBySala = true;
+
+    if (this.searchByActividadID != 0 ) {
+      isSearchByActividad = true;
+    }
+
+    if (this.searchByMonitorID != 0 ) {
+      isSearchByMonitor = true;
+    }
+
+    //search by sala
+    if(isSearchBySala) {
+      this.searchResultSlots = this.slots.filter(slot => {
+        return slot.sala.id == this.searchBySalaID;
+      });
+    }
 
     //search by actividad
-    if( (this.searchByActividadID != 0) && (this.searchByMonitorID == 0) ) {
-      for(let slot of this.slots) {
-        if(slot.actividad.id == this.searchByActividadID) {
-          this.searchResultSlots.push(slot);
-        }
-      }
+    if(isSearchByActividad) {
+      this.searchResultSlots = this.searchResultSlots.filter(slot => {
+        return slot.actividad.id == this.searchByActividadID;
+      });
     }
 
     //search by monitor
-    if( (this.searchByActividadID == 0) && (this.searchByMonitorID != 0) ) {
-      for(let slot of this.slots) {
-        if(slot.monitor.id == this.searchByMonitorID) {
-          this.searchResultSlots.push(slot);
-        }
-      }
+    if(isSearchByMonitor) {
+      this.searchResultSlots = this.searchResultSlots.filter(slot => {
+        return slot.monitor.id == this.searchByMonitorID;
+      });
     }
 
-    //search by actividad y monitor
-    if( (this.searchByActividadID != 0) && (this.searchByMonitorID != 0) ) {
-      for(let slot of this.slots) {
-        if((slot.actividad.id == this.searchByActividadID) && (slot.monitor.id == this.searchByMonitorID)) {
-          this.searchResultSlots.push(slot);
-        }
-      }
-    }
-
-    //all the slots
-    if( (this.searchByActividadID == 0) && (this.searchByMonitorID == 0) ) {
-      for(let slot of this.slots) {
-          this.searchResultSlots.push(slot);
-      }
-    }
+    //console.log(this.slots);
     //console.log(this.searchResultSlots);
   }
   
