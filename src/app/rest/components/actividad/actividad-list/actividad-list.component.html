@@ -31,8 +31,10 @@
         >Actividad / Tipo actividad:
         <input
           [(ngModel)]="filterActividad"
+          name="filterActividad"
           type="search"
           class="form-control form-control-sm"
+          (keypress)="keyPress($event)"
           placeholder=""
       /></label>
       <label for="">
@@ -57,14 +59,10 @@
   </div>
 </div>
 
-
-
-
-
-<div class="card-text text-center ">
+<div class="card-text  ">
   <table
     id="datatable"
-    class="table table-bordered table-hover dataTable "
+    class="table table-bordered table-hover table-responsive-sm "
     style="width: 100%"
     role="grid"
     aria-describedby="datatable_info"
@@ -131,7 +129,7 @@
         aria-label="Actions: activate to sort column ascending"
         style="width: 54px"
       >
-        color
+        Color
       </th>
         <th
           id=""
@@ -149,15 +147,15 @@
     </thead>
     <tbody>
       <tr *ngFor="let actividad of actividades">
-        <td class="text-left align-middle">{{ actividad.nombre }}</td>
+        <td class="align-middle">{{ actividad.nombre }}</td>
         <td class="text-center align-middle">{{ actividad.dificultad }}</td>
-        <td class="text-left align-middle">{{ actividad.tipoActividad.nombre }}</td>
-        <td class="text-left align-middle">{{ actividad.descripcion }}</td>
+        <td class="align-middle">{{ actividad.tipoActividad.nombre }}</td>
+        <td class="align-middle">{{ actividad.descripcion }}</td>
         <td class="text-center align-middle">
           <div class="m-auto" style="width: 20px; height: 20px;" [ngStyle]="{'background-color': actividad.color }">
           </div>
         </td>
-        <td class="text-center align-middle">
+        <td class="align-middle">
           <a
             class="ml-2"
             data-toggle="tooltip"
@@ -174,15 +172,18 @@
           ></a>
         </td>
       </tr>
+      <tr *ngIf="filterError">
+        <td colspan="6" class="text-danger font-weight-bold">No hubo resultados en su búsqueda</td>
+      </tr>
     </tbody>
     <tfoot>
       <tr>
-        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Nombre</th>
-        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Dificultad</th>
-        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Tipo De Actividad</th>
-        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Descripción</th>
-        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Color</th>
-        <th id="" rowspan="1" colspan="1" class="text-center align-middle">Acciones</th>
+        <th id="" rowspan="1" colspan="1" class="align-middle">Nombre</th>
+        <th id="" rowspan="1" colspan="1" class="align-middle">Dificultad</th>
+        <th id="" rowspan="1" colspan="1" class="align-middle">Tipo De Actividad</th>
+        <th id="" rowspan="1" colspan="1" class="align-middle">Descripción</th>
+        <th id="" rowspan="1" colspan="1" class="align-middle">Color</th>
+        <th id="" rowspan="1" colspan="1" class="align-middle">Acciones</th>
       </tr>
     </tfoot>
   </table>

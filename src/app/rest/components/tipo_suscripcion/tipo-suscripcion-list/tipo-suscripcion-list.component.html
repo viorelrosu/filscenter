@@ -24,7 +24,7 @@
 <div class="card-text">
   <table
     id="datatable"
-    class="table table-bordered table-hover dataTable text-center"
+    class="table table-bordered table-hover dataTable table-responsive-sm"
     style="width: 100%"
     role="grid"
     aria-describedby="datatable_info"
@@ -86,7 +86,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let tipoSuscripcion of tiposSuscripcion" class="text-center">
+      <tr *ngFor="let tipoSuscripcion of tiposSuscripcion">
         <td class="text-left">{{ tipoSuscripcion.nombre }}</td>
         <td class="text-left">{{ tipoSuscripcion.duracion }} día/s</td>
         <td class="text-left">{{ tipoSuscripcion.tarifa }} €/mes</td>

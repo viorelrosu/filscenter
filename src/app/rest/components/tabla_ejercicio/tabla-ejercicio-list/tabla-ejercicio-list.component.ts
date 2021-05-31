@@ -59,12 +59,14 @@ export class TablaEjercicioListComponent implements OnInit {
   textoModal: string;
 
   //filtros tabla ejer
-  filterUser: string;
+  filterName: string = "";
+  filterError: boolean = false;
   mainTablaTablaEjercicios: TablaEjercicio[];
   filterTabla: TablaEjercicio[];
 
   //filtros ejer serie
-  filterDia: number;
+  filterDia: string = "";
+  filterErrorES: boolean = false;
   mainTablaEjerciciosSerie: EjercicioSerie[];
   filterTablaES: EjercicioSerie[];
 
@@ -260,8 +262,17 @@ export class TablaEjercicioListComponent implements OnInit {
     this._serviceEjerciciosSerie
       .getEjerciciosPorTablaId(tabla.id)
       .subscribe((data) => {
-        this.ejerciciosSerieTablaDetalle = data;
-        this.mainTablaEjerciciosSerie = data;
+        var shortable:any = [];
+        for(var i = 1; i<8;i++){
+          for(var ejercicioSerie of data){
+            if(ejercicioSerie.porSemana == i){
+              shortable.push(ejercicioSerie);
+            }
+          }
+        }
+        
+        this.ejerciciosSerieTablaDetalle = shortable;
+        this.mainTablaEjerciciosSerie = shortable;
       });
     this.modalService
       .open(detalle, {
@@ -334,47 +345,70 @@ export class TablaEjercicioListComponent implements OnInit {
       );
   }
 
+  keyPress(evento) {
+    if (evento.keyCode == 13 && !evento.shiftKey) {
+      this.filtrarTabla();
+    }
+  }
+  keyPressES(evento) {
+    if (evento.keyCode == 13 && !evento.shiftKey) {
+      this.filtrarTablaES();
+    }
+  }
+
   filtrarTabla() {
     this.filterTabla = [];
-    
+
     for (let tabla of this.mainTablaTablaEjercicios) {
       if (
-        tabla.monitor.nombre.toLocaleLowerCase() ==
-          this.filterUser.toLocaleLowerCase() ||
-        tabla.suscriptor.nombre.toLocaleLowerCase() ==
-          this.filterUser.toLocaleLowerCase()
+        tabla.monitor.nombre
+          .toLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .indexOf(this.filterName.toLowerCase()) > -1 ||
+        tabla.suscriptor.nombre
+          .toLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .indexOf(this.filterName.toLowerCase()) > -1
       ) {
         this.filterTabla.push(tabla);
       }
     }
 
-    if (this.filterTabla.length > 0) {
+    if (this.filterTabla.length > 0 ) {
+      this.filterError = false;
       this.tablasEjercicio = this.filterTabla;
     } else {
-      this.tablasEjercicio = this.mainTablaTablaEjercicios;
+      this.filterError = true;
+      this.tablasEjercicio = [];
     }
   }
 
   filtrarTablaES() {
     this.filterTablaES = [];
-    //this.ejerciciosSerieTablaDetalle = data;
+
     for (let ejercicioSerie of this.mainTablaEjerciciosSerie) {
-      if (ejercicioSerie.porSemana == this.filterDia) {
+      if (ejercicioSerie.porSemana.toString().indexOf( this.filterDia) >-1) {
         this.filterTablaES.push(ejercicioSerie);
       }
     }
 
     if (this.filterTablaES.length > 0) {
+      this.filterErrorES = false;
       this.ejerciciosSerieTablaDetalle = this.filterTablaES;
     } else {
-      this.ejerciciosSerieTablaDetalle = this.mainTablaEjerciciosSerie;
+      this.filterErrorES = true;
+      this.ejerciciosSerieTablaDetalle = [];
     }
   }
 
   quitarFiltroTabla() {
+    this.filterError = false;
     this.tablasEjercicio = this.mainTablaTablaEjercicios;
+    this.filterName = "";
   }
   quitarFiltroTablaES() {
+    this.filterErrorES = false;
     this.ejerciciosSerieTablaDetalle = this.mainTablaEjerciciosSerie;
+    this.filterDia = "";
   }
 }

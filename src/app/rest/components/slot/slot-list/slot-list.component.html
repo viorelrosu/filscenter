@@ -34,6 +34,7 @@
           type="search"
           class="form-control"
           placeholder=""
+          (keypress)="keyPress($event)"
       /></label>
       <label for="">
         <button
@@ -58,7 +59,7 @@
   <div class="card-text">
     <table
       id="datatable"
-      class="table table-bordered table-hover dataTable text-center"
+      class="table table-bordered table-hover table-responsive-sm "
       style="width: 100%"
       role="grid"
       aria-describedby="datatable_info"
@@ -137,18 +138,6 @@
           >
             Hora
           </th>
-          <!--th
-            id=""
-            class="noExport sorting"
-            tabindex="0"
-            aria-controls="datatable"
-            rowspan="1"
-            colspan="1"
-            aria-label="Actions: activate to sort column ascending"
-            style="width: 54px"
-          >
-            Aforo Actual
-          </th-->
           <th
             id=""
             class="noExport sorting"
@@ -171,8 +160,7 @@
           <td>{{ slot.sala.numero == null ? "-" : slot.sala.numero }}</td>
           <td class="text-left">{{ slot.diaSemana }}</td>
           <td>{{ slot.horaInicio | formatoHora }}</td>
-          <!--td>{{ slot.aforoActual }}</td-->
-          <td>
+          <td class="text-left">
             <a
               class="ml-2"
               data-toggle="tooltip"
@@ -189,6 +177,9 @@
             ></a>
           </td>
         </tr>
+        <tr *ngIf="filterError">
+          <td colspan="7" class="text-danger font-weight-bold">No hubo resultados en su búsqueda</td>
+        </tr>
       </tbody>
       <tfoot>
         <tr>
@@ -198,7 +189,6 @@
           <th id="" rowspan="1" colspan="1">Sala</th>
           <th id="" rowspan="1" colspan="1">Día</th>
           <th id="" rowspan="1" colspan="1">Hora</th>
-          <!--th id="" rowspan="1" colspan="1">Aforo Actual</th-->
           <th id="" rowspan="1" colspan="1">Acciones</th>
         </tr>
       </tfoot>
@@ -251,24 +241,33 @@
         #f="ngForm"
       >
         <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="dia">(*) Dia Semana</label>
-            <input
-              type="text"
+
+          <div class="form-group col-md-4">
+            <label for="dia">(*) Día Semana</label>
+            <select
               class="form-control"
               name="dia"
               id="dia"
               #slotDia="ngModel"
               [(ngModel)]="slotUpdate.diaSemana"
               required
-              placeholder="Ej: Lunes, Martes, ..."
-              pattern="^([a-zA-Z]){1}([a-zA-ZáéíóúÁÉÍÓÚ]){1,}"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && slotDia.invalid) ||
                   (slotDia.touched && !slotDia.valid)
               }"
-            />
+              [(ngModel)]="slotUpdate.diaSemana"
+            >
+              <option value="" selected >- Elige una opción - </option>
+              <option value="Lunes" selected >Lunes </option>
+              <option value="Martes" selected >Martes </option>
+              <option value="Miercoles" selected >Miercoles </option>
+              <option value="Jueves" selected >Jueves </option>
+              <option value="Viernes" selected >Viernes </option>
+              <option value="Sabado" selected >Sábado </option>
+              <option value="Domingo" selected >Domingo </option>
+        
+            </select>
             <div
               *ngIf="
                 (f.submitted && slotDia.invalid) ||
@@ -276,8 +275,12 @@
               "
               class="invalid-feedback"
             >
-              <div *ngIf="slotDia.errors.required || slotDia.invalid">
-                * opción no válida
+              <div
+                *ngIf="
+                  slotDia.errors.required || slotDia.invalid
+                "
+              >
+                * Día no válido
               </div>
             </div>
           </div>

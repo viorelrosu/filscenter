@@ -25,7 +25,7 @@
 <div class="card-text">
   <table
     id="datatable"
-    class="table table-bordered table-hover dataTable text-center"
+    class="table table-bordered table-hover dataTable "
     style="width: 100%"
     role="grid"
     aria-describedby="datatable_info"
@@ -60,7 +60,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let tipoActividad of tipoActividades" class="text-center">
+      <tr *ngFor="let tipoActividad of tipoActividades" class="">
         <td class="text-left">{{ tipoActividad.nombre }}</td>
         <td>
           <a

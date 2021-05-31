@@ -32,6 +32,7 @@
           [(ngModel)]="filterUser"
           type="search"
           class="form-control form-control-sm"
+          (keypress)="keyPress($event)"
           placeholder=""
       /></label>
       <label for="">
@@ -59,7 +60,7 @@
 <div class="card-text">
   <table
     id="datatable"
-    class="table table-bordered table-hover dataTable text-center"
+    class="table table-bordered table-hover table-responsive-sm"
     style="width: 100%"
     role="grid"
     aria-describedby="datatable_info"
@@ -140,7 +141,7 @@
         <td class="text-left">{{ reserva.slot.diaSemana }}</td>
         <td>{{ reserva.slot.horaInicio | formatoHora }}</td>
         <td class="text-left">{{ reserva.usuario.nombre }}</td>
-        <td>
+        <td class="text-left">
           <a
             class="ml-2"
             data-toggle="tooltip"
@@ -156,6 +157,9 @@
             ><i class="icon-trash-2"></i
           ></a>
         </td>
+      </tr>
+      <tr *ngIf="filterError">
+        <td colspan="5" class="text-danger font-weight-bold">No hubo resultados en su búsqueda</td>
       </tr>
     </tbody>
     <tfoot>

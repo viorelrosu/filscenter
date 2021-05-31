@@ -21,6 +21,8 @@ export class ReservaListComponent implements OnInit {
   //update
   reservaUpdate: any;
   usuarios: Usuario[];
+  usuarioId:any;
+  slotId:any;
   slots: Slot[];
   textoModal: string;
 
@@ -28,7 +30,8 @@ export class ReservaListComponent implements OnInit {
   reservaAux: any;
 
   //filtros
-  filterUser: any;
+  filterUser: string = "";
+  filterError: boolean = false;
   mainTablaReserva: Reserva[];
   filterTabla: Reserva[];
 
@@ -67,9 +70,11 @@ export class ReservaListComponent implements OnInit {
   }
 
   update(modal) {
+    console.log(this.reservaUpdate);
+    
     this._service.updateReserva(this.reservaUpdate).subscribe(
       (data) => {
-        this.textoModal = "¡Tipo actividad actualizada!";
+        this.textoModal = "¡Reserva actualizada!";
         this.modalService.open(modal, {
           ariaLabelledBy: "modal-basic-title",
           centered: true,
@@ -132,23 +137,37 @@ export class ReservaListComponent implements OnInit {
     window.location.reload();
   }
 
+  keyPress(evento) {
+    if (evento.keyCode == 13 && !evento.shiftKey) {
+      this.filtrarTabla();
+    }
+  }
+
   filtrarTabla() {
     this.filterTabla = [];
 
     for (let reserva of this.mainTablaReserva) {
-      if (reserva.usuario.nombre.toLowerCase() == this.filterUser.toLowerCase()) {
+      if (
+        reserva.usuario.nombre
+          .toLowerCase()
+          .indexOf(this.filterUser.toLowerCase()) > -1
+      ) {
         this.filterTabla.push(reserva);
       }
     }
 
     if (this.filterTabla.length > 0) {
+      this.filterError = false;
       this.reservas = this.filterTabla;
     } else {
-      this.reservas = this.mainTablaReserva;
+      this.filterError = true;
+      this.reservas = [];
     }
   }
 
   quitarFiltroTabla() {
+    this.filterError = false;
     this.reservas = this.mainTablaReserva;
+    this.filterUser = "";
   }
 }

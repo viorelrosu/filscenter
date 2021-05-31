@@ -38,6 +38,7 @@
           type="search"
           class="form-control"
           placeholder=""
+          (keypress)="keyPress($event)"
       /></label>
       <label
         >Rol:
@@ -70,8 +71,7 @@
 </div>
 <div class="card-text">
   <table
-    id="datatable"
-    class="table table-bordered table-hover dataTable text-center"
+    class="table-responsive-sm table table-bordered table-hover"
     style="width: 100%"
     role="grid"
     aria-describedby="datatable_info"
@@ -79,106 +79,107 @@
     <thead>
       <tr role="row">
         <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
+        id=""
+        class="sorting_asc align-middle"
+        tabindex="0"
+        aria-controls="datatable"
+        rowspan="1"
+        colspan="1"
+        aria-sort="ascending"
+        aria-label="Name: activate to sort column descending"
+        style="width: 45px"
         >
           Nombre
         </th>
         <th
         id=""
-        id=""
-        class="noExport sorting"
+        class="sorting_asc align-middle"
         tabindex="0"
         aria-controls="datatable"
         rowspan="1"
         colspan="1"
-        aria-label="Actions: activate to sort column ascending"
-        style="width: 54px"
+        aria-sort="ascending"
+        aria-label="Name: activate to sort column descending"
+        style="width: 45px"
       >
         Apellidos
       </th>
         <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
+        id=""
+        class="sorting_asc align-middle"
+        tabindex="0"
+        aria-controls="datatable"
+        rowspan="1"
+        colspan="1"
+        aria-sort="ascending"
+        aria-label="Name: activate to sort column descending"
+        style="width: 45px"
         >
           DNI
         </th>
         <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
+        id=""
+        class="sorting_asc align-middle"
+        tabindex="0"
+        aria-controls="datatable"
+        rowspan="1"
+        colspan="1"
+        aria-sort="ascending"
+        aria-label="Name: activate to sort column descending"
+        style="width: 45px"
         >
           Email
         </th>
         <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
+        id=""
+        class="sorting_asc align-middle"
+        tabindex="0"
+        aria-controls="datatable"
+        rowspan="1"
+        colspan="1"
+        aria-sort="ascending"
+        aria-label="Name: activate to sort column descending"
+        style="width: 45px"
         >
           Fecha Nacimiento
         </th>
         <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
+        id=""
+        class="sorting_asc align-middle"
+        tabindex="0"
+        aria-controls="datatable"
+        rowspan="1"
+        colspan="1"
+        aria-sort="ascending"
+        aria-label="Name: activate to sort column descending"
+        style="width: 45px"
         >
           Telefono
         </th>
 
         <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
+        id=""
+        class="sorting_asc align-middle"
+        tabindex="0"
+        aria-controls="datatable"
+        rowspan="1"
+        colspan="1"
+        aria-sort="ascending"
+        aria-label="Name: activate to sort column descending"
+        style="width: 45px"
         >
           Número tarjeta
         </th>
         <th
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
+        id=""
+        class="sorting_asc align-middle"
+        tabindex="0"
+        aria-controls="datatable"
+        rowspan="1"
+        colspan="1"
+        aria-sort="ascending"
+        aria-label="Name: activate to sort column descending"
+        style="width: 45px"
         >
           Acciones
         </th>
@@ -193,7 +194,7 @@
         <td>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' }}</td>
         <td>{{ usuario.telefono }}</td>
         <td>{{ usuario.numeroTarjeta }}</td>
-        <td>
+        <td class="text-left">
           <a
             class="ml-2"
             data-toggle="tooltip"
@@ -210,16 +211,19 @@
           ></a>
         </td>
       </tr>
+      <tr *ngIf="filterError">
+        <td colspan="8" class="text-danger font-weight-bold">No hubo resultados en su búsqueda</td>
+      </tr>
     </tbody>
     <tfoot>
       <tr>
-        <th id="">Nombre</th>
-        <th id="">Apellidos</th>
-        <th id="">DNI</th>
-        <th id="">Email</th>
-        <th id="">Fecha Nacimiento</th>
-        <th id="">Telefono</th>
-        <th id="">Número tarjeta</th>
+        <th id=""  rowspan="1" colspan="1">Nombre</th>
+        <th id=""  rowspan="1" colspan="1">Apellidos</th>
+        <th id=""  rowspan="1" colspan="1">DNI</th>
+        <th id=""  rowspan="1" colspan="1">Email</th>
+        <th id=""  rowspan="1" colspan="1">Fecha Nacimiento</th>
+        <th id=""  rowspan="1" colspan="1">Telefono</th>
+        <th id=""  rowspan="1" colspan="1">Número tarjeta</th>
         <th id="" rowspan="1" colspan="1">Acciones</th>
       </tr>
     </tfoot>

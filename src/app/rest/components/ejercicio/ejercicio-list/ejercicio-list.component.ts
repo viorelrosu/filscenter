@@ -27,7 +27,8 @@ export class EjercicioListComponent implements OnInit {
   ejercicioAux: any;
 
   //filtros
-  filterEjercicio: any;
+  filterEjercicio: string = "";
+  filterError: boolean = false;
   mainTablaEjercicios: Ejercicio[];
   filterTabla: Ejercicio[];
 
@@ -125,27 +126,42 @@ export class EjercicioListComponent implements OnInit {
     window.location.reload();
   }
 
+  keyPress(evento) {
+    if (evento.keyCode == 13 && !evento.shiftKey) {
+      this.filtrarTabla();
+    }
+  }
+
   filtrarTabla() {
     this.filterTabla = [];
 
     for (let ejercicio of this.mainTablaEjercicios) {
       if (
-        ejercicio.nombre.toLowerCase() == this.filterEjercicio.toLowerCase() ||
-        ejercicio.tipoEjercicio.nombre.toLowerCase() ==
-          this.filterEjercicio.toLowerCase()
+        ejercicio.nombre
+          .toLowerCase()
+          .replace('é','e')
+          .indexOf(this.filterEjercicio.toLowerCase()) > -1 ||
+        ejercicio.tipoEjercicio.nombre
+          .toLowerCase()
+          .replace('é,á','e,a')
+          .indexOf(this.filterEjercicio.toLowerCase()) > -1
       ) {
         this.filterTabla.push(ejercicio);
       }
     }
 
     if (this.filterTabla.length > 0) {
+      this.filterError = false;
       this.ejercicios = this.filterTabla;
     } else {
-      this.ejercicios = this.mainTablaEjercicios;
+      this.filterError = true;
+      this.ejercicios = [];
     }
   }
 
   quitarFiltroTabla() {
+    this.filterError = false;
     this.ejercicios = this.mainTablaEjercicios;
+    this.filterEjercicio = "";
   }
 }

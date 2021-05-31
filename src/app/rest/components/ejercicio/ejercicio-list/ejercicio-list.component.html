@@ -31,11 +31,12 @@
   <div class="col-sm-12 col-md-8 d-flex justify-content-end">
     <div class="form-outline">
       <label
-        >Nombre: Ejercicio/ Tipo
+        >Ejercicio/ Tipo Ejercicio:
         <input
           [(ngModel)]="filterEjercicio"
           type="search"
           class="form-control form-control-sm"
+          (keypress)="keyPress($event)"
           placeholder=""
       /></label>
       <label for="" class="mr-3">
@@ -66,7 +67,7 @@
 <div class="card-text">
   <table
     id="datatable"
-    class="table table-bordered table-hover dataTable text-center"
+    class="table table-bordered table-hover dataTable "
     style="width: 100%"
     role="grid"
     aria-describedby="datatable_info"
@@ -114,9 +115,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let ejercicio of ejercicios" class="text-center">
-        <td class="text-left">{{ ejercicio.nombre }}</td>
-        <td class="text-left">{{ ejercicio.tipoEjercicio.nombre }}</td>
+      <tr *ngFor="let ejercicio of ejercicios">
+        <td >{{ ejercicio.nombre }}</td>
+        <td >{{ ejercicio.tipoEjercicio.nombre }}</td>
         <td>
           <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
           (click)="open(content,ejercicio)"
@@ -130,6 +131,9 @@
             ><i class="icon-trash-2"></i
           ></a>
         </td>
+      </tr>
+      <tr *ngIf="filterError">
+        <td colspan="6" class="text-danger font-weight-bold">No hubo resultados en su búsqueda</td>
       </tr>
     </tbody>
     <tfoot>

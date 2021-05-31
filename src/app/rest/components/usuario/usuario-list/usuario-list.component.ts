@@ -13,9 +13,9 @@ import { LocalidadServiceService } from "@servicesRest/localidad/localidad-servi
 import { ProvinciaServiceService } from "@servicesRest/provincia/provincia-service.service";
 import { Provincia } from "@modelsRest/Provincia";
 import { Localidad } from "@modelsRest/Localidad";
-import { HelperService } from '@core/services/helper.service';
+import { HelperService } from "@core/services/helper.service";
 
-import {md5} from 'pure-md5';
+import { md5 } from "pure-md5";
 import { DatePipe } from "@angular/common";
 
 @Component({
@@ -42,16 +42,17 @@ export class UsuarioListComponent implements OnInit {
   closeResult = "";
   ProvinciaId: number;
   localidadId: number;
-  confirmPass:string = "";
+  confirmPass: string = "";
 
   //parte confirm delete
   usuarioAux: any;
 
   //filtro tabla
-  filterName:string;
-  filterRol:string = "user";
-  mainTablaUsers:Usuario[];
-  filterTabla:Usuario[];
+  filterName: string = "";
+  filterRol: string = "user";
+  filterError: boolean = false;
+  mainTablaUsers: Usuario[];
+  filterTabla: Usuario[];
 
 
   constructor(
@@ -62,9 +63,9 @@ export class UsuarioListComponent implements OnInit {
     private _serviceProvincia: ProvinciaServiceService,
     private _serviceSuscripcion: SuscripcionServiceService,
     private _router: Router,
-    private modalService: NgbModal
-    ,private _helperService: HelperService,
-    private datePipe:DatePipe
+    private modalService: NgbModal,
+    private _helperService: HelperService,
+    private datePipe: DatePipe
   ) {
     this.usuarioUpdate = {};
     this.usuarioAux = {};
@@ -77,7 +78,6 @@ export class UsuarioListComponent implements OnInit {
     this._service.getUsuarios().subscribe((data) => {
       this.usuarios = data;
       this.mainTablaUsers = data;
-
     });
 
     this._serviceDireccion.getDirecciones().subscribe((data) => {
@@ -206,7 +206,10 @@ export class UsuarioListComponent implements OnInit {
       .toPromise()
       .then((data) => {
         this.usuarioUpdate = data;
-        this.usuarioUpdate.fechaNacimiento = this.datePipe.transform(this.usuarioUpdate.fechaNacimiento, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
+        this.usuarioUpdate.fechaNacimiento = this.datePipe.transform(
+          this.usuarioUpdate.fechaNacimiento,
+          "yyyy-MM-dd" /*'dd-MM-yyyy'*/
+        );
         this.confirmPass = this.usuarioUpdate.password;
       });
 
@@ -243,33 +246,55 @@ export class UsuarioListComponent implements OnInit {
       );
   }
 
-  refresh(){
+  refresh() {
     window.location.reload();
+  }
+
+  keyPress(evento) {
+    if (evento.keyCode == 13 && !evento.shiftKey) {
+      this.filtrarTabla();
+    }
   }
 
   // filtrar tabla
 
-  filtrarTabla(){ 
+  filtrarTabla() {
     this.filterTabla = [];
-    //console.log(this.mainTablaUsers);
-    
-    for (let persona of this.mainTablaUsers){
-      if((persona.nombre.toLocaleLowerCase() == this.filterName.toLocaleLowerCase() || persona.email.toLocaleLowerCase() == this.filterName.toLocaleLowerCase()) && persona.rol.nombre == this.filterRol){
-        console.log(persona);
-        
+
+    for (let persona of this.mainTablaUsers) {
+      if (
+        (persona.nombre
+          .toLocaleLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .indexOf(this.filterName.toLocaleLowerCase()) > -1 ||
+          persona.email
+            .toLocaleLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .indexOf(this.filterName.toLocaleLowerCase()) > -1) &&
+        persona.rol.nombre == this.filterRol
+      ) {
+        this.filterTabla.push(persona);
+      } else if (
+        this.filterName == "" &&
+        persona.rol.nombre == this.filterRol
+      ) {
         this.filterTabla.push(persona);
       }
     }
     console.log(this.filterTabla);
-    
-    if (this.filterTabla.length > 0){
+
+    if (this.filterTabla.length > 0) {
+      this.filterError = false;
       this.usuarios = this.filterTabla;
     } else {
-      this.usuarios = this.mainTablaUsers;
+      this.filterError = true;
+      this.usuarios = [];
     }
   }
 
-  quitarFiltroTabla(){
+  quitarFiltroTabla() {
+    this.filterError = false;
     this.usuarios = this.mainTablaUsers;
+    this.filterName = "";
   }
 }

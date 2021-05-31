@@ -9,7 +9,7 @@ import { SalaServiceService } from "@servicesRest/sala/sala-service.service";
 import { SlotServiceService } from "@servicesRest/slot/slot-service.service";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
-import { HelperService } from '@core/services/helper.service';
+import { HelperService } from "@core/services/helper.service";
 
 @Component({
   selector: "app-slot-list",
@@ -29,12 +29,13 @@ export class SlotListComponent implements OnInit {
   textoModal: string;
 
   //confirm delete
-  slotAux:any;
+  slotAux: any;
 
   //filtros
-  filterSala:any;
-  mainTablaSlot:Slot[];
-  filterTabla:Slot[];
+  filterSala: string = "";
+  filterError: boolean = false;
+  mainTablaSlot: Slot[];
+  filterTabla: Slot[];
 
   constructor(
     private _service: SlotServiceService,
@@ -61,7 +62,7 @@ export class SlotListComponent implements OnInit {
     this._serviceActividad.getActividades().subscribe((data) => {
       this.actividades = data;
     });
-  //este número de rolId irá en función de el script definitivo de roles en la bbdd
+    //este número de rolId irá en función de el script definitivo de roles en la bbdd
     this._serviceMonitor.getUsuariosByRol(2).subscribe((data) => {
       this.monitores = data;
     });
@@ -77,9 +78,10 @@ export class SlotListComponent implements OnInit {
     });
   }
 
-  update(modal){
-    this._service.updateSlot(this.slotUpdate).subscribe(data=>{
-      this.textoModal = "¡Slot actualizado!";
+  update(modal) {
+    this._service.updateSlot(this.slotUpdate).subscribe(
+      (data) => {
+        this.textoModal = "¡Slot actualizado!";
         this.modalService.open(modal, {
           ariaLabelledBy: "modal-basic-title",
           centered: true,
@@ -114,48 +116,65 @@ export class SlotListComponent implements OnInit {
       this.slotUpdate = data;
     });
     this.modalService
-      .open(content, { ariaLabelledBy: "modal-basic-title", centered: true,size:"xl" })
+      .open(content, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "xl",
+      })
       .result.then(
-        (result) => {
-        },
-        (reason) => {
-        }
+        (result) => {},
+        (reason) => {}
       );
   }
-  openModalDelete(confirmDelete, slot){
+  openModalDelete(confirmDelete, slot) {
     this.slotAux = slot;
     this.modalService
-    .open(confirmDelete, { ariaLabelledBy: "modal-basic-title", centered: true, size : "md"})
-    .result.then(
-      (result) => {
-      },
-      (reason) => {
-      }
-    );
+      .open(confirmDelete, {
+        ariaLabelledBy: "modal-basic-title",
+        centered: true,
+        size: "md",
+      })
+      .result.then(
+        (result) => {},
+        (reason) => {}
+      );
   }
 
   refresh() {
     window.location.reload();
   }
+  keyPress(evento) {
+    if (evento.keyCode == 13 && !evento.shiftKey) {
+      this.filtrarTabla();
+    }
+  }
 
-  filtrarTabla(){
-    this.filterTabla=[];
+  filtrarTabla() {
+    this.filterTabla = [];
 
-    for (let slot of this.mainTablaSlot){
-      if(slot.sala.numero == this.filterSala || slot.diaSemana.toLocaleLowerCase() == this.filterSala.toLocaleLowerCase()){
+    for (let slot of this.mainTablaSlot) {
+      if (
+        slot.sala.numero.toString().indexOf(this.filterSala) > -1 ||
+        slot.diaSemana
+          .toLocaleLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .indexOf(this.filterSala.toLocaleLowerCase()) > -1
+      ) {
         this.filterTabla.push(slot);
       }
     }
-    console.log(this.filterTabla.length);
-    
-    if (this.filterTabla.length > 0){
-        this.slots = this.filterTabla;
+
+    if (this.filterTabla.length > 0) {
+      this.filterError = false;
+      this.slots = this.filterTabla;
     } else {
-      this.slots = this.mainTablaSlot;
+      this.filterError = true;
+      this.slots = [];
     }
   }
-  quitarFiltroTabla(){
+  quitarFiltroTabla() {
+    this.filterError = false;
     this.slots = this.mainTablaSlot;
+    this.filterSala = "";
   }
-
 }

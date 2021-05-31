@@ -26,7 +26,8 @@ export class ActividadListComponent implements OnInit {
   actividadAux: any;
 
   //filtro
-  filterActividad: any;
+  filterActividad: string = "";
+  filterError: boolean = false;
   mainTablaActividad: Actividad[];
   filterTabla: Actividad[];
 
@@ -127,27 +128,42 @@ export class ActividadListComponent implements OnInit {
   refresh() {
     window.location.reload();
   }
+  keyPress(evento) {
+    if (evento.keyCode == 13 && !evento.shiftKey) {
+      this.filtrarTabla();
+    }
+  }
 
   filtrarTabla() {
     this.filterTabla = [];
 
     for (let actividad of this.mainTablaActividad) {
       if (
-        actividad.nombre.toLowerCase() == this.filterActividad.toLowerCase() ||
-        actividad.tipoActividad.nombre.toLowerCase() == this.filterActividad.toLowerCase()
+        actividad.nombre
+          .toLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .indexOf(this.filterActividad.toLowerCase()) > -1 ||
+        actividad.tipoActividad.nombre
+          .toLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .indexOf(this.filterActividad.toLowerCase()) > -1
       ) {
         this.filterTabla.push(actividad);
       }
     }
 
     if (this.filterTabla.length > 0) {
+      this.filterError = false;
       this.actividades = this.filterTabla;
     } else {
-      this.actividades = this.mainTablaActividad;
+      this.filterError = true;
+      this.actividades = [];
     }
   }
 
   quitarFiltroTabla() {
+    this.filterError = false;
     this.actividades = this.mainTablaActividad;
+    this.filterActividad = "";
   }
 }

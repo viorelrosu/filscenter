@@ -65,14 +65,15 @@ export class ReservaAddComponent implements OnInit {
       .then(() => {
         this._service.createReserva(this.nuevaReserva).subscribe(
           (data) => {
+            console.log(this.nuevaReserva);
             this.modalService.open(create, {
               ariaLabelledBy: "modal-basic-title",
               centered: true,
               size: "md",
             });
-            setTimeout(function () {
+            /*setTimeout(function () {
               window.location.reload();
-            }, 3000);
+            }, 3000);*/
           },
           (err) => {
             this.modalService.open(errorModal, {

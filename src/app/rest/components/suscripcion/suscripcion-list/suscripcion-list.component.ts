@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { DatePipe } from '@angular/common';
+import { DatePipe } from "@angular/common";
 import { Router } from "@angular/router";
 import { TipoSuscripcion } from "@modelsRest/TipoSuscripcion";
 import { Usuario } from "@modelsRest/Usuario";
@@ -30,7 +30,8 @@ export class SuscripcionListComponent implements OnInit {
   suscripcionAux: any;
 
   //filters
-  filterName: string;
+  filterName: string = "";
+  filterError: boolean = false;
   mainTablaSuscripciones: Suscripcion[];
   filterTabla: Suscripcion[];
 
@@ -41,7 +42,7 @@ export class SuscripcionListComponent implements OnInit {
     private _router: Router,
     private modalService: NgbModal,
     private _helperService: HelperService,
-    private datePipe:DatePipe
+    private datePipe: DatePipe
   ) {
     this.suscripcionUpdate = {};
   }
@@ -69,9 +70,7 @@ export class SuscripcionListComponent implements OnInit {
     });
   }
 
-
   update(modal) {
-    
     this._service.updateSuscripcion(this.suscripcionUpdate).subscribe(
       (data) => {
         this.textoModal = "¡Suscripción actualizada!";
@@ -107,8 +106,14 @@ export class SuscripcionListComponent implements OnInit {
   open(content, suscripcion: Suscripcion) {
     this._service.getSuscripcion(suscripcion.id).subscribe((data) => {
       this.suscripcionUpdate = data;
-      this.suscripcionUpdate.fechaAlta = this.datePipe.transform(this.suscripcionUpdate.fechaAlta, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
-      this.suscripcionUpdate.fechaBaja = this.datePipe.transform(this.suscripcionUpdate.fechaBaja, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
+      this.suscripcionUpdate.fechaAlta = this.datePipe.transform(
+        this.suscripcionUpdate.fechaAlta,
+        "yyyy-MM-dd" /*'dd-MM-yyyy'*/
+      );
+      this.suscripcionUpdate.fechaBaja = this.datePipe.transform(
+        this.suscripcionUpdate.fechaBaja,
+        "yyyy-MM-dd" /*'dd-MM-yyyy'*/
+      );
     });
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title", centered: true })
@@ -137,25 +142,36 @@ export class SuscripcionListComponent implements OnInit {
     window.location.reload();
   }
 
+  keyPress(evento) {
+    if (evento.keyCode == 13 && !evento.shiftKey) {
+      this.filtrarTabla();
+    }
+  }
+
   filtrarTabla() {
     this.filterTabla = [];
     for (let suscripcion of this.mainTablaSuscripciones) {
-
       if (
-        suscripcion.usuario.nombre.toLocaleLowerCase() ==
-        this.filterName.toLocaleLowerCase()
+        suscripcion.usuario.nombre
+          .toLocaleLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .indexOf(this.filterName.toLocaleLowerCase()) > -1
       ) {
         this.filterTabla.push(suscripcion);
       }
     }
     if (this.filterTabla.length > 0) {
+      this.filterError = false;
       this.suscripciones = this.filterTabla;
     } else {
-      this.suscripciones = this.mainTablaSuscripciones;
+      this.filterError = true;
+      this.suscripciones = [];
     }
   }
 
   quitarFiltroTabla() {
+    this.filterError = false;
     this.suscripciones = this.mainTablaSuscripciones;
+    this.filterName = "";
   }
 }

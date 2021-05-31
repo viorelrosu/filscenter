@@ -24,7 +24,7 @@
 <div class="card-text">
   <table
     id="datatable"
-    class="table table-bordered table-hover dataTable text-center"
+    class="table table-bordered table-hover dataTable "
     style="width: 100%"
     role="grid"
     aria-describedby="datatable_info"
@@ -60,7 +60,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let rol of roles" class="text-center">
+      <tr *ngFor="let rol of roles" >
         <td class="text-left">{{ rol.nombre }}</td>
         <td>
           <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
