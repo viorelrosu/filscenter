@@ -49,9 +49,15 @@ export class PageCuentaInicioComponent implements OnInit {
       }
     })
     .then(()=>{
-      this.isSuscribed = this.sessionUser.suscripcion.isSubscribed;
-      if(!this.isSuscribed) {
-        this.title = 'Sin suscripción';
+      if (this.sessionUser.isAdmin) {
+        this.title = 'Bienvenido Administrador';
+      } else if (this.sessionUser.isMonitor) {
+        this.title = 'Bienvenido Monitor';
+      } else {
+        this.isSuscribed = this.sessionUser.suscripcion.isSubscribed;
+        if(!this.isSuscribed) {
+          this.title = 'Sin suscripción';
+        }
       }
       //console.log(this.sessionUser);
     })

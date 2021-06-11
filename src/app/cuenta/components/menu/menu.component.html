@@ -4,7 +4,7 @@
         <ul>
           <li><a href="/cuenta/inicio">Mi Cuenta</a></li>
           <li><a href="/cuenta/mis/datos">Mis Datos</a></li>
-          <li><a href="/cuenta/mis/facturas">Mis Facturas</a></li>
+          <li *ngIf="sessionUser.isUser"><a href="/cuenta/mis/facturas">Mis Facturas</a></li>
           <!-- <li [class.active]="active == 'factura'"><a href="/cuenta/factura/list">Facturas</a> -->
           <!-- <li class="dropdown" *ngIf="sessionUser.isAdmin" >
             <a href="javascript:;">Web</a>
