@@ -8,6 +8,7 @@ import { SlotServiceService } from "@servicesRest/slot/slot-service.service";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { HelperService } from "@core/services/helper.service";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "app-reserva-list",
@@ -35,6 +36,10 @@ export class ReservaListComponent implements OnInit {
   mainTablaReserva: Reserva[];
   filterTabla: Reserva[];
 
+   //datatable
+   dtOptions: DataTables.Settings = {};
+   dtTrigger: Subject<any> = new Subject<any>();
+
   constructor(
     private _service: ReservaServiceService,
     private _serviceSlot: SlotServiceService,
@@ -52,6 +57,7 @@ export class ReservaListComponent implements OnInit {
     this._service.getreservas().subscribe((data) => {
       this.reservas = data;
       this.mainTablaReserva = data;
+      this.dtTrigger.next();
     });
 
     this._serviceSlot.getSlots().subscribe((data) => {
@@ -61,6 +67,34 @@ export class ReservaListComponent implements OnInit {
     this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
       this.usuarios = data;
     });
+
+    this.dtOptions = {
+      language: {
+        processing: "Procesando...",
+        search: "Buscar:",
+        lengthMenu: "_MENU_ elementos",
+        info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
+        infoEmpty: "Mostrando ningún elemento.",
+        infoFiltered: "(filtrado _MAX_ elementos total)",
+        infoPostFix: "",
+        loadingRecords: "Cargando registros...",
+        zeroRecords: "No se encontraron registros",
+        emptyTable: "No hay datos disponibles en la tabla",
+        paginate: {
+          first: "Primero",
+          previous: "Anterior",
+          next: "Siguiente",
+          last: "Último"
+        },
+        aria: {
+          sortAscending: ": Activar para ordenar la tabla en orden ascendente",
+          sortDescending: ": Activar para ordenar la tabla en orden descendente"
+        }
+      },
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      order:[[2, 'asc']]
+    };
   }
 
   delete() {
@@ -71,6 +105,8 @@ export class ReservaListComponent implements OnInit {
 
   update(modal) {
     console.log(this.reservaUpdate);
+    this.reservaUpdate.fechaInicio = new Date().toISOString();
+
     
     this._service.updateReserva(this.reservaUpdate).subscribe(
       (data) => {

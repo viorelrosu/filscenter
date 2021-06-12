@@ -13,6 +13,7 @@ import { TipoEjercicioServiceService } from "@servicesRest/tipo_ejercicio/tipo-e
 import { Ejercicio } from "@modelsRest/Ejercicio";
 import { HelperService } from "@core/services/helper.service";
 import { DatePipe } from "@angular/common";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "app-tabla-ejercicio-list",
@@ -56,6 +57,7 @@ export class TablaEjercicioListComponent implements OnInit {
   ejercicioAux: any;
 
   //modales
+  textoModalT :string;
   textoModal: string;
 
   //filtros tabla ejer
@@ -65,10 +67,16 @@ export class TablaEjercicioListComponent implements OnInit {
   filterTabla: TablaEjercicio[];
 
   //filtros ejer serie
-  filterDia: string = "";
+  filterDia: string = "1";
   filterErrorES: boolean = false;
   mainTablaEjerciciosSerie: EjercicioSerie[];
   filterTablaES: EjercicioSerie[];
+
+  //datatable
+  dtOptions: DataTables.Settings = {};
+  dtOptions2: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
+  dtTrigger2: Subject<any> = new Subject<any>();
 
   constructor(
     private _service: TablaEjercicioServiceService,
@@ -94,6 +102,7 @@ export class TablaEjercicioListComponent implements OnInit {
     this._service.getTablasEjercicios().subscribe((data) => {
       this.tablasEjercicio = data;
       this.mainTablaTablaEjercicios = data;
+      this.dtTrigger.next();
     });
 
     this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
@@ -102,6 +111,63 @@ export class TablaEjercicioListComponent implements OnInit {
     this._serviceUsuario.getUsuariosByRol(2).subscribe((data) => {
       this.monitores = data;
     });
+
+    this.dtOptions = {
+      language: {
+        processing: "Procesando...",
+        search: "Buscar:",
+        lengthMenu: "_MENU_ elementos",
+        info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
+        infoEmpty: "Mostrando ningún elemento.",
+        infoFiltered: "(filtrado _MAX_ elementos total)",
+        infoPostFix: "",
+        loadingRecords: "Cargando registros...",
+        zeroRecords: "No se encontraron registros",
+        emptyTable: "No hay datos disponibles en la tabla",
+        paginate: {
+          first: "Primero",
+          previous: "Anterior",
+          next: "Siguiente",
+          last: "Último",
+        },
+        aria: {
+          sortAscending: ": Activar para ordenar la tabla en orden ascendente",
+          sortDescending:
+            ": Activar para ordenar la tabla en orden descendente",
+        },
+      },
+      pagingType: "full_numbers",
+      pageLength: 10,
+    };
+
+    this.dtOptions2 = {
+      language: {
+        processing: "Procesando...",
+        search: "Buscar:",
+        lengthMenu: "_MENU_ elementos",
+        info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
+        infoEmpty: "Mostrando ningún elemento.",
+        infoFiltered: "(filtrado _MAX_ elementos total)",
+        infoPostFix: "",
+        loadingRecords: "Cargando registros...",
+        zeroRecords: "No se encontraron registros",
+        emptyTable: "No hay datos disponibles en la tabla",
+        paginate: {
+          first: "Primero",
+          previous: "Anterior",
+          next: "Siguiente",
+          last: "Último",
+        },
+        aria: {
+          sortAscending: ": Activar para ordenar la tabla en orden ascendente",
+          sortDescending:
+            ": Activar para ordenar la tabla en orden descendente",
+        },
+      },
+      pagingType: "full_numbers",
+      pageLength: 10,
+      order: [[4, "asc"]],
+    };
   }
 
   delete() {
@@ -110,12 +176,26 @@ export class TablaEjercicioListComponent implements OnInit {
     });
   }
 
-  update() {
-    this._service.updateTablaEjercicio(this.tablaUpdate).subscribe((data) => {
-      alert("Tabla Actualizada!");
-      this.modalService.dismissAll();
-    });
-    window.location.reload();
+  update(modal) {
+    this._service.updateTablaEjercicio(this.tablaUpdate).subscribe(
+      (data) => {
+        this.textoModalT = "¡tabla de Ejercicio actualizada!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      },
+      (err) => {
+        this.textoModalT = "¡Error al actualizar!";
+        this.modalService.open(modal, {
+          ariaLabelledBy: "modal-basic-title",
+          centered: true,
+          size: "md",
+        });
+      }
+    );
+    
   }
 
   habilitarTablaEjercicio() {
@@ -134,6 +214,13 @@ export class TablaEjercicioListComponent implements OnInit {
   abrirAniadirModal(info) {
     this.tipoEjerSelect = "";
     this.modalAniadir = info;
+    document.getElementById("ejerPlus").hidden = true;
+    document.getElementById("ejerMinus").hidden = false;
+  }
+  cerrarAniadirModal(info) {
+    this.modalAniadir = info;
+    document.getElementById("ejerPlus").hidden = false;
+    document.getElementById("ejerMinus").hidden = true;
   }
 
   //cargar ejercicios para añadir desde modal
@@ -186,7 +273,7 @@ export class TablaEjercicioListComponent implements OnInit {
     });
   }
 
-  closeUpdateModalResult() {
+  closeUpdateOrAddModalResult() {
     this.modalService.dismissAll();
     this.modalAniadir = false;
     this.openDetalleTabla(this.content, this.tablaDetalle);
@@ -248,6 +335,7 @@ export class TablaEjercicioListComponent implements OnInit {
 
   //modal detalle tabla
   openDetalleTabla(detalle, tabla: TablaEjercicio) {
+    this.filterDia = "1";
     this.tipoEjercicioId = "";
     this.content = detalle;
     this.tablaDetalle = tabla;
@@ -262,17 +350,12 @@ export class TablaEjercicioListComponent implements OnInit {
     this._serviceEjerciciosSerie
       .getEjerciciosPorTablaId(tabla.id)
       .subscribe((data) => {
-        var shortable:any = [];
-        for(var i = 1; i<8;i++){
-          for(var ejercicioSerie of data){
-            if(ejercicioSerie.porSemana == i){
-              shortable.push(ejercicioSerie);
-            }
-          }
-        }
-        
-        this.ejerciciosSerieTablaDetalle = shortable;
-        this.mainTablaEjerciciosSerie = shortable;
+        this.ejerciciosSerieTablaDetalle = data;
+        this.mainTablaEjerciciosSerie = data;
+
+        //this.dtTrigger2.next();
+
+        this.filtrarTablaES();
       });
     this.modalService
       .open(detalle, {
@@ -363,18 +446,20 @@ export class TablaEjercicioListComponent implements OnInit {
       if (
         tabla.monitor.nombre
           .toLowerCase()
-          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
           .indexOf(this.filterName.toLowerCase()) > -1 ||
         tabla.suscriptor.nombre
           .toLowerCase()
-          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
           .indexOf(this.filterName.toLowerCase()) > -1
       ) {
         this.filterTabla.push(tabla);
       }
     }
 
-    if (this.filterTabla.length > 0 ) {
+    if (this.filterTabla.length > 0) {
       this.filterError = false;
       this.tablasEjercicio = this.filterTabla;
     } else {
@@ -387,7 +472,7 @@ export class TablaEjercicioListComponent implements OnInit {
     this.filterTablaES = [];
 
     for (let ejercicioSerie of this.mainTablaEjerciciosSerie) {
-      if (ejercicioSerie.porSemana.toString().indexOf( this.filterDia) >-1) {
+      if (ejercicioSerie.porSemana.toString().indexOf(this.filterDia) > -1) {
         this.filterTablaES.push(ejercicioSerie);
       }
     }
@@ -410,5 +495,9 @@ export class TablaEjercicioListComponent implements OnInit {
     this.filterErrorES = false;
     this.ejerciciosSerieTablaDetalle = this.mainTablaEjerciciosSerie;
     this.filterDia = "";
+  }
+  
+  refresh() {
+    window.location.reload();
   }
 }

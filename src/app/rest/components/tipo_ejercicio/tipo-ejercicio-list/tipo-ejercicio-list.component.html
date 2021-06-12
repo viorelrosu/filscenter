@@ -21,43 +21,23 @@
   <app-tipo-ejercicio-add></app-tipo-ejercicio-add>
 </div>
 
-<h3 class="card-title">Tipos De Ejercicio</h3>
+<h3 class="card-title mb-5">Tipos De Ejercicio</h3>
 <div class="card-text">
   <table
+    datatable="ng"
+    [dtOptions]="dtOptions"
+    [dtTrigger]="dtTrigger"
     id="datatable"
-    class="table table-bordered table-hover dataTable "
+    class="table table-bordered table-hover dataTable"
     style="width: 100%"
     role="grid"
     aria-describedby="datatable_info"
   >
     <thead>
       <tr role="row">
-        <th
-          id=""
-          class="sorting_asc"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-sort="ascending"
-          aria-label="Name: activate to sort column descending"
-          style="width: 45px"
-        >
-          Nombre
-        </th>
+        <th id="" style="width: 45px">Nombre</th>
 
-        <th
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
-        >
-          Acciones
-        </th>
+        <th id="" style="width: 54px">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -75,7 +55,7 @@
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="openModalDelete(confirmDelete,this.tipoEjercicio)"
+            (click)="openModalDelete(confirmDelete, this.tipoEjercicio)"
             ><i class="icon-trash-2"></i
           ></a>
         </td>
@@ -96,20 +76,27 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>¿Seguro que quieres borrar el tipo de ejercicio <span class="text-danger">{{tipoEjercicioAux.nombre}} ({{tipoEjercicioAux.id}})?</span></h3>
+      <h3>
+        ¿Seguro que quieres borrar el tipo de ejercicio
+        <span class="text-danger"
+          >{{ tipoEjercicioAux.nombre }} ({{ tipoEjercicioAux.id }})?</span
+        >
+      </h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss()"
-          >
-            Cancelar
-          </button>
-          <button (click)="delete()" type="button" class="btn btn-primary">Borrar</button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    >
+      Cancelar
+    </button>
+    <button (click)="delete()" type="button" class="btn btn-primary">
+      Borrar
+    </button>
+  </div>
 </ng-template>
 
 <ng-template #content let-modal>
@@ -182,17 +169,17 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>{{textoModal}}</h3>
+      <h3>{{ textoModal }}</h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss();refresh()"
-          >
-            Cerrar
-          </button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss(); refresh()"
+    >
+      Cerrar
+    </button>
+  </div>
 </ng-template>

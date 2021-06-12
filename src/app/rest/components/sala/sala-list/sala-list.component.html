@@ -24,48 +24,29 @@
 <h3 class="card-title text-left">Salas</h3>
 <div class="card-text">
   <table
+  datatable="ng"
+  [dtOptions]="dtOptions"
+  [dtTrigger]="dtTrigger"
     id="datatable"
     class="table table-bordered table-hover dataTable "
     style="width: 100%"
-    role="grid"
-    aria-describedby="datatable_info"
   >
     <thead>
       <tr role="row">
         <th
           id=""
-          class="sorting_asc"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-sort="ascending"
-          aria-label="Name: activate to sort column descending"
           style="width: 45px"
         >
           Número sala
         </th>
         <th
           id=""
-          class="sorting_asc"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-sort="ascending"
-          aria-label="Name: activate to sort column descending"
           style="width: 45px"
         >
           Aforo Máximo
         </th>
         <th
           id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
           style="width: 54px"
         >
           Acciones

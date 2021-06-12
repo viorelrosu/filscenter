@@ -27,9 +27,9 @@
 
 <div class="row input-group">
   <div class="col-sm-12 col-md-6">
-    <h3 class="text-left">Usuarios</h3>
+    <h3 class="text-left my-5">Usuarios</h3>
   </div>
-  <div class="col-sm-12 col-md-6">
+  <!--div class="col-sm-12 col-md-6">
     <div class="d-flex justify-content-end">
       <label
         >Nombre / Email:
@@ -50,7 +50,7 @@
       >
       <label for="">
         <button
-        style="height: 40px;"
+          style="height: 40px"
           type="button"
           class="btn btn-primary mt-4"
           (click)="filtrarTabla()"
@@ -58,131 +58,35 @@
           <i class="fas fa-search"></i></button
       ></label>
       <button
-        style="height: 40px;"
+        style="height: 40px"
         (click)="quitarFiltroTabla()"
         type="button"
         class="btn btn-secondary mt-4 ml-4"
       >
         <i class="fas fa-sync text-light"></i>
       </button>
-
     </div>
-  </div>
+  </div-->
 </div>
 <div class="card-text">
   <table
+    datatable="ng"
+    [dtOptions]="dtOptions"
+    [dtTrigger]="dtTrigger"
+    id="datatable"
     class="table-responsive-sm table table-bordered table-hover"
     style="width: 100%"
-    role="grid"
-    aria-describedby="datatable_info"
   >
     <thead>
-      <tr role="row">
-        <th
-        id=""
-        class="sorting_asc align-middle"
-        tabindex="0"
-        aria-controls="datatable"
-        rowspan="1"
-        colspan="1"
-        aria-sort="ascending"
-        aria-label="Name: activate to sort column descending"
-        style="width: 45px"
-        >
-          Nombre
-        </th>
-        <th
-        id=""
-        class="sorting_asc align-middle"
-        tabindex="0"
-        aria-controls="datatable"
-        rowspan="1"
-        colspan="1"
-        aria-sort="ascending"
-        aria-label="Name: activate to sort column descending"
-        style="width: 45px"
-      >
-        Apellidos
-      </th>
-        <th
-        id=""
-        class="sorting_asc align-middle"
-        tabindex="0"
-        aria-controls="datatable"
-        rowspan="1"
-        colspan="1"
-        aria-sort="ascending"
-        aria-label="Name: activate to sort column descending"
-        style="width: 45px"
-        >
-          DNI
-        </th>
-        <th
-        id=""
-        class="sorting_asc align-middle"
-        tabindex="0"
-        aria-controls="datatable"
-        rowspan="1"
-        colspan="1"
-        aria-sort="ascending"
-        aria-label="Name: activate to sort column descending"
-        style="width: 45px"
-        >
-          Email
-        </th>
-        <th
-        id=""
-        class="sorting_asc align-middle"
-        tabindex="0"
-        aria-controls="datatable"
-        rowspan="1"
-        colspan="1"
-        aria-sort="ascending"
-        aria-label="Name: activate to sort column descending"
-        style="width: 45px"
-        >
-          Fecha Nacimiento
-        </th>
-        <th
-        id=""
-        class="sorting_asc align-middle"
-        tabindex="0"
-        aria-controls="datatable"
-        rowspan="1"
-        colspan="1"
-        aria-sort="ascending"
-        aria-label="Name: activate to sort column descending"
-        style="width: 45px"
-        >
-          Telefono
-        </th>
-
-        <th
-        id=""
-        class="sorting_asc align-middle"
-        tabindex="0"
-        aria-controls="datatable"
-        rowspan="1"
-        colspan="1"
-        aria-sort="ascending"
-        aria-label="Name: activate to sort column descending"
-        style="width: 45px"
-        >
-          Número tarjeta
-        </th>
-        <th
-        id=""
-        class="sorting_asc align-middle"
-        tabindex="0"
-        aria-controls="datatable"
-        rowspan="1"
-        colspan="1"
-        aria-sort="ascending"
-        aria-label="Name: activate to sort column descending"
-        style="width: 45px"
-        >
-          Acciones
-        </th>
+      <tr>
+        <th id="" style="width: 45px">Nombre</th>
+        <th id="" style="width: 45px">Apellidos</th>
+        <th id="" style="width: 45px">DNI</th>
+        <th id="" style="width: 45px">Email</th>
+        <th id="" style="width: 45px">Fecha Nacimiento</th>
+        <th id="" style="width: 45px">Telefono</th>
+        <th id="" style="width: 45px">Número tarjeta</th>
+        <th id="" style="width: 45px">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -191,7 +95,7 @@
         <td class="text-left">{{ usuario.apellidos }}</td>
         <td class="text-left">{{ usuario.dni }}</td>
         <td class="text-left">{{ usuario.email }}</td>
-        <td>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ usuario.fechaNacimiento | date: "dd/MM/yyyy" }}</td>
         <td>{{ usuario.telefono }}</td>
         <td>{{ usuario.numeroTarjeta }}</td>
         <td class="text-left">
@@ -212,18 +116,20 @@
         </td>
       </tr>
       <tr *ngIf="filterError">
-        <td colspan="8" class="text-danger font-weight-bold">No hubo resultados en su búsqueda</td>
+        <td colspan="8" class="text-danger font-weight-bold">
+          No hubo resultados en su búsqueda
+        </td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
-        <th id=""  rowspan="1" colspan="1">Nombre</th>
-        <th id=""  rowspan="1" colspan="1">Apellidos</th>
-        <th id=""  rowspan="1" colspan="1">DNI</th>
-        <th id=""  rowspan="1" colspan="1">Email</th>
-        <th id=""  rowspan="1" colspan="1">Fecha Nacimiento</th>
-        <th id=""  rowspan="1" colspan="1">Telefono</th>
-        <th id=""  rowspan="1" colspan="1">Número tarjeta</th>
+        <th id="" rowspan="1" colspan="1">Nombre</th>
+        <th id="" rowspan="1" colspan="1">Apellidos</th>
+        <th id="" rowspan="1" colspan="1">DNI</th>
+        <th id="" rowspan="1" colspan="1">Email</th>
+        <th id="" rowspan="1" colspan="1">Fecha Nacimiento</th>
+        <th id="" rowspan="1" colspan="1">Telefono</th>
+        <th id="" rowspan="1" colspan="1">Número tarjeta</th>
         <th id="" rowspan="1" colspan="1">Acciones</th>
       </tr>
     </tfoot>

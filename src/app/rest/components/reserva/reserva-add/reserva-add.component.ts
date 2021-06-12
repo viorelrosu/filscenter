@@ -60,6 +60,7 @@ export class ReservaAddComponent implements OnInit {
       });
   }
   addReserva(create, errorModal) {
+    this.nuevaReserva.fechaInicio = new Date().toISOString();
     this.obtenerSlot()
       .then(() => this.obtenerUsuario())
       .then(() => {

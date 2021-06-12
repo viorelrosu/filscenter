@@ -31,3 +31,25 @@
 .btn-danger.btn-outline:hover {
     color: #fff;
 }
+#diaNumero{
+    width: 80%!important;
+}
+
+#diaLabel{
+    position: relative;
+}
+.theadES{
+    background-color: #F7F9FB;
+}
+
+.theadES tr th{
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+.tFootES{
+    background-color: #F7F9FB;
+}
+.tFootES tr th{
+    font-weight: bold;
+    border-top: 1.3px solid black;
+}

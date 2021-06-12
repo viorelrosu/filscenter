@@ -17,6 +17,7 @@ import { HelperService } from "@core/services/helper.service";
 
 import { md5 } from "pure-md5";
 import { DatePipe } from "@angular/common";
+import { Subject } from 'rxjs';
 
 @Component({
   selector: "app-usuario-list",
@@ -54,6 +55,9 @@ export class UsuarioListComponent implements OnInit {
   mainTablaUsers: Usuario[];
   filterTabla: Usuario[];
 
+  //datatable
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
 
   constructor(
     private _service: UsuarioServiceService,
@@ -78,6 +82,7 @@ export class UsuarioListComponent implements OnInit {
     this._service.getUsuarios().subscribe((data) => {
       this.usuarios = data;
       this.mainTablaUsers = data;
+      this.dtTrigger.next();
     });
 
     this._serviceDireccion.getDirecciones().subscribe((data) => {
@@ -91,6 +96,34 @@ export class UsuarioListComponent implements OnInit {
     this._serviceTaquilla.getTaquillas().subscribe((data) => {
       this.taquillas = data;
     });
+
+    this.dtOptions = {
+      language: {
+        processing: "Procesando...",
+        search: "Buscar:",
+        lengthMenu: "_MENU_ elementos",
+        info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
+        infoEmpty: "Mostrando ningún elemento.",
+        infoFiltered: "(filtrado _MAX_ elementos total)",
+        infoPostFix: "",
+        loadingRecords: "Cargando registros...",
+        zeroRecords: "No se encontraron registros",
+        emptyTable: "No hay datos disponibles en la tabla",
+        paginate: {
+          first: "Primero",
+          previous: "Anterior",
+          next: "Siguiente",
+          last: "Último"
+        },
+        aria: {
+          sortAscending: ": Activar para ordenar la tabla en orden ascendente",
+          sortDescending: ": Activar para ordenar la tabla en orden descendente"
+        }
+      },
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      order:[[6, 'asc']]
+    };
   }
 
   delete() {
@@ -249,7 +282,7 @@ export class UsuarioListComponent implements OnInit {
   refresh() {
     window.location.reload();
   }
-
+/*
   keyPress(evento) {
     if (evento.keyCode == 13 && !evento.shiftKey) {
       this.filtrarTabla();
@@ -258,7 +291,7 @@ export class UsuarioListComponent implements OnInit {
 
   // filtrar tabla
 
-  filtrarTabla() {
+  /filtrarTabla() {
     this.filterTabla = [];
 
     for (let persona of this.mainTablaUsers) {
@@ -296,5 +329,5 @@ export class UsuarioListComponent implements OnInit {
     this.filterError = false;
     this.usuarios = this.mainTablaUsers;
     this.filterName = "";
-  }
+  }*/
 }

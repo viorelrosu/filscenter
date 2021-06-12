@@ -7,12 +7,14 @@ export class Reserva {
     public recurrente:boolean;
     public slot: Slot;
     public usuario:Usuario;
+    public fechaInicio:Date;
 
     constructor(
         id:number,
         recurrente:boolean,
         slot:Slot,
-        usuario:Usuario
+        usuario:Usuario,
+        fechaInicio:Date,
     ){
 
     }

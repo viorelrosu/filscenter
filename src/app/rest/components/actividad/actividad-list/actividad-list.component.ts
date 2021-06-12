@@ -6,6 +6,7 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { ActividadServiceService } from "@servicesRest/actividad/actividad-service.service";
 import { TipoActividadServiceService } from "@servicesRest/tipo_actividad/tipo-actividad-service.service";
 import { HelperService } from "@core/services/helper.service";
+import { Subject } from 'rxjs';
 
 @Component({
   selector: "app-actividad-list",
@@ -31,6 +32,10 @@ export class ActividadListComponent implements OnInit {
   mainTablaActividad: Actividad[];
   filterTabla: Actividad[];
 
+    //datatable
+    dtOptions: DataTables.Settings = {};
+    dtTrigger: Subject<any> = new Subject<any>();
+
   constructor(
     private _service: ActividadServiceService,
     private _serviceTipoActividad: TipoActividadServiceService,
@@ -48,11 +53,39 @@ export class ActividadListComponent implements OnInit {
     this._service.getActividades().subscribe((data) => {
       this.actividades = data;
       this.mainTablaActividad = data;
+      this.dtTrigger.next();
     });
 
     this._serviceTipoActividad.getTipoActividades().subscribe((data) => {
       this.tiposActividades = data;
     });
+
+    this.dtOptions = {
+      language: {
+        processing: "Procesando...",
+        search: "Buscar:",
+        lengthMenu: "_MENU_ elementos",
+        info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
+        infoEmpty: "Mostrando ningún elemento.",
+        infoFiltered: "(filtrado _MAX_ elementos total)",
+        infoPostFix: "",
+        loadingRecords: "Cargando registros...",
+        zeroRecords: "No se encontraron registros",
+        emptyTable: "No hay datos disponibles en la tabla",
+        paginate: {
+          first: "Primero",
+          previous: "Anterior",
+          next: "Siguiente",
+          last: "Último"
+        },
+        aria: {
+          sortAscending: ": Activar para ordenar la tabla en orden ascendente",
+          sortDescending: ": Activar para ordenar la tabla en orden descendente"
+        }
+      },
+      pagingType: 'full_numbers',
+      pageLength: 10
+    };
   }
 
   delete() {
@@ -128,6 +161,7 @@ export class ActividadListComponent implements OnInit {
   refresh() {
     window.location.reload();
   }
+  /*
   keyPress(evento) {
     if (evento.keyCode == 13 && !evento.shiftKey) {
       this.filtrarTabla();
@@ -165,5 +199,5 @@ export class ActividadListComponent implements OnInit {
     this.filterError = false;
     this.actividades = this.mainTablaActividad;
     this.filterActividad = "";
-  }
+  }*/
 }

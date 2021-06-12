@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { DatePipe } from '@angular/common';
+import { DataTablesModule } from "angular-datatables";
 
 //imports componentes
 import { SharedModule } from "@shared/shared.module";
@@ -85,7 +86,7 @@ import { FormatoHoraPipe } from "./pipes/formatoHora.pipe";
     TablaEjercicioAddComponent,
     TipoActividadListComponent,
   ],
-  imports: [SharedModule],
+  imports: [SharedModule,DataTablesModule],
   providers: [DatePipe]
 })
 export class RestModule {}

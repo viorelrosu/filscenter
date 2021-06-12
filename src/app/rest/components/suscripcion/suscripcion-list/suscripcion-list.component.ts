@@ -9,6 +9,7 @@ import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.ser
 import { HelperService } from "@core/services/helper.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { Suscripcion } from "@modelsRest/suscripcion";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "app-suscripcion-list",
@@ -35,6 +36,10 @@ export class SuscripcionListComponent implements OnInit {
   mainTablaSuscripciones: Suscripcion[];
   filterTabla: Suscripcion[];
 
+    //datatable
+    dtOptions: DataTables.Settings = {};
+    dtTrigger: Subject<any> = new Subject<any>();
+
   constructor(
     private _service: SuscripcionServiceService,
     private _serviceTipoSuscripcion: TipoSuscripcionServiceService,
@@ -53,6 +58,7 @@ export class SuscripcionListComponent implements OnInit {
     this._service.getSuscripciones().subscribe((data) => {
       this.suscripciones = data;
       this.mainTablaSuscripciones = data;
+      this.dtTrigger.next();
     });
 
     this._serviceTipoSuscripcion.getTiposSuscripcion().subscribe((data) => {
@@ -62,6 +68,33 @@ export class SuscripcionListComponent implements OnInit {
     this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
       this.usuarios = data;
     });
+
+    this.dtOptions = {
+      language: {
+        processing: "Procesando...",
+        search: "Buscar:",
+        lengthMenu: "_MENU_ elementos",
+        info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
+        infoEmpty: "Mostrando ningún elemento.",
+        infoFiltered: "(filtrado _MAX_ elementos total)",
+        infoPostFix: "",
+        loadingRecords: "Cargando registros...",
+        zeroRecords: "No se encontraron registros",
+        emptyTable: "No hay datos disponibles en la tabla",
+        paginate: {
+          first: "Primero",
+          previous: "Anterior",
+          next: "Siguiente",
+          last: "Último"
+        },
+        aria: {
+          sortAscending: ": Activar para ordenar la tabla en orden ascendente",
+          sortDescending: ": Activar para ordenar la tabla en orden descendente"
+        }
+      },
+      pagingType: 'full_numbers',
+      pageLength: 10
+    };
   }
 
   delete() {

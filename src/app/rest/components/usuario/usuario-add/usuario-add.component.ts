@@ -7,8 +7,7 @@ import { ProvinciaServiceService } from "@servicesRest/provincia/provincia-servi
 import { RolServiceService } from "@servicesRest/rol/rol-service.service";
 import { UsuarioServiceService } from "@servicesRest/usuario/usuario-service.service";
 
-
-import {md5} from 'pure-md5';
+import { md5 } from "pure-md5";
 
 @Component({
   selector: "app-usuario-add",
@@ -19,7 +18,7 @@ export class UsuarioAddComponent implements OnInit {
   //establecer beans a crear
   nuevoUsuario: any;
   direccion: any;
-  confirmPass:string = "";
+  confirmPass: string = "";
 
   //cargar selects
   localidades: Localidad[];
@@ -40,17 +39,13 @@ export class UsuarioAddComponent implements OnInit {
     private _serviceLocalidad: LocalidadServiceService,
     private _serviceProvincia: ProvinciaServiceService,
     private _serviceRol: RolServiceService,
-    private modalService: NgbModal,
-  
+    private modalService: NgbModal
   ) {
     this.nuevoUsuario = {};
     this.direccion = {};
   }
 
   ngOnInit(): void {
-   
-
-
     this._serviceProvincia.getProvincias().subscribe((data) => {
       this.provincias = data;
     });
@@ -87,7 +82,7 @@ export class UsuarioAddComponent implements OnInit {
   }
 
   //metodo para crear al usuario
-  addUsuario(create) {
+  addUsuario(create, errorModalUser) {
     this.obtenerLocalidad()
       .then(() => this.obtenerRol())
       .then(() => {
@@ -106,14 +101,19 @@ export class UsuarioAddComponent implements OnInit {
             }, 3000);
           },
           (err) => {
-            alert(err);
+            this.modalService.open(errorModalUser, {
+              ariaLabelledBy: "modal-basic-title",
+              centered: true,
+              size: "md",
+            });
+            this.nuevoUsuario.password = "";
+            this.confirmPass = "";
           }
         );
       });
   }
 
-   refresh(){
+  refresh() {
     window.location.reload();
   }
-
 }

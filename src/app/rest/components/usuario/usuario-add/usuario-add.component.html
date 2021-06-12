@@ -4,7 +4,7 @@
   <form
     class="form-validate"
     name="form"
-    (ngSubmit)="f.form.valid && addUsuario(create)"
+    (ngSubmit)="f.form.valid && addUsuario(create,errorModal)"
     #f="ngForm"
   >
     <div class="row justify-content-center m-4"><h4>Datos Usuario</h4></div>
@@ -684,6 +684,28 @@
       class="btn btn-primary"
       aria-label="Close"
       (click)="modal.dismiss(); refresh()"
+    >
+      Cerrar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #errorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Confirmación</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>¡Hubo un error!</h3>
+      <p>comprueba los campos únicos</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss();"
     >
       Cerrar
     </button>

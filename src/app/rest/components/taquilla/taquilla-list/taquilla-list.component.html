@@ -24,55 +24,36 @@
 <h3 class="card-title text-left">Taquillas</h3>
 <div class="card-text">
   <table
+    datatable="ng"
+    [dtOptions]="dtOptions"
+    [dtTrigger]="dtTrigger"
     id="datatable"
     class="table table-bordered table-hover dataTable"
     style="width: 100%"
-    role="grid"
-    aria-describedby="datatable_info"
   >
     <thead>
       <tr role="row">
-        <th
-          id=""
-          class="sorting_asc"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-sort="ascending"
-          aria-label="Name: activate to sort column descending"
-          style="width: 45px"
-        >
-          Número
-        </th>
+        <th id="" style="width: 45px">Número</th>
 
-        <th
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
-        >
-          Acciones
-        </th>
+        <th id="" style="width: 54px">Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let taquilla of taquillas" class="text-center">
         <td>{{ taquilla.numero }}</td>
         <td class="text-left">
-          <a class="ml-2" data-toggle="tooltip" data-original-title="Edit"
-          (click)="open(content,taquilla)"
+          <a
+            class="ml-2"
+            data-toggle="tooltip"
+            data-original-title="Edit"
+            (click)="open(content, taquilla)"
             ><i class="icon-edit"></i
           ></a>
           <a
             class="ml-2"
             data-toggle="tooltip"
             data-original-title="Delete"
-            (click)="openModalDelete(confirmDelete,this.taquilla)"
+            (click)="openModalDelete(confirmDelete, this.taquilla)"
             ><i class="icon-trash-2"></i
           ></a>
         </td>
@@ -94,20 +75,25 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>¿Seguro que quieres borrar la taquilla <span class="text-danger">{{taquillaAux.numero}} ?</span></h3>
+      <h3>
+        ¿Seguro que quieres borrar la taquilla
+        <span class="text-danger">{{ taquillaAux.numero }} ?</span>
+      </h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss()"
-          >
-            Cancelar
-          </button>
-          <button (click)="delete(usuario)" type="button" class="btn btn-primary">Borrar</button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    >
+      Cancelar
+    </button>
+    <button (click)="delete(usuario)" type="button" class="btn btn-primary">
+      Borrar
+    </button>
+  </div>
 </ng-template>
 
 <!--modal update-->
@@ -181,17 +167,17 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <h3>{{textoModal}}</h3>
+      <h3>{{ textoModal }}</h3>
     </div>
   </div>
   <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Close"
-            (click)="modal.dismiss();refresh()"
-          >
-            Cerrar
-          </button>
-        </div>
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss(); refresh()"
+    >
+      Cerrar
+    </button>
+  </div>
 </ng-template>

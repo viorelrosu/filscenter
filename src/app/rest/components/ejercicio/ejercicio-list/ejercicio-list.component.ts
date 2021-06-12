@@ -6,6 +6,7 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { TipoEjercicio } from "@modelsRest/TipoEjercicio";
 import { TipoEjercicioServiceService } from "@servicesRest/tipo_ejercicio/tipo-ejercicio-service.service";
 import { HelperService } from "@core/services/helper.service";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "app-ejercicio-list",
@@ -32,6 +33,11 @@ export class EjercicioListComponent implements OnInit {
   mainTablaEjercicios: Ejercicio[];
   filterTabla: Ejercicio[];
 
+  
+  //datatable
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
+
   constructor(
     private _service: EjercicioServiceService,
     private _serviceTipoEjercicio: TipoEjercicioServiceService,
@@ -49,11 +55,40 @@ export class EjercicioListComponent implements OnInit {
     this._service.getEjercicios().subscribe((data) => {
       this.ejercicios = data;
       this.mainTablaEjercicios = data;
+      this.dtTrigger.next();
     });
 
     this._serviceTipoEjercicio.getTipoEjercicios().subscribe((data) => {
       this.tiposEjercicio = data;
     });
+
+    this.dtOptions = {
+      language: {
+        processing: "Procesando...",
+        search: "Buscar:",
+        lengthMenu: "_MENU_ elementos",
+        info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
+        infoEmpty: "Mostrando ningún elemento.",
+        infoFiltered: "(filtrado _MAX_ elementos total)",
+        infoPostFix: "",
+        loadingRecords: "Cargando registros...",
+        zeroRecords: "No se encontraron registros",
+        emptyTable: "No hay datos disponibles en la tabla",
+        paginate: {
+          first: "Primero",
+          previous: "Anterior",
+          next: "Siguiente",
+          last: "Último"
+        },
+        aria: {
+          sortAscending: ": Activar para ordenar la tabla en orden ascendente",
+          sortDescending: ": Activar para ordenar la tabla en orden descendente"
+        }
+      },
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      order:[[1, 'asc']]
+    };
   }
 
   delete() {
@@ -139,11 +174,11 @@ export class EjercicioListComponent implements OnInit {
       if (
         ejercicio.nombre
           .toLowerCase()
-          .replace('é','e')
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
           .indexOf(this.filterEjercicio.toLowerCase()) > -1 ||
         ejercicio.tipoEjercicio.nombre
           .toLowerCase()
-          .replace('é,á','e,a')
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
           .indexOf(this.filterEjercicio.toLowerCase()) > -1
       ) {
         this.filterTabla.push(ejercicio);

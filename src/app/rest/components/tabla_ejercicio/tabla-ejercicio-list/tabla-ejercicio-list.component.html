@@ -28,9 +28,9 @@
 
 <div class="row input-group">
   <div class="col-sm-12 col-md-4">
-    <h3 class="text-left">Tablas Ejercicio</h3>
+    <h3 class="text-left mb-5">Tablas Ejercicio</h3>
   </div>
-  <div class="col-sm-12 col-md-8 d-flex justify-content-end">
+  <!--div class="col-sm-12 col-md-8 d-flex justify-content-end">
     <div class="form-outline">
       <label
       >Monitor / Usuario:
@@ -59,104 +59,34 @@
       <i class="fas fa-sync text-light"></i>
     </button>
     </div>
-  </div>
+  </div-->
 </div>
 
 <div class="card-text">
   <table
+    datatable
+    [dtOptions]="dtOptions"
+    [dtTrigger]="dtTrigger"
     id="datatable"
-    class="table table-bordered table-hover table-responsive-sm "
+    class="table table-bordered table-hover table-responsive-sm"
     style="width: 100%"
-    role="grid"
-    aria-describedby="datatable_info"
   >
     <thead>
       <tr role="row">
-        <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
-        >
-          Monitor
-        </th>
-        <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
-        >
-          Usuario
-        </th>
-        <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
-        >
-          Fecha inicio
-        </th>
-        <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
-        >
-          Fecha fin
-        </th>
-        <th
-          id=""
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
-        >
-          Activa
-        </th>
-        <th
-          id=""
-          class="noExport sorting"
-          tabindex="0"
-          aria-controls="datatable"
-          rowspan="1"
-          colspan="1"
-          aria-label="Actions: activate to sort column ascending"
-          style="width: 54px"
-        >
-          Acciones
-        </th>
+        <th id="" style="width: 54px">Monitor</th>
+        <th id="" style="width: 54px">Usuario</th>
+        <th id="" style="width: 54px">Fecha inicio</th>
+        <th id="" style="width: 54px">Fecha fin</th>
+        <th id="" style="width: 54px">Activa</th>
+        <th id="" style="width: 54px">Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let tablaEjercicio of tablasEjercicio" class="text-center">
         <td class="text-left">{{ tablaEjercicio.monitor.nombre }}</td>
         <td class="text-left">{{ tablaEjercicio.suscriptor.nombre }}</td>
-        <td>{{ tablaEjercicio.fechaInicio | date: 'dd/MM/yyyy' }}</td>
-        <td>{{ tablaEjercicio.fechaFin | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ tablaEjercicio.fechaInicio | date: "dd/MM/yyyy" }}</td>
+        <td>{{ tablaEjercicio.fechaFin | date: "dd/MM/yyyy" }}</td>
         <td class="text-left">
           {{ tablaEjercicio.activa == true ? "Activa" : "Inactiva" }}
         </td>
@@ -185,7 +115,9 @@
         </td>
       </tr>
       <tr *ngIf="filterError">
-        <td colspan="8" class="text-danger font-weight-bold">No hubo resultados en su búsqueda</td>
+        <td colspan="8" class="text-danger font-weight-bold">
+          No hubo resultados en su búsqueda
+        </td>
       </tr>
     </tbody>
     <tfoot>
@@ -247,7 +179,7 @@
       <form
         class="form-validate"
         name="form"
-        (ngSubmit)="f.form.valid && update()"
+        (ngSubmit)="f.form.valid && update(updateModalUser)"
         #f="ngForm"
       >
         <div class="form-row">
@@ -415,7 +347,6 @@
               [(ngModel)]="tablaUpdate.suscriptor.id"
             >
               <option value="" selected>- Elige una opción -</option>
-              <!--p> aqui se haria un if que sacase todos los que tuvieran usuario.rol == usuario </p-->
               <option
                 *ngFor="let suscriptor of suscriptores"
                 value="{{ suscriptor.id }}"
@@ -461,6 +392,27 @@
   </div>
 </ng-template>
 
+<ng-template #updateModalUser let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Update</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <h3>{{ textoModalT }}</h3>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger"
+      aria-label="Close"
+      (click)="modal.dismiss(); refresh()"
+    >
+      Cerrar
+    </button>
+  </div>
+</ng-template>
+
 <!-- ======================================= MODAL DETALLE TABLA==============================  -->
 <!-- ======================================= MODAL DETALLE TABLA==============================  -->
 <!-- ======================================= MODAL DETALLE TABLA==============================  -->
@@ -475,12 +427,23 @@
       </h4>
     </div>
     <div class="modal-body content-center">
-    
       <div class="row input-group">
         <div class="col-sm-12 col-md-12 mb-3">
           <div style="margin-top: 35px" class="d-flex justify-content-end">
-            <button (click)="abrirAniadirModal(true)" class="btn btn-light">
+            <button
+              id="ejerPlus"
+              (click)="abrirAniadirModal(true)"
+              class="btn btn-light"
+            >
               <i class="icon-plus"></i> Añadir Ejercicio Serie
+            </button>
+            <button
+              id="ejerMinus"
+              (click)="cerrarAniadirModal(false)"
+              class="btn btn-light"
+              hidden
+            >
+              <i class="icon-minus"></i> Añadir Ejercicio Serie
             </button>
           </div>
         </div>
@@ -505,7 +468,7 @@
           >
             <div class="form-row">
               <div class="form-group col-md-4">
-                <label for="semana">(*) Día número Semana</label>
+                <label for="semana">(*) Número Día Semana</label>
                 <input
                   type="number"
                   class="form-control"
@@ -513,7 +476,7 @@
                   name="semana"
                   #ejercicioSerieSemana="ngModel"
                   [(ngModel)]="nuevoEjercicioSerie.porSemana"
-                  placeholder="Veces a realizar por semana"
+                  placeholder="Número día semana"
                   required
                   min="1"
                   max="7"
@@ -625,7 +588,7 @@
               </div>
 
               <div class="form-group col-md-6">
-                <label for="tipoEjercicio">(*)Tipo Ejercicio</label>
+                <label for="tipoEjercicio">(*) Tipo Ejercicio</label>
                 <select
                   class="form-control"
                   name="tipoEjercicio"
@@ -716,13 +679,12 @@
               </div>
             </div>
 
-            <div class="row justify-content-end m-4">
-              <button (click)="abrirAniadirModal(false)" class="btn btn-danger">
-                Cancelar
-              </button>
-              <button type="submit" class="btn btn-primary">
-                <i class="icon-plus"></i> Añadir
-              </button>
+            <div class="form-group col-md-12 text-sm">
+              <strong> *nota* </strong> para los minutos poner en repeticiones 1+minutos Ej.: 110 = 10 minutos
+            </div>
+
+            <div class="row m-4">
+              <button type="submit" class="btn btn-primary">Añadir</button>
             </div>
           </form>
         </div>
@@ -730,20 +692,35 @@
 
       <div class="row input-group">
         <div class="col-sm-12 col-md-6">
-          <h3 class="text-left">Ejercicios Serie</h3>
+          <h3 class="text-left mb-5">Ejercicios Serie</h3>
         </div>
-        <div class="col-sm-12 col-md-6 d-flex justify-content-end">
-          <div class="form-outline">
-            <label
-              >Día:
-              <input
+        <div class="row col-md-6 justify-content-end">
+          <div class="form-outline" style="width: 50%; text-align: end">
+            <label class="mt-3 mr-2" id="diaLabel">Día: </label>
+            <select
+              [(ngModel)]="filterDia"
+              (ngModelChange)="filtrarTablaES()"
+              class="mt-3"
+              name=""
+              id="diaNumero"
+              style="width: 80% !important"
+            >
+              <option value="1">Día 1</option>
+              <option value="2">Día 2</option>
+              <option value="3">Día 3</option>
+              <option value="4">Día 4</option>
+              <option value="5">Día 5</option>
+              <option value="6">Día 6</option>
+              <option value="7">Día 7</option>
+            </select>
+            <!--input
                 [(ngModel)]="filterDia"
                 type="search"
                 class="form-control form-control-sm"
                 (keypress)="keyPressES($event)"
                 placeholder="1 , 2 , 3 , 4 ..."
-            /></label>
-            <label for="">
+            />
+            <!label for="">
               <button
                 type="button"
                 class="btn btn-primary mt-2"
@@ -759,7 +736,7 @@
               class="btn btn-secondary mt-2 ml-4"
             >
               <i class="fas fa-sync text-light"></i>
-            </button>
+            </button-->
           </div>
         </div>
       </div>
@@ -767,106 +744,36 @@
       <!-- parte listado ejercicios-->
       <div class="card-text">
         <div class="card-text">
+          <!--          
+            datatable
+          [dtOptions]="dtOptionsDos"
+          [dtTrigger]="dtTriggerDos"
+          dt-instance="dtInstance"
+        -->
           <table
-            id="datatable"
+            id="datatable2"
             class="table table-bordered table-hover table-responsive-sm"
             style="width: 100%"
-            role="grid"
-            aria-describedby="datatable_info"
           >
-            <thead>
+            <thead class="theadES">
               <tr role="row">
-                <th
-                  id=""
-                  id=""
-                  class="noExport sorting"
-                  tabindex="0"
-                  aria-controls="datatable"
-                  rowspan="1"
-                  colspan="1"
-                  aria-label="Actions: activate to sort column ascending"
-                  style="width: 54px"
-                >
-                  Tipo ejercicio
-                </th>
-                <th
-                  id=""
-                  id=""
-                  class="noExport sorting"
-                  tabindex="0"
-                  aria-controls="datatable"
-                  rowspan="1"
-                  colspan="1"
-                  aria-label="Actions: activate to sort column ascending"
-                  style="width: 54px"
-                >
-                  Nombre ejercicio
-                </th>
-                <th
-                  id=""
-                  id=""
-                  class="noExport sorting"
-                  tabindex="0"
-                  aria-controls="datatable"
-                  rowspan="1"
-                  colspan="1"
-                  aria-label="Actions: activate to sort column ascending"
-                  style="width: 54px"
-                >
-                  Repeticiones
-                </th>
-                <th
-                  id=""
-                  id=""
-                  class="noExport sorting"
-                  tabindex="0"
-                  aria-controls="datatable"
-                  rowspan="1"
-                  colspan="1"
-                  aria-label="Actions: activate to sort column ascending"
-                  style="width: 54px"
-                >
-                  Series
-                </th>
+                <th id="" style="width: 54px">Tipo ejercicio</th>
+                <th id="" style="width: 54px">Nombre ejercicio</th>
+                <th id="" style="width: 54px">Repeticiones</th>
+                <th id="" style="width: 54px">Series</th>
 
-                <th
-                  id=""
-                  id=""
-                  class="noExport sorting"
-                  tabindex="0"
-                  aria-controls="datatable"
-                  rowspan="1"
-                  colspan="1"
-                  aria-label="Actions: activate to sort column ascending"
-                  style="width: 54px"
-                >
-                  Dia número semana
-                </th>
-                <th
-                  id=""
-                  id=""
-                  class="noExport sorting"
-                  tabindex="0"
-                  aria-controls="datatable"
-                  rowspan="1"
-                  colspan="1"
-                  aria-label="Actions: activate to sort column ascending"
-                  style="width: 54px"
-                >
-                  Acciones
-                </th>
+                
+                <th id="" style="width: 54px">Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                *ngFor="let ejercicio of ejerciciosSerieTablaDetalle"
-                class="text-center"
-              >
+              <tr *ngFor="let ejercicio of ejerciciosSerieTablaDetalle">
                 <td>{{ ejercicio.ejercicio.tipoEjercicio.nombre }}</td>
-                <td>{{ ejercicio.ejercicio.nombre }}</td>
-                <td>{{ ejercicio.repeticiones }}</td>
-                <td>{{ ejercicio.series }}</td>
-                <td>{{ ejercicio.porSemana }}</td>
+                <td >{{ ejercicio.ejercicio.nombre }}</td>
+                <td *ngIf="ejercicio.repeticiones < 100" class="text-center">{{ ejercicio.repeticiones }}</td>
+                <td *ngIf="ejercicio.repeticiones >= 110 && ejercicio.repeticiones <= 190 " class="text-center">{{ ejercicio.repeticiones.toString() | slice:1:3 }} min.</td>
+                <td class="text-center">{{ ejercicio.series }}</td>
+                
                 <td>
                   <a
                     class="ml-2"
@@ -892,9 +799,21 @@
                 </td>
               </tr>
               <tr *ngIf="filterErrorES">
-                <td colspan="8" class="text-danger font-weight-bold">No hubo resultados en su búsqueda</td>
+                <td colspan="8" class=" text-center">
+                  No se encontraron registros
+                </td>
               </tr>
             </tbody>
+            <tfoot class="tFootES">
+              <tr>
+                <th id="" style="width: 54px">Tipo ejercicio</th>
+                <th id="" style="width: 54px">Nombre ejercicio</th>
+                <th id="" style="width: 54px">Repeticiones</th>
+                <th id="" style="width: 54px">Series</th>
+               
+                <th id="" style="width: 54px">Acciones</th>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
@@ -972,7 +891,7 @@
       type="button"
       class="btn btn-primary"
       aria-label="Close"
-      (click)="modal.dismiss(); closeUpdateModalResult()"
+      (click)="modal.dismiss(); closeUpdateOrAddModalResult()"
     >
       Cerrar
     </button>
@@ -1017,7 +936,7 @@
       >
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label for="semana">(*) Día número Semana</label>
+            <label for="semana">(*) Número Día Semana</label>
             <input
               type="number"
               class="form-control"
@@ -1025,7 +944,7 @@
               name="semana"
               #ejercicioSerieSemana="ngModel"
               [(ngModel)]="ejercicioSerieUpdate.porSemana"
-              placeholder="Veces a realizar por semana"
+              placeholder="Número día semana"
               required
               min="1"
               max="7"
@@ -1133,7 +1052,7 @@
           </div>
 
           <div class="form-group col-md-6">
-            <label for="tipoEjercicio">(*)Tipo Ejercicio</label>
+            <label for="tipoEjercicio">(*) Tipo Ejercicio</label>
             <select
               class="form-control"
               name="tipoEjercicio"
@@ -1181,6 +1100,7 @@
               </div>
             </div>
           </div>
+
 
           <div
             *ngIf="ejercicioSerieUpdate.ejercicio.tipoEjercicio.id != ''"
@@ -1259,7 +1179,7 @@
       type="button"
       class="btn btn-danger"
       aria-label="Close"
-      (click)="closeUpdateModalResult()"
+      (click)="closeUpdateOrAddModalResult()"
     >
       Cerrar
     </button>
