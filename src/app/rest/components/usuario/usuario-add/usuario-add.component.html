@@ -20,7 +20,7 @@
           [(ngModel)]="nuevoUsuario.nombre"
           placeholder="Nombre usuario"
           required
-          pattern="^([a-zA-Za´´eíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,50}"
+          pattern="^([a-zA-Za´´eíóúÁÉÍÓÚñÑ]){1}[a-zA-Z áéíóúÁÉÍÓÚñÑ]{2,50}"
           [ngClass]="{
             'is-invalid':
               (f.submitted && usuarioNombre.invalid) ||
@@ -51,7 +51,7 @@
           [(ngModel)]="nuevoUsuario.apellidos"
           placeholder="Apellidos usuario"
           required
-          pattern="^([a-zA-ZáéíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,70}"
+          pattern="^([a-zA-ZáéíóúÁÉÍÓÚñÑ]){1}[a-zA-Z áéíóúÁÉÍÓÚñÑ]{2,70}"
           [ngClass]="{
             'is-invalid':
               (f.submitted && usuarioApellido.invalid) ||
@@ -84,7 +84,7 @@
           [(ngModel)]="nuevoUsuario.dni"
           placeholder="ej: 55668877X"
           required
-          pattern="^(\d){8}[a-zA-Z]{1}"
+          pattern="^(\d){8}[a-zA-ZñÑ]{1}"
           [ngClass]="{
             'is-invalid':
               (f.submitted && usuarioDni.invalid) ||
@@ -318,7 +318,7 @@
           [(ngModel)]="direccion.calle"
           placeholder="C/"
           required
-          pattern="^([a-zA-Z]){1}([a-zA-Z ]){2,50}"
+          pattern="^([a-zA-ZñÑ]){1}([a-zA-Z ñÑ]){2,50}"
           [ngClass]="{
             'is-invalid':
               (f.submitted && direccionCalle.invalid) ||
@@ -481,7 +481,7 @@
           #direccionPuerta="ngModel"
           [(ngModel)]="direccion.puerta"
           placeholder="Ej: 1,A"
-          pattern="^(\d|[a-zA-Z]{1})"
+          pattern="^(\d|[a-zA-ZñÑ]{1})"
           [ngClass]="{
             'is-invalid':
               (f.submitted && direccionPuerta.invalid) ||

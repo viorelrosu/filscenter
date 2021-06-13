@@ -38,6 +38,7 @@ export class SuscripcionAddComponent implements OnInit {
 
     this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
       this.usuarios = data;
+      this.usuarios.sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
     });
   }
   obtenerTipoSuscripcion() {

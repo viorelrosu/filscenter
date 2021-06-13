@@ -32,6 +32,7 @@ export class TablaEjercicioAddComponent implements OnInit {
   ngOnInit(): void {
     this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
       this.suscriptores = data;
+      this.suscriptores.sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
     });
     this._serviceUsuario.getUsuariosByRol(2).subscribe((data) => {
       this.monitores = data;

@@ -175,7 +175,7 @@
             value="{{ suscriptor.id }}"
           >
             {{ suscriptor.nombre }} -
-            {{ suscriptor.numeroTarjeta == null ? "tarjetaNull" : "" }}
+            {{ suscriptor.numeroTarjeta == null ? "tarjetaNull" : suscriptor.numeroTarjeta }}
           </option>
         </select>
         <div

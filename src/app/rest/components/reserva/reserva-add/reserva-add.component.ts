@@ -23,6 +23,8 @@ export class ReservaAddComponent implements OnInit {
   slots: Slot[];
   usuarios: Usuario[];
 
+  dias : string[] = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"];
+
   constructor(
     private _serviceUsuario: UsuarioServiceService,
     private _serviceSlot: SlotServiceService,
@@ -35,10 +37,14 @@ export class ReservaAddComponent implements OnInit {
 
   ngOnInit(): void {
     this._serviceUsuario.getUsuariosByRol(3).subscribe((data) => {
-      this.usuarios = data;
+      this.usuarios = data;   
+      this.usuarios.sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
     });
+
     this._serviceSlot.getSlots().subscribe((data) => {
       this.slots = data;
+      this.slots.sort((a,b) => (a.actividad.nombre > b.actividad.nombre) ? -1 : ((b.actividad.nombre > a.actividad.nombre) ? 1
+       : 0))
     });
   }
 

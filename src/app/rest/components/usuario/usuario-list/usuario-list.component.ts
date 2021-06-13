@@ -44,6 +44,7 @@ export class UsuarioListComponent implements OnInit {
   ProvinciaId: number;
   localidadId: number;
   confirmPass: string = "";
+  passwordUpdate : string = "";
 
   //parte confirm delete
   usuarioAux: any;
@@ -137,8 +138,12 @@ export class UsuarioListComponent implements OnInit {
       .then(() => this.obtenerLocalidad())
       .then(() => this.obtenerTaquilla())
       .then(() => {
+
+        if (this.passwordUpdate != ""){
+          this.usuarioUpdate.password = md5(this.passwordUpdate);
+        }
+
         this.usuarioUpdate.email = this.usuarioUpdate.email.toLowerCase();
-        this.usuarioUpdate.password = md5(this.usuarioUpdate.password);
         this._service.updateUsuario(this.usuarioUpdate).subscribe(
           (data) => {
             this.textoModal = "¡Usuario actualizado!";
@@ -191,21 +196,15 @@ export class UsuarioListComponent implements OnInit {
   }
 
   obtenerLocalidad() {
-    console.log(this.localidadId + "localidad");
-    console.log(this.usuarioUpdate.direccion.localidad.id + "localidad");
     return this._serviceLocalidad
       .getLocalidad(this.usuarioUpdate.direccion.localidad.id)
       .toPromise()
       .then((data) => {
         this.usuarioUpdate.direccion.localidad = data;
-      });
+      });    
   }
 
   obtenerProvincia() {
-    console.log(this.ProvinciaId + "prvincia");
-    console.log(
-      this.usuarioUpdate.direccion.localidad.provincia.id + "prvincia"
-    );
     return this._serviceProvincia
       .getProvincia(this.usuarioUpdate.direccion.localidad.provincia.id)
       .toPromise()
@@ -243,7 +242,7 @@ export class UsuarioListComponent implements OnInit {
           this.usuarioUpdate.fechaNacimiento,
           "yyyy-MM-dd" /*'dd-MM-yyyy'*/
         );
-        this.confirmPass = this.usuarioUpdate.password;
+        //this.confirmPass = this.usuarioUpdate.password;
       });
 
     this._serviceProvincia.getProvincias().subscribe((data) => {

@@ -225,15 +225,14 @@
           </div>
 
           <div class="form-group col-md-6">
-            <label for="username">(*) Fecha de baja</label>
+            <label for="username">Fecha de baja</label>
             <input
               type="date"
               class="form-control"
               name="fechaBaja"
               #ejercicioNombre="ngModel"
               [(ngModel)]="suscripcionUpdate.fechaBaja"
-              placeholder="Nombre Tipo ejercicio"
-              required=""
+              placeholder="Fecha de baja"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && ejercicioNombre.invalid) ||

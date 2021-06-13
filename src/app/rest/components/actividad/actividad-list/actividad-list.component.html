@@ -200,7 +200,7 @@
               [(ngModel)]="actividadUpdate.nombre"
               placeholder="Nombre Tipo Actividad"
               required=""
-              pattern="^([a-zA-ZáéíóúÁÉÍÓÚÜ]){1}[a-zA-Z áéíóúÁÉÍÓÚÜ]{2,50}"
+              pattern="^([a-zA-ZáéíóúÁÉÍÓÚÜñÑ]){1}[a-zA-Z áéíóúÁÉÍÓÚÜnÑ]{2,50}"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && actividadNombre.invalid) ||
@@ -283,7 +283,7 @@
               #actividadDescripcion="ngModel"
               [(ngModel)]="actividadUpdate.descripcion"
               placeholder="Descripción."
-              pattern="([a-zA-Z áéíóúüÁÉÍÓÚÜ0-9.,]){0,}"
+              pattern="([a-zA-Z áéíóúüÁÉÍÓÚÜ0-9.,-()nÑ]){0,}"
             ></textarea>
 
             <span

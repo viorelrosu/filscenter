@@ -118,7 +118,7 @@
           <td class="text-left">{{ slot.actividad.nombre }}</td>
           <td class="text-left">{{ slot.actividad.tipoActividad.nombre }}</td>
           <td class="text-left">{{ slot.monitor.nombre }}</td>
-          <td>{{ slot.sala.numero == null ? "-" : slot.sala.numero }}</td>
+          <td>{{ slot.sala.numero == 100 ? "Aire libre" : slot.sala.numero }}</td>
           <td class="text-left">{{ slot.diaSemana }}</td>
           <td>{{ slot.horaInicio | formatoHora }}</td>
           <td class="text-left">

@@ -86,6 +86,7 @@
         <th id="" style="width: 45px">Fecha Nacimiento</th>
         <th id="" style="width: 45px">Telefono</th>
         <th id="" style="width: 45px">Número tarjeta</th>
+        <th id="" style="width: 45px">Rol</th>
         <th id="" style="width: 45px">Acciones</th>
       </tr>
     </thead>
@@ -98,6 +99,7 @@
         <td>{{ usuario.fechaNacimiento | date: "dd/MM/yyyy" }}</td>
         <td>{{ usuario.telefono }}</td>
         <td>{{ usuario.numeroTarjeta }}</td>
+        <td>{{ usuario.rol.nombre }}</td>
         <td class="text-left">
           <a
             class="ml-2"
@@ -130,6 +132,7 @@
         <th id="" rowspan="1" colspan="1">Fecha Nacimiento</th>
         <th id="" rowspan="1" colspan="1">Telefono</th>
         <th id="" rowspan="1" colspan="1">Número tarjeta</th>
+        <th id="" rowspan="1" colspan="1">Rol</th>
         <th id="" rowspan="1" colspan="1">Acciones</th>
       </tr>
     </tfoot>
@@ -193,7 +196,7 @@
               [(ngModel)]="usuarioUpdate.nombre"
               placeholder="Nombre usuario"
               required
-              pattern="^([a-zA-Za´´eíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,50}"
+              pattern="^([a-zA-Za´´eíóúÁÉÍÓÚñÑ]){1}[a-zA-Z áéíóúÁÉÍÓÚñÑ]{2,50}"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && usuarioNombre.invalid) ||
@@ -226,7 +229,7 @@
               [(ngModel)]="usuarioUpdate.apellidos"
               placeholder="Apellidos usuario"
               required
-              pattern="^([a-zA-ZáéíóúÁÉÍÓÚ]){1}[a-zA-Z áéíóúÁÉÍÓÚ]{2,70}"
+              pattern="^([a-zA-ZáéíóúÁÉÍÓÚñÑ]){1}[a-zA-Z áéíóúÁÉÍÓÚñÑ]{2,70}"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && usuarioApellido.invalid) ||
@@ -261,7 +264,7 @@
               [(ngModel)]="usuarioUpdate.dni"
               placeholder="ej: 55668877X"
               required
-              pattern="^(\d){8}[a-zA-Z]{1}"
+              pattern="^(\d){8}[a-zA-ZñÑ]{1}"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && usuarioDni.invalid) ||
@@ -392,9 +395,8 @@
               id="password"
               name="password"
               #usuarioPassword="ngModel"
-              [(ngModel)]="usuarioUpdate.password"
-              placeholder="6 caract. min (por ahora)"
-              required
+              [(ngModel)]="passwordUpdate"
+              placeholder="6 caract. min"
               pattern="\w{6,}"
               [ngClass]="{
                 'is-invalid':
@@ -419,7 +421,8 @@
             </div>
           </div>
 
-          <div class="form-group col-md-4">
+          <div *ngIf=" passwordUpdate != '' " class="form-group col-md-4">
+          <div class="form-group col-md-12">
             <label for="confirmPassword">(*) Confirmar Password</label>
             <input
               type="password"
@@ -428,9 +431,9 @@
               name="confirmPassword"
               #confirmPassword="ngModel"
               [(ngModel)]="confirmPass"
-              placeholder="6 caract. min (por ahora)"
               required
-              pattern="{{ usuarioUpdate.password }}"
+              placeholder="6 caract. min (por ahora)"
+              pattern="{{ passwordUpdate }}"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && confirmPassword.invalid) ||
@@ -453,8 +456,9 @@
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-6">
             <label for="cuentaBancaria">(*) Cuenta Bancaria</label>
             <input
               type="text"
@@ -506,7 +510,7 @@
               [(ngModel)]="usuarioUpdate.direccion.calle"
               placeholder="C/"
               required
-              pattern="^([a-zA-Z]){1}([a-zA-Z ]){2,50}"
+              pattern="^([a-zA-Z]){1}([a-zA-Z ñÑ]){2,50}"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && direccionCalle.invalid) ||
@@ -677,7 +681,7 @@
               #direccionPuerta="ngModel"
               [(ngModel)]="usuarioUpdate.direccion.puerta"
               placeholder="Ej: 1,A"
-              pattern="^(\d|[a-zA-Z]{1})"
+              pattern="^(\d|[a-zA-ZñÑ]{1})"
               [ngClass]="{
                 'is-invalid':
                   (f.submitted && direccionPuerta.invalid) ||
