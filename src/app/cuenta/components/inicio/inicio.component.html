@@ -51,83 +51,85 @@
                     </div>
                 </div>
             </div>
-            <div class="" *ngIf="sessionUser.isUser && !sessionUser.isAdmin && !sessionUser.isMonitor">
-                <div class="col-md-8 offset-md-2 my-5" *ngIf="!isSuscribed">
-                    <div role="alert" class="alert alert-info">
-                    <h4><strong><i class="fa fa-info-circle"></i> ¡No tienes ninguna suscripción activa!</strong></h4>
-                    <a href="/cuenta/mis/datos" class="alert-link">Suscríbete ya</a>, para tener acceso a todos nuestros servicios y actividades.
-                    </div>
-                </div>
-                <div class="col-lg-12 my-5" *ngIf="isSuscribed">
-                    <div *ngIf="showHorario" class="mb-5">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h4 class="text-primary">Mi horario</h4>
-                            </div>
-                            <div class="col-md-4 text-right">
-                                <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
-                                <button class="btn btn-xs btn-slide" data-width="80" (click)="closeHorario()" style="width: 28px;">
-                                    <i class="icon-chevron-up"></i>
-                                    <span>Cerrar</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="line my-3"></div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <cuenta-inicio-horario></cuenta-inicio-horario>
-                            </div>
+            <div class="col-lg-12 mb-3" *ngIf="sessionUser.isUser && !sessionUser.isAdmin && !sessionUser.isMonitor">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2 my-5" *ngIf="!isSuscribed">
+                        <div role="alert" class="alert alert-info">
+                        <h4><strong><i class="fa fa-info-circle"></i> ¡No tienes ninguna suscripción activa!</strong></h4>
+                        <a href="/cuenta/mis/datos" class="alert-link">Suscríbete ya</a>, para tener acceso a todos nuestros servicios y actividades.
                         </div>
                     </div>
-                    <div *ngIf="!showHorario" class="mb-5">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h4 class="text-primary">Mi horario</h4>
+                    <div class="col-lg-12 my-5" *ngIf="isSuscribed">
+                        <div *ngIf="showHorario" class="mb-5">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4 class="text-primary">Mi horario</h4>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
+                                    <button class="btn btn-xs btn-slide" data-width="80" (click)="closeHorario()" style="width: 28px;">
+                                        <i class="icon-chevron-up"></i>
+                                        <span>Cerrar</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-md-4 text-right">
-                                <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
-                                <button class="btn btn-xs btn-slide" data-width="80" (click)="openHorario()" style="width: 28px;">
-                                    <i class="icon-chevron-down"></i>
-                                    <span>Abrir</span>
-                                </button>
+                            <div class="line my-3"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <cuenta-inicio-horario></cuenta-inicio-horario>
+                                </div>
                             </div>
                         </div>
-                        <div class="line my-3"></div>
-                    </div>
+                        <div *ngIf="!showHorario" class="mb-5">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4 class="text-primary">Mi horario</h4>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
+                                    <button class="btn btn-xs btn-slide" data-width="80" (click)="openHorario()" style="width: 28px;">
+                                        <i class="icon-chevron-down"></i>
+                                        <span>Abrir</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="line my-3"></div>
+                        </div>
 
-                    <div *ngIf="showTablas">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h4 class="text-primary">Mis tablas de ejercicios</h4>
+                        <div *ngIf="showTablas">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4 class="text-primary">Mis tablas de ejercicios</h4>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
+                                    <button class="btn btn-xs btn-slide" data-width="80" (click)="closeTablas()" style="width: 28px;">
+                                        <i class="icon-chevron-up"></i>
+                                        <span>Cerrar</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-md-4 text-right">
-                                <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
-                                <button class="btn btn-xs btn-slide" data-width="80" (click)="closeTablas()" style="width: 28px;">
-                                    <i class="icon-chevron-up"></i>
-                                    <span>Cerrar</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row mb-3 mt-5">
-                            <div class="col-md-12">
-                                <cuenta-inicio-tablas></cuenta-inicio-tablas>
-                            </div>
-                        </div>
-                    </div>
-                    <div *ngIf="!showTablas">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h4 class="text-primary">Mis tablas de ejercicios</h4>
-                            </div>
-                            <div class="col-md-4 text-right">
-                                <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
-                                <button class="btn btn-xs btn-slide" data-width="80" (click)="openTablas()" style="width: 28px;">
-                                    <i class="icon-chevron-down"></i>
-                                    <span>Abrir</span>
-                                </button>
+                            <div class="row mb-3 mt-5">
+                                <div class="col-md-12">
+                                    <cuenta-inicio-tablas></cuenta-inicio-tablas>
+                                </div>
                             </div>
                         </div>
-                        <div class="line my-3"></div>
+                        <div *ngIf="!showTablas">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4 class="text-primary">Mis tablas de ejercicios</h4>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <!-- <div class="icon-set-container"><div class="icon-preview"><div class="icon-holder"><i class="icon-chevron-down"></i></div></div></div> -->
+                                    <button class="btn btn-xs btn-slide" data-width="80" (click)="openTablas()" style="width: 28px;">
+                                        <i class="icon-chevron-down"></i>
+                                        <span>Abrir</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="line my-3"></div>
+                        </div>
                     </div>
                 </div>
             </div>
