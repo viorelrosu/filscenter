@@ -41,7 +41,7 @@ export class CuentaUploadImageComponent implements OnInit {
 
   ngOnInit(): void {
     //console.log(this.user);
-    this.image = (this.user.imagen) ? this.user.imagen : 'user-perfil.png';
+    this.image = (this.user.imagen) ? this.user.imagen : 'user-perfil.jpg';
     //this.fileInfos = this._serviceUploadFile.getFiles();
   }
 
@@ -59,7 +59,6 @@ export class CuentaUploadImageComponent implements OnInit {
     this.progress = 0;
 
       const file:File = event.target.files[0];
-      console.log(file);
   
       if (file) {
         this.currentFile = file;
@@ -130,10 +129,11 @@ export class CuentaUploadImageComponent implements OnInit {
       return this.updateImageUser();   
     })
     .then((data)=>{
+      console.log(data);
       return this._tokenStorageService.saveUser(this.user);
     })
     .then((user)=>{
-      console.log(user);
+      //console.log(user);
       this.isImageUploaded = true;
     });
 
@@ -143,11 +143,13 @@ export class CuentaUploadImageComponent implements OnInit {
   updateImageUser(){
     return this._serviceUsuario.getUsuario(this.user.id).toPromise()
       .then((user) => {
+        console.log(this.fileName);
         user.imagen = this.fileName;
         return user;
       })
       .then((user)=>{
         this.user = user;
+        console.log(user);
         return this._serviceUsuario.updateUsuario(user).toPromise();
       });
   }

@@ -139,7 +139,7 @@ export class TablaComponent implements OnInit, OnChanges {
             id: slot.id,
             isDisabled: isDisabled,
             isReserved: isReserved,
-            imagen: (slot.monitor.imagen) ? 'assets/uploads/'+slot.monitor.imagen : 'assets/uploads/user-perfil.png',
+            imagen: (slot.monitor.imagen) ? 'assets/uploads/'+slot.monitor.imagen : 'assets/uploads/user-perfil.jpg',
             monitor: slot.monitor.nombre,
             actividad: slot.actividad.nombre,
             color: slot.actividad.color,
