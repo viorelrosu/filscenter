@@ -78,6 +78,7 @@ export class PageCuentaDatosComponent implements OnInit {
     .then(()=>{
       //console.log(this.usuarioUpdate);
       this.usuarioUpdate.password = md5(this.password);
+      console.log(JSON.stringify(this.usuarioUpdate));
       this._serviceRestUser.updateUsuario(this.usuarioUpdate).subscribe(data=>{
         $.notify({
           // options
