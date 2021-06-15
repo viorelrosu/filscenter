@@ -48,7 +48,7 @@ export class FormularioComponent implements OnInit {
         //console.log(result);
         this._restUserService.getUsuarioByEmail(result.username).toPromise()
         .then(user => {
-            //console.log(data);
+            console.log(user);
             this._tokenStorage.saveUser(user);
             this._tokenStorage.saveToken(result.accessToken);
         })
