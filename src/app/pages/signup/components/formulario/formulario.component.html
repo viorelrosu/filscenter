@@ -29,7 +29,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 form-group">
-                            <label class="sr-only">Nombre</label>
+                            <label>Nombre</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 form-group">
-                            <label class="sr-only">Apellidos</label>
+                            <label>Apellidos</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -91,7 +91,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 form-group">
-                            <label class="sr-only">DNI</label>
+                            <label>DNI</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -123,7 +123,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 form-group">
-                            <label class="sr-only">Email</label>
+                            <label>Email</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -153,7 +153,7 @@
                             </div>
                         </div>  
                         <div class="col-md-4 form-group">
-                            <label class="sr-only">Teléfono</label>
+                            <label>Teléfono</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -183,7 +183,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 form-group">
-                            <label class="sr-only">Fecha de nacimiento</label>
+                            <label>Fecha de nacimiento</label>
                             <input
                                 type="date"
                                 class="form-control"
@@ -219,7 +219,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 form-group">
-                            <label class="sr-only">Cuenta bancaria</label>
+                            <label>Cuenta bancaria</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -227,7 +227,7 @@
                                 name="cuentaBancaria"
                                 #usuarioCuentaBancaria="ngModel"
                                 [(ngModel)]="nuevoUsuario.cuentaBancaria"
-                                placeholder="ES55 4444 4444 44 444444444"
+                                placeholder="Cuenta bancaria - ES55 4444 4444 44 444444444"
                                 required
                                 pattern="(ES\d{2} \d{4} \d{4} \d{2} \d{10}|ES\d{22})"
                                 [ngClass]="{
@@ -256,7 +256,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label class="sr-only">Contraseña</label>
+                            <label>Contraseña</label>
                             <input
                                 type="password"
                                 class="form-control"
@@ -264,7 +264,7 @@
                                 name="password"
                                 #usuarioPassword="ngModel"
                                 [(ngModel)]="password"
-                                placeholder="6 caract. min"
+                                placeholder=""
                                 required
                                 pattern="\w{6,}"
                                 [ngClass]="{
@@ -286,7 +286,7 @@
                             </div>
                         </div> 
                         <div class="col-md-6 form-group">
-                            <label class="sr-only">Confirmar Contraseña</label>
+                            <label>Confirmar Contraseña</label>
                             <input
                                 type="password"
                                 class="form-control"
@@ -294,7 +294,7 @@
                                 name="password_confirm"
                                 #usuarioPasswordConfirm="ngModel"
                                 [(ngModel)]="passwordConfirm"
-                                placeholder="Confirmar contraseña"
+                                placeholder=""
                                 required
                                 pattern="{{password}}"
                                 [ngClass]="{
@@ -323,7 +323,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-5 form-group">
-                            <label class="sr-only">Calle</label>
+                            <label>Calle</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -352,7 +352,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 form-group">
-                            <label class="sr-only">Número</label>
+                            <label>Número</label>
                             <input
                                 type="number"
                                 class="form-control"
@@ -385,7 +385,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 form-group">
-                            <label class="sr-only">Bloque</label>
+                            <label>Bloque</label>
                             <input
                                 type="number"
                                 class="form-control"
@@ -417,7 +417,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-3 form-group">
-                            <label class="sr-only">Escalera</label>
+                            <label>Escalera</label>
                             <input
                                 type="number"
                                 class="form-control"
@@ -451,7 +451,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 form-group">
-                            <label class="sr-only">Piso</label>
+                            <label>Piso</label>
                             <input
                                 type="number"
                                 class="form-control"
@@ -481,7 +481,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 form-group">
-                            <label class="sr-only">Puerta</label>
+                            <label>Puerta</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -510,7 +510,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 form-group">
-                            <label class="sr-only">Código Postal</label>
+                            <label>Código Postal</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -542,7 +542,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label class="sr-only">Provincia</label>
+                            <label>Provincia</label>
                             <select
                                 class="form-control"
                                 name="provincia"
@@ -585,7 +585,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 form-group" *ngIf="provinciaId != ''">
-                            <label class="sr-only">Localidad</label>
+                            <label>Localidad</label>
                             <select
                                 class="form-control"
                                 name="localidad"
