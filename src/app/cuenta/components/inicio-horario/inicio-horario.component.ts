@@ -66,7 +66,7 @@ export class CuentaInicioHorarioComponent implements OnInit {
       this.setSelectores();
     })
     .then(()=>{
-      this.loadSlots();
+      this.searchSlots();
     });
 
   }
@@ -75,7 +75,7 @@ export class CuentaInicioHorarioComponent implements OnInit {
     return this._serviceSlot.getSlots().toPromise()
     .then((slots)=>{
       for(var slot of slots) {
-        if(!this.getIndexOfID(this.salas, slot.actividad.id)) {
+        if(!this.getIndexOfID(this.salas, slot.sala.id)) {
           this.salas.push({id: slot.sala.id, nombre: 'Sala #' + slot.sala.numero });
         }
 
@@ -126,18 +126,6 @@ export class CuentaInicioHorarioComponent implements OnInit {
       //console.log(this.reservasUser);
     })
     .then(()=>{
-      return this._serviceSlot.getSlotsBySala(this.searchBySalaID).toPromise();
-    })
-    .then((slots)=>{
-      //console.log(data);
-      this.slots = slots;
-    })
-    .then(()=>{
-      if(!this.isSearch) {
-        this.searchSlots();
-      }
-    })
-    .then(()=>{
       this.setHoras();
     })
     .then(()=>{
@@ -176,7 +164,8 @@ export class CuentaInicioHorarioComponent implements OnInit {
   }
 
   checkIsDisabled(slot:Slot) {
-    return !this.searchResults.some(elem => elem.id === slot.id);
+      console.log(!this.searchResults.some(elem => elem.id === slot.id));
+      return !this.searchResults.some(elem => elem.id === slot.id);
   }
 
   checkIsReserved(slot:Slot) {
@@ -358,47 +347,63 @@ export class CuentaInicioHorarioComponent implements OnInit {
     this.searchSlots();
   }
 
+  getSlotsBySala(){
+    this.slots = [];
+    return this._serviceSlot.getSlotsBySala(this.searchBySalaID).toPromise()
+        .then((slots)=>{
+          //console.log(data);
+          this.slots = slots;
+          return slots;
+        });
+  }
+
   searchSlots() {
-    this.searchResults = [];
-    var isSearchByActividad = false;
-    var isSearchByMonitor = false;
-    var isSearchBySala = true;
+    this.getSlotsBySala()
+    .then((slots)=>{
 
-    if (this.searchByActividadID != 0 ) {
-      isSearchByActividad = true;
-    }
+      this.searchResults = [];
+      var isSearchByActividad = false;
+      var isSearchByMonitor = false;
+      var isSearchBySala = true;
 
-    if (this.searchByMonitorID != 0 ) {
-      isSearchByMonitor = true;
-    }
+      if (this.searchByActividadID != 0 ) {
+        isSearchByActividad = true;
+      }
 
-    //search by sala
-    if(isSearchBySala) {
-      this.searchResults = this.slots.filter(slot => {
-        return slot.sala.id == this.searchBySalaID;
-      });
-    }
+      if (this.searchByMonitorID != 0 ) {
+        isSearchByMonitor = true;
+      }
 
-    //search by actividad
-    if(isSearchByActividad) {
-      this.searchResults = this.searchResults.filter(slot => {
-        return slot.actividad.id == this.searchByActividadID;
-      });
-    }
+      //search by sala
+      if(isSearchBySala) {
+        this.searchResults = slots.filter(slot => {
+          return slot.sala.id == this.searchBySalaID;
+        });
 
-    //search by monitor
-    if(isSearchByMonitor) {
-      this.searchResults = this.searchResults.filter(slot => {
-        return slot.monitor.id == this.searchByMonitorID;
-      });
-    }
+        //console.log(this.searchResults);
+      }
 
-    //console.log(this.slots);
-    //console.log(this.searchResultSlots);
+      //search by actividad
+      if(isSearchByActividad) {
+        this.searchResults = this.searchResults.filter(slot => {
+          return slot.actividad.id == this.searchByActividadID;
+        });
+      }
 
-    if(this.isSearch) {
-      this.loadSlots();
-    }
+      //search by monitor
+      if(isSearchByMonitor) {
+        this.searchResults = this.searchResults.filter(slot => {
+          return slot.monitor.id == this.searchByMonitorID;
+        });
+      }
+
+      //console.log(this.slots);
+      //console.log(this.searchResultSlots);
+    })
+    .then(()=>{
+        this.loadSlots();
+    });
+    
   }
 
 }
