@@ -145,7 +145,7 @@ export class CuentaUploadImageComponent implements OnInit {
       .then((user) => {
         user.fechaNacimiento = this.datePipe.transform(user.fechaNacimiento, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
         user.imagen = this.fileName;
-        console.log(user);
+        console.log(JSON.stringify(user));
         return user;
       })
       .then((user)=>{
