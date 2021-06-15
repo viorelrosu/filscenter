@@ -171,8 +171,10 @@ export class FormularioComponent implements OnInit {
         //console.log(result);
         this._restUserService.getUsuarioByEmail(result.username).toPromise()
         .then(data => {
-            this._tokenStorage.saveUser(data);
-            this._tokenStorage.saveToken(result.accessToken);
+          return this._tokenStorage.saveUser(data);
+        })
+        .then(user=>{
+          this._tokenStorage.saveToken(result.accessToken);
         })
         .then(()=>{
           this.isLoginFailed = false;
