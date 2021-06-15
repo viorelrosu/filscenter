@@ -52,31 +52,33 @@ export class FormularioComponent implements OnInit {
     private _helperService: HelperService,
     private _router: Router
     ) {
-    this.nuevoUsuario = {
-      nombre: 'John',
-      apellidos: 'Doe',
-      dni: '55668877X',
-      email: 'test2@doe.es',
-      telefono: '666555444',
-      fechaNacimiento: '2000-06-10',
-      cuentaBancaria: 'ES55 1111 2222 33 4444444444',
-      password: 'fils123',
-      password_confirm: 'fils123',
-    };
-    this.direccion = {
-      calle: 'Venezuela',
-      numero: 20,
-      bloque: 1,
-      escalera: 1,
-      piso: 4,
-      puerta: 'B',
-      codigoPostal: '29850',
+    // this.nuevoUsuario = {
+    //   nombre: '',
+    //   apellidos: 'Doe',
+    //   dni: '55668877X',
+    //   email: 'test2@doe.es',
+    //   telefono: '666555444',
+    //   fechaNacimiento: '2000-06-10',
+    //   cuentaBancaria: 'ES55 1111 2222 33 4444444444',
+    //   password: 'fils123',
+    //   password_confirm: 'fils123',
+    // };
+    // this.direccion = {
+    //   calle: 'Venezuela',
+    //   numero: 20,
+    //   bloque: 1,
+    //   escalera: 1,
+    //   piso: 4,
+    //   puerta: 'B',
+    //   codigoPostal: '29850',
 
-    };
+    // };
     //this.provinciaId = 1;
     //this.localidadId = 1;
     //this.localidadSelect=2;
     //this.provinciaSelect=2;
+    this.nuevoUsuario = {};
+    this.direccion = {};
    }
 
   ngOnInit(): void {
