@@ -6,6 +6,7 @@ import { TokenStorageService } from '@core/services/token-storage.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { HelperService } from '@core/services/helper.service';
+import { DatePipe } from '@angular/common';
 declare var $:any;
 @Component({
   selector: 'cuenta-upload-image',
@@ -35,8 +36,8 @@ export class CuentaUploadImageComponent implements OnInit {
     private _serviceUploadFile: UploadFileService,
     private _serviceUsuario: UsuarioService,
     private _tokenStorageService: TokenStorageService,
-    private _helperService: HelperService
-
+    private _helperService: HelperService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -129,7 +130,6 @@ export class CuentaUploadImageComponent implements OnInit {
       return this.updateImageUser();   
     })
     .then((data)=>{
-      console.log(data);
       return this._tokenStorageService.saveUser(this.user);
     })
     .then((user)=>{
@@ -143,13 +143,14 @@ export class CuentaUploadImageComponent implements OnInit {
   updateImageUser(){
     return this._serviceUsuario.getUsuario(this.user.id).toPromise()
       .then((user) => {
-        console.log(this.fileName);
+        user.fechaNacimiento = this.datePipe.transform(user.fechaNacimiento, 'yyyy-MM-dd' /*'dd-MM-yyyy'*/);
         user.imagen = this.fileName;
+        console.log(user);
         return user;
       })
       .then((user)=>{
         this.user = user;
-        console.log(user);
+        //console.log(JSON.stringify(user));
         return this._serviceUsuario.updateUsuario(user).toPromise();
       });
   }
