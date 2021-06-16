@@ -32,7 +32,7 @@ export class HelperService {
 
   public checkIsLoginAndRedirectToCuenta(){
     if (this._tokenStorageService.getToken()) {
-      this._router.navigate(['/cuenta']);
+      this._router.navigate(['/cuenta/inicio']);
     }
   }
 
